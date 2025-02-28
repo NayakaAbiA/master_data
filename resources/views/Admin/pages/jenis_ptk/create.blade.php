@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="card-body">
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" class="d-flex justify-content-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('admin.jenisptk.index')}}">Index</a></li>
             <li class="breadcrumb-item active" aria-current="page">Tambah</li>

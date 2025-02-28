@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('page-title')
-    <h3>Jenis Tinggal</h3>
+    <h3>Provinsi</h3>
 @endsection
 @section('content')
     <div class="card-body">
     <nav aria-label="breadcrumb" class="d-flex justify-content-end">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('admin.jenistggl.index')}}">Index</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.provinsi.index')}}">Index</a></li>
             <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </nav>
@@ -14,7 +14,7 @@
     <div class="card col-md-12">
         <div class="card-header">
             <h5 class="card-title align-items-center">
-                Tambah Jenis Tinggal
+                Tambah Provinsi
             </h5>
         </div>
         <div class="row match-height">
@@ -22,17 +22,31 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.jenistggl.store')}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.provinsi.store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="first-name-horizontal">Jenis Tinggal</label>
+                                            <label for="first-name-horizontal">Provinsi</label>
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jnstinggal" class="form-control" name="jnstinggal"
-                                                placeholder="Masukkan Jenis Tinggal">
+                                            <input type="text" id="provinsi" class="form-control" name="provinsi"
+                                                placeholder="Masukkan Provinsi">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="first-name-horizontal">Ibu Kota</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="text" id="ibu_kota" class="form-control" name="ibu_kota"
+                                                placeholder="Masukkan Ibu Kota">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="first-name-horizontal">BSNI</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="text" id="p_bsni" class="form-control" name="p_bsni"
+                                                placeholder="Masukkan BSNI">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

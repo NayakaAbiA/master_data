@@ -25,7 +25,31 @@
             <span>Kebutuhan Khusus</span>
         </a>
     </li>
-    <li class="sidebar-item  has-sub">
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.statkawin.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Status Kawin</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.statpeg.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Status Pegawai</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.tgstambahan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Tugas Tambahan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.provinsi.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Provinsi</span>
+        </a>
+    </li>
+    {{-- <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
             <span>Data</span>
@@ -33,7 +57,7 @@
          <ul class="submenu ">  
             <li class="submenu-item  ">
                 <a href="component-accordion.html" class="submenu-link">Data Pegawai</a>               
-            </li>           
+            </li>            --}}
             {{-- <li class="submenu-item  ">
                 <a href="component-alert.html" class="submenu-link">Alert</a>      
             </li>           
