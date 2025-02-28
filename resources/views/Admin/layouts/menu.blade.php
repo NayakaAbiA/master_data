@@ -13,6 +13,18 @@
             <span>Jenis PTK</span>
         </a>
     </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.jenistggl.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Jenis Tinggal</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.kebkhusus.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Kebutuhan Khusus</span>
+        </a>
+    </li>
     <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>

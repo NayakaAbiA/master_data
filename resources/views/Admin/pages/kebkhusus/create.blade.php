@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('page-title')
-    <h3>Jenis PTK</h3>
+    <h3>Kebutuhan Khusus</h3>
 @endsection
 @section('content')
     <div class="card-body">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('admin.jenisptk.index')}}">Index</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.kebkhusus.index')}}">Index</a></li>
             <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </nav>
@@ -14,7 +14,7 @@
     <div class="card col-md-12">
         <div class="card-header">
             <h5 class="card-title align-items-center">
-                Tambah Jenis PTK
+                Tambah Kebutuhan Khusus
             </h5>
         </div>
         <div class="row match-height">
@@ -22,17 +22,17 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.jenisptk.store')}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.kebkhusus.store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="first-name-horizontal">Jenis PTK</label>
+                                            <label for="first-name-horizontal">Kebutuhan Khusus</label>
                                         </div>
-                                        <!-- id dan name disesuaikan dengan field di database -->
+                                         <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenis_ptk" class="form-control" name="jenis_ptk"
-                                                placeholder="Masukkan Jenis PTK">
+                                            <input type="text" id="kebkhusus" class="form-control" name="kebkhusus"
+                                                placeholder="Masukkan Kebutuhan Khusus">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
