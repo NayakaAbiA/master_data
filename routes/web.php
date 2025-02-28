@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Admin\JenisPTKController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,11 @@ Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.action');
 
 Route::get('/dashboard', [DashboardController::class, 'coba'])->name('coba');
+Route::prefix('admin')
+   
+    ->name('admin.')
+    ->group(function () {
+        Route::get('jenisptk/lists', [JenisPTKController::class, 'lists'])->name('jenisptk.lists');
+        Route::resource('jenisptk', JenisPTKController::class);
+    });
+

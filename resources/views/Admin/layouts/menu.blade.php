@@ -7,7 +7,12 @@
             <span>Dashboard</span>
         </a>
     </li>
-    
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.jenisptk.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Jenis PTK</span>
+        </a>
+    </li>
     <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>

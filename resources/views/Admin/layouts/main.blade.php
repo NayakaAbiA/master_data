@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="sidebar-menu">
-       @include('layouts.menu')
+       @include('admin.layouts.menu')
     </div>
 </div>
         </div>
@@ -382,7 +382,7 @@
     </section> --}}
 </div>
 
-    @include('layouts.footer')
+    @include('admin.layouts.footer')
 </div>
  </div>
     <script src="{{ asset("template/dist") }}/assets/static/js/components/dark.js"></script>
@@ -397,6 +397,7 @@
 <script src="{{ asset("template/dist") }}/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
 <script src="{{ asset("template/dist") }}/ssets/extensions/apexcharts/apexcharts.min.js"></script>
 <script src="{{ asset("template/dist") }}/assets/static/js/pages/dashboard.js"></script>
+<script src="{{ asset("template/dist") }}/assets/static/js/pages/simple-datatables.js"></script>
 
 </body>
 
