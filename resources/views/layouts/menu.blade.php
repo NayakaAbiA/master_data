@@ -2,7 +2,7 @@
     <li class="sidebar-title">Menu</li>
     
     <li class="sidebar-item active ">
-        <a href="index.html" class='sidebar-link'>
+        <a href="{{ route('coba') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Dashboard</span>
         </a>
@@ -13,11 +13,11 @@
             <i class="bi bi-stack"></i>
             <span>Data</span>
         </a>        
-        {{-- <ul class="submenu "> 
+         <ul class="submenu ">  
             <li class="submenu-item  ">
-                <a href="component-accordion.html" class="submenu-link">Accordion</a>               
+                <a href="component-accordion.html" class="submenu-link">Data Pegawai</a>               
             </li>           
-            <li class="submenu-item  ">
+            {{-- <li class="submenu-item  ">
                 <a href="component-alert.html" class="submenu-link">Alert</a>      
             </li>           
             <li class="submenu-item  ">
