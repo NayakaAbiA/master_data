@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\KebKhususController;
 use App\Http\Controllers\Admin\ProvinsiController;
 use App\Http\Controllers\Admin\StatusKawinController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
+use App\Http\Controllers\Admin\KabupatenController;
+use App\Http\Controllers\Admin\KecamatanController;
+use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\TgsTambahanController;
 use App\Models\TgsTambahan;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +49,12 @@ Route::prefix('admin')
         Route::resource('tgstambahan', TgsTambahanController::class);
         Route::get('provinsi/lists', [ProvinsiController::class, 'lists'])->name('provinsi.lists');
         Route::resource('provinsi', ProvinsiController::class);
+        Route::get('kabupaten/lists', [KabupatenController::class, 'lists'])->name('kabupaten.lists');
+        Route::resource('kabupaten', KabupatenController::class);
+        Route::get('kecamatan/lists', [KecamatanController::class, 'lists'])->name('kecamatan.lists');
+        Route::resource('kecamatan', KecamatanController::class);
+        Route::get('kelurahan/lists', [KelurahanController::class, 'lists'])->name('kelurahan.lists');
+        Route::resource('kelurahan', KelurahanController::class);
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });

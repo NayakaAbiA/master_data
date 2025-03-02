@@ -49,6 +49,24 @@
             <span>Provinsi</span>
         </a>
     </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.kabupaten.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Kabupaten</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.kecamatan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Kecamatan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.kelurahan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Kelurahan</span>
+        </a>
+    </li>
     {{-- <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
