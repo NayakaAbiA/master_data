@@ -1,17 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\JenisPTKController;
 use App\Http\Controllers\Admin\JenisTinggalController;
 use App\Http\Controllers\Admin\KebKhususController;
+use App\Http\Controllers\Admin\PangkatController;
 use App\Http\Controllers\Admin\ProvinsiController;
 use App\Http\Controllers\Admin\StatusKawinController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
 use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KecamatanController;
 use App\Http\Controllers\Admin\KelurahanController;
+use App\Http\Controllers\Admin\SumberGajiController;
 use App\Http\Controllers\Admin\TgsTambahanController;
+use App\Http\Controllers\Admin\TransportasiController;
 use App\Models\TgsTambahan;
 use Illuminate\Support\Facades\Route;
 
@@ -49,12 +53,23 @@ Route::prefix('admin')
         Route::resource('tgstambahan', TgsTambahanController::class);
         Route::get('provinsi/lists', [ProvinsiController::class, 'lists'])->name('provinsi.lists');
         Route::resource('provinsi', ProvinsiController::class);
+<<<<<<< HEAD
         Route::get('kabupaten/lists', [KabupatenController::class, 'lists'])->name('kabupaten.lists');
         Route::resource('kabupaten', KabupatenController::class);
         Route::get('kecamatan/lists', [KecamatanController::class, 'lists'])->name('kecamatan.lists');
         Route::resource('kecamatan', KecamatanController::class);
         Route::get('kelurahan/lists', [KelurahanController::class, 'lists'])->name('kelurahan.lists');
         Route::resource('kelurahan', KelurahanController::class);
+=======
+        Route::get('sumbergaji/lists', [SumberGajiController::class, 'lists'])->name('sumbergaji.lists');
+        Route::resource('sumbergaji', SumberGajiController::class);
+        Route::get('transportasi/lists', [TransportasiController::class, 'lists'])->name('transportasi.lists');
+        Route::resource('transportasi', TransportasiController::class);
+        Route::get('pangkat/lists', [PangkatController::class, 'lists'])->name('pangkat.lists');
+        Route::resource('pangkat', PangkatController::class);
+        Route::get('bank/lists', [BankController::class, 'lists'])->name('bank.lists');
+        Route::resource('bank', BankController::class);
+>>>>>>> c8d19b9945fb3c7480bfe08f72e3d1146d44d934
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });

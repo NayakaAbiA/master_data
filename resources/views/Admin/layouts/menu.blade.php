@@ -65,6 +65,29 @@
         <a href="{{ route('admin.kelurahan.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Kelurahan</span>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.sumbergaji.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Sumber Gaji</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.transportasi.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Transportasi</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pangkat.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pangkat</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.bank.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Bank</span>
         </a>
     </li>
     {{-- <li class="sidebar-item  has-sub">
