@@ -1,7 +1,12 @@
 <?php
-
 use App\Models\TgsTambahan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\PekerjaanController;
+use App\Http\Controllers\Admin\PenghasilanController;
+use App\Http\Controllers\Admin\PrgbantuanController;
+use App\Http\Controllers\Admin\PendidikanController;
+use App\Http\Controllers\Admin\AgamaController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\RombelController;
@@ -9,7 +14,6 @@ use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\PangkatController;
 use App\Http\Controllers\Admin\JenisPTKController;
 use App\Http\Controllers\Admin\ProvinsiController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KebKhususController;
 use App\Http\Controllers\Admin\KecamatanController;
@@ -80,6 +84,17 @@ Route::prefix('admin')
         Route::resource('role', RoleController::class);
         Route::get('user/list', [UserController::class, 'lists'])->name('user.lists');
         Route::resource('user', UserController::class);
+        Route::get('agama/lists', [AgamaController::class, 'lists'])->name('agama.lists');
+        Route::resource('agama', AgamaController::class);
+        Route::get('pekerjaan/lists', [PekerjaanController::class, 'lists'])->name('pekerjaan.lists');
+        Route::resource('pekerjaan', PekerjaanController::class);
+        Route::get('pendidikan/lists', [PendidikanController::class, 'lists'])->name('pendidikan.lists');
+        Route::resource('pendidikan', PendidikanController::class);
+        Route::get('penghasilan/lists', [PenghasilanController::class, 'lists'])->name('penghasilan.lists');
+        Route::resource('penghasilan', PenghasilanController::class);
+        Route::get('prgbantuan/lists', [PrgbantuanController::class, 'lists'])->name('prgbantuan.lists');
+        Route::resource('prgbantuan', PrgbantuanController::class);
+
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });
 
