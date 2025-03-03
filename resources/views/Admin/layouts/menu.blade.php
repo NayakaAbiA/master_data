@@ -8,6 +8,12 @@
         </a>
     </li>
     <li class="sidebar-item active ">
+        <a href="{{ route('admin.agama.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Agama</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
         <a href="{{ route('admin.jenisptk.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Jenis PTK</span>
@@ -65,6 +71,7 @@
         <a href="{{ route('admin.kelurahan.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Kelurahan</span>
+        </a>
     </li>
     <li class="sidebar-item active ">
         <a href="{{ route('admin.sumbergaji.index') }}" class='sidebar-link'>
@@ -90,6 +97,31 @@
             <span>Bank</span>
         </a>
     </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pekerjaan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pendidikan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pendidikan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.penghasilan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Penghasilan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.prgbantuan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Prgbantuan</span>
+        </a>
+    </li>
+
     {{-- <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
