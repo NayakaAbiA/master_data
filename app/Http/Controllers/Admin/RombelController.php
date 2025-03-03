@@ -93,7 +93,7 @@ class RombelController extends Controller
         //kondisi untuk hapus data
         if ($rombel) {
             $rombel->delete(); //hapus data, jika $rombel ada
-            return redirect()->route('admin.rombel.index')->with('success', 'Data berhasil disimpan.');
+            return redirect()->route('admin.rombel.index')->with('success', 'Data berhasil di delete.');
         }
         return redirect()->route('admin.rombel.index')->with('error', 'Data gagal disimpan.');
     }

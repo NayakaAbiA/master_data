@@ -17,6 +17,7 @@
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.jurusan.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
+        @include('Admin.pesan')  {{-- untuk menampilkan benar atau salah --}}
         <div class="card-body">
             <table class="table table-striped" id="table1">
                 <thead>

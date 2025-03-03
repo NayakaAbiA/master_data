@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="rombel" class="form-control" name="nama_rombel"
+                                            <input required type="text" id="rombel" class="form-control" name="nama_rombel"
                                                 placeholder="Masukkan Nama Rombel">
                                         </div>
                                         <div class="col-md-4">
