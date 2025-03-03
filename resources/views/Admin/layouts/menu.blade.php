@@ -90,6 +90,18 @@
             <span>Bank</span>
         </a>
     </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.jurusan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Jurusan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.rombel.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Rombel</span>
+        </a>
+    </li>
     {{-- <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
