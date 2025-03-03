@@ -18,8 +18,11 @@ use App\Http\Controllers\Admin\SumberGajiController;
 use App\Http\Controllers\Admin\StatusKawinController;
 use App\Http\Controllers\Admin\TgsTambahanController;
 use App\Http\Controllers\Admin\JenisTinggalController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\TransportasiController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +76,10 @@ Route::prefix('admin')
         Route::resource('jurusan', JurusanController::class);
         Route::get('rombel/list', [RombelController::class, 'lists'])->name('rombel.lists');
         Route::resource('rombel', RombelController::class);
+        Route::get('role/list', [RoleController::class, 'lists'])->name('role.lists');
+        Route::resource('role', RoleController::class);
+        Route::get('user/list', [UserController::class, 'lists'])->name('user.lists');
+        Route::resource('user', UserController::class);
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });
 

@@ -17,8 +17,8 @@ class Role extends Model
         $query->where('role', 'like', '%' . $search . '%');
     }
 
-    public function role()
+    public function user()
     {
-        return $this->hasMany(User::class, 'role_id');
+        return $this->belongsTo(User::class, 'id', 'role_id');
     }
 }

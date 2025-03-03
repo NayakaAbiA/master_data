@@ -93,7 +93,7 @@ class JurusanController extends Controller
         //kondisi untuk hapus data
         if ($jurusan) {
             $jurusan->delete(); //hapus data, jika $jurusan ada
-            return redirect()->route('admin.jurusan.index')->with('success', 'Data berhasil disimpan.');
+            return redirect()->route('admin.jurusan.index')->with('success', 'Data berhasil di delete.');
         }
         return redirect()->route('admin.jurusan.index')->with('error', 'Data gagal disimpan.');
     }

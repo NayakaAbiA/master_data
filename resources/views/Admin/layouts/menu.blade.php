@@ -8,6 +8,18 @@
         </a>
     </li>
     <li class="sidebar-item active ">
+        <a href="{{ route('admin.user.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>User</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.role.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Role</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
         <a href="{{ route('admin.jenisptk.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Jenis PTK</span>
@@ -102,6 +114,12 @@
             <span>Rombel</span>
         </a>
     </li>
+    {{-- <li class="sidebar-item active ">
+        <a href="{{ route('admin.siswa.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Siswa</span>
+        </a>
+    </li> --}}
     {{-- <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
