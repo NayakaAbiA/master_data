@@ -14,4 +14,9 @@ class StatPegawai extends Model
     protected $fillable = [
         'stat_peg',
     ];
+
+    //fungsi agar model StatPegawai berelasi dengan model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Pegawai::class, 'id_stat_peg', 'id'); //dengan relasi 1 ke banyak
+    }
 }

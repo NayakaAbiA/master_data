@@ -24,4 +24,11 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Rombel::class, 'id', 'id_ptk_walas');
     }
+
+    //fungsi one to one ke model StatPegawai
+    public function statpegawai()
+    {
+        return $this->belongsTo(StatPegawai::class, 'id_stat_peg', 'id');
+    }
+    
 }

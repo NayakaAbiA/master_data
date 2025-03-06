@@ -17,6 +17,9 @@
         <a href="{{ route('admin.role.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Role</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
         <a href="{{ route('admin.agama.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Agama</span>
@@ -118,15 +121,28 @@
             <span>Rombel</span>
         </a>
     </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pegawai.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pegawai</span>
+        </a>
+    </li>
     {{-- <li class="sidebar-item active ">
         <a href="{{ route('admin.siswa.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Siswa</span>
         </a>
     </li> --}}
+    <!-- <li>
         <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Pekerjaan</span>
+        </a>
+    </li> -->
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pekerjaann</span>
         </a>
     </li>
     <li class="sidebar-item active ">
