@@ -26,6 +26,12 @@
         </a>
     </li>
     <li class="sidebar-item active ">
+        <a href="{{ route('admin.bank.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Bank</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
         <a href="{{ route('admin.jenisptk.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Jenis PTK</span>
@@ -38,9 +44,51 @@
         </a>
     </li>
     <li class="sidebar-item active ">
+        <a href="{{ route('admin.jurusan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Jurusan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
         <a href="{{ route('admin.kebkhusus.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Kebutuhan Khusus</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.krtbantuan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Kartu Bantuan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pangkat.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pangkat</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pekerjaann</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.pendidikan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Pendidikan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.penghasilan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Penghasilan</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.prgbantuan.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Program Bantuan</span>
         </a>
     </li>
     <li class="sidebar-item active ">
@@ -53,6 +101,12 @@
         <a href="{{ route('admin.statpeg.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Status Pegawai</span>
+        </a>
+    </li>
+    <li class="sidebar-item active ">
+        <a href="{{ route('admin.sumbergaji.index') }}" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Sumber Gaji</span>
         </a>
     </li>
     <li class="sidebar-item active ">
@@ -85,36 +139,14 @@
             <span>Kelurahan</span>
         </a>
     </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.sumbergaji.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Sumber Gaji</span>
-        </a>
-    </li>
+
     <li class="sidebar-item active ">
         <a href="{{ route('admin.transportasi.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Transportasi</span>
         </a>
     </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pangkat.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pangkat</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.bank.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Bank</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.jurusan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Jurusan</span>
-        </a>
-    </li>
+
     <li class="sidebar-item active ">
         <a href="{{ route('admin.rombel.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
@@ -139,28 +171,14 @@
             <span>Pekerjaan</span>
         </a>
     </li> -->
+
+
+
+
     <li class="sidebar-item active ">
-        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
+        <a href="{{ route('admin.sekolah.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
-            <span>Pekerjaann</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pendidikan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pendidikan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.penghasilan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Penghasilan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.prgbantuan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Prgbantuan</span>
+            <span>Sekolah</span>
         </a>
     </li>
     {{-- <li class="sidebar-item  has-sub">

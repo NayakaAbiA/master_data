@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\TransportasiController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PegawaiController;
+use App\Http\Controllers\Admin\KrtBantuanController;
+use App\Http\Controllers\Admin\SekolahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +99,10 @@ Route::prefix('admin')
         Route::resource('prgbantuan', PrgbantuanController::class);
         Route::get('pegawai/list', [PegawaiController::class, 'lists'])->name('pegawai.lists');
         Route::resource('pegawai', PegawaiController::class);
+        Route::get('krtbantuan/list', [KrtBantuanController::class, 'lists'])->name('krtbantuan.lists');
+        Route::resource('krtbantuan', KrtBantuanController::class);
+        Route::get('sekolah/list', [SekolahController::class, 'lists'])->name('sekolah.lists');
+        Route::resource('sekolah', SekolahController::class);
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });
