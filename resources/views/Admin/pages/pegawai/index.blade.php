@@ -40,14 +40,14 @@
                         <td>{{ $p->statpegawai->stat_peg}}</td>
                         <td>
                             <div class="buttons">
-                                <!-- parameter diambil berdasarkan route yang ada di web.php -->
                                 <div class="me-1 mb-1 d-inline-block">
-                                    <!-- Button trigger for Extra Large  modal -->
-                                    <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge"><i class="bi bi-eye-fill"></i></button>
+                                    <!-- Tombol untuk memuat halaman detail data | #modalPegawai{{ $p->id }} ditambahkan agar setiap data menampilkan modal pegawainya sendiri  -->
+                                    <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p->id }}"><i class="bi bi-eye-fill"></i></button>
                                     
-                                    @include('Admin.pages.pegawai.show-identitas')
+                                    @include('admin.pages.pegawai.show-detil')
                                 </div>
                                 <!-- <a class="btn icon btn-primary" href=""><i class="bi bi-eye-fill"></i></a> -->
+                                <!-- parameter diambil berdasarkan route yang ada di web.php -->
                                 <a class="btn icon btn-primary" href="{{ route('admin.pegawai.edit',  ['pegawai' => $p->id ] )}}"><i class="bi bi-pencil-square"></i></a>
                                 <form action="{{ route('admin.pegawai.destroy',  ['pegawai' => $p->id ] )}}" method="POST" style="display:inline;">
                                     @csrf
@@ -55,7 +55,7 @@
         
                                     <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $p->nama}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
-                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

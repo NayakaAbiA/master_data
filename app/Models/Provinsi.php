@@ -21,4 +21,9 @@ class Provinsi extends Model
     public function kabupaten() {
         return $this->hasMany(Kabupaten::class, 'id_provinsi', 'id'); //dengan relasi 1 ke banyak
     }
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Provinsi::class, 'id_provinsi', 'id');
+    }
 }

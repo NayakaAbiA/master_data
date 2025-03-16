@@ -26,7 +26,22 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $pegawai = Pegawai::get();
+        //relasi dengan model lain,untuk show data
+        $pegawai = Pegawai::with([
+            'statpegawai', 
+            'agama',
+            'statkawin', 
+            'pekerjaan_pasangan', 
+            'provinsi', 
+            'kabupaten', 
+            'kecamatan', 
+            'kelurahan', 
+            'jns_ptk', 
+            'pangkat', 
+            'tgstambahan', 
+            'sumber_gaji', 
+            'bank'
+            ])->get();
         return view('admin.pages.pegawai.index', compact('pegawai'));
     }
 

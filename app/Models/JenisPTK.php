@@ -14,4 +14,9 @@ class JenisPTK extends Model
     protected $fillable = [
         'jenis_ptk',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(JenisPTK::class, 'id_jns_ptk', 'id');
+    }
 }

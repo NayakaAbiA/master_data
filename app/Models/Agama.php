@@ -14,4 +14,9 @@ class Agama extends Model
     protected $fillable = [
         'nama_agama',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Pegawai::class, 'id_agama', 'id');
+    }
 }

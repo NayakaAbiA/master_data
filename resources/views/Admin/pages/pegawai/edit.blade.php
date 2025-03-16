@@ -49,9 +49,6 @@
                                     <div class="tab-pane fade" id="kepegawaian" role="tabpanel" aria-labelledby="kepegawaian-tab">
                                         @include('admin.pages.pegawai.tab-kepegawaian')
                                     </div>
-                                    <div class="tab-pane fade" id="lainnya" role="tabpanel" aria-labelledby="lainnya-tab">
-                                        @include('admin.pages.pegawai.show-identitas')
-                                    </div>
                                 </div>
                             </form>
                         </div>

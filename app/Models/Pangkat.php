@@ -14,4 +14,9 @@ class Pangkat extends Model
     protected $fillable = [
         'pangkat',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Pangkat::class, 'id_pangkat', 'id');
+    }
 }

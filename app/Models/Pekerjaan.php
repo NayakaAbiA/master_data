@@ -14,4 +14,9 @@ class Pekerjaan extends Model
     protected $fillable = [
         'pekerjaan',
     ];
+
+    //fungsi one to many ke model Pegawai
+     public function pegawai() {
+        return $this->hasMany(Pekerjaan::class, 'id_pekerjaan_pasangan', 'id');
+    }
 }

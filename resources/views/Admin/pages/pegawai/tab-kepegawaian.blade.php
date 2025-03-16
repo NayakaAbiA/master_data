@@ -73,7 +73,7 @@
             <label for="first-name-horizontal">Tanggal CPNS</label>
         </div>
         <div class="col-md-8 form-group">
-            <input type="text" id="tgl_sk_cpns" class="form-control @error('tgl_sk_cpns') is-invalid @enderror" name="tgl_sk_cpns" value="{{ $pegawai->tgl_sk_cpns ?? '' }}"
+            <input type="date" id="tgl_sk_cpns" class="form-control @error('tgl_sk_cpns') is-invalid @enderror" name="tgl_sk_cpns" value="{{ $pegawai->tgl_sk_cpns ?? '' }}"
                 placeholder="Masukkan Tanggal CPNS">
             @error('tgl_sk_cpns')
                 <div class="invalid-feedback">
@@ -97,7 +97,7 @@
             <label for="first-name-horizontal">TMT Pengangkatan</label>
         </div>
         <div class="col-md-8 form-group">
-            <input type="text" id="tmt_pengangkatan" class="form-control @error('tmt_pengangkatan') is-invalid @enderror" name="tmt_pengangkatan" value="{{ $pegawai->tmt_pengangkatan ?? '' }}"
+            <input type="date" id="tmt_pengangkatan" class="form-control @error('tmt_pengangkatan') is-invalid @enderror" name="tmt_pengangkatan" value="{{ $pegawai->tmt_pengangkatan ?? '' }}"
                 placeholder="Masukkan TMT Pengangkatan">
             @error('tmt_pengangkatan')
                 <div class="invalid-feedback">

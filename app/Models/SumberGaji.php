@@ -14,4 +14,9 @@ class SumberGaji extends Model
     protected $fillable = [
         'sumber_gaji',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(SumberGaji::class, 'id_sumber_gaji', 'id');
+    }
 }

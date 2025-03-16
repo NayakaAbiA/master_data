@@ -1,80 +1,106 @@
-<!--Extra Large Modal -->
-    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Detil Data Pegawai</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                    aria-label="Close">
-                    <i data-feather="x"></i>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <section class="section">
-                            <div class="row" id="table-striped">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="readonlyInput">Readonly Input</label>
-                                                        <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-                                                            value="You can't update me :P">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-light-primary"
-                    data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Tutup</span>
-                    </button>
-                    </button>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="readonlyInput">Nama</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->nama}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Jenis Kelamin</label>
+            @if ($p->jenis_kelamin == 'L')
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="Laki - laki">
+            @else
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="Perempuan">
+            @endif
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NIP</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->NIP}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NIK</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->NIK}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NUPTK</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->NUPTK}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">No Kartu Keluarga</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->no_kk}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Tempat Lahir</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->tempat_lahir}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Tanggal Lahir</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->tgl_lahir}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Nama Ibu Kandung</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->nama_ibu_kandung}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Agama</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->agama->nama_agama  ?? ''}}">
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="readonlyInput">Nomor HP</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->hp}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Email</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->email}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Status Perkawinan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->statkawin->status_kawin  ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Nama Suami/Istri</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->nama_pasangan}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NIP Suami/Istri</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->nip_pasangan}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Pekerjaan Suami/Istri</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->pekerjaan_pasangan->pekerjaan ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NPWP</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->no_npwp}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Nama Wajib Pajak</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->nama_wajib_pajak}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Kewarganegaraan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $p->kewarganegaraan}}">
+        </div>
+    </div>
+</div>

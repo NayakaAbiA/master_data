@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <label for="first-name-horizontal">Kabupaten / Kota</label>
+            <label for="first-name-horizontal">Kabupaten/Kota</label>
         </div>
         <div class="col-lg-8">
             <div class="form-group">
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <label for="first-name-horizontal">Kecamatan</label>
+            <label for="first-name-horizontal"></label>
         </div>
         <div class="col-lg-8">
             <div class="form-group">

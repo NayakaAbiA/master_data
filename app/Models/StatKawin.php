@@ -14,4 +14,9 @@ class StatKawin extends Model
     protected $fillable = [
         'status_kawin',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(StatKawin::class, 'id_statkawin', 'id');
+    }
 }

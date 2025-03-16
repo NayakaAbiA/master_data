@@ -14,4 +14,9 @@ class Bank extends Model
     protected $fillable = [
         'nama_bank',
     ];
+
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Bank::class, 'id_bank', 'id');
+    }
 }
