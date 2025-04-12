@@ -26,8 +26,13 @@ class Kecamatan extends Model
         return $this->hasMany(Kelurahan::class, 'id_kecamatan', 'id'); //dengan relasi 1 ke banyak
     }
 
-     //fungsi one to many ke model Pegawai
-     public function pegawai() {
+    //fungsi one to many ke model Pegawai
+    public function pegawai() {
+        return $this->hasMany(Kecamatan::class, 'id_kecamatan', 'id');
+    }
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
         return $this->hasMany(Kecamatan::class, 'id_kecamatan', 'id');
     }
 }

@@ -32,4 +32,9 @@ class Kabupaten extends Model
     public function pegawai() {
         return $this->hasMany(Kabupaten::class, 'id_kabupaten', 'id');
     }
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(Kabupaten::class, 'id_kabupaten', 'id');
+    }
 }

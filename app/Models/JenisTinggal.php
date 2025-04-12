@@ -14,4 +14,9 @@ class JenisTinggal extends Model
     protected $fillable = [
         'jnstinggal',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(JenisTinggal::class, 'id_jns_tgl', 'id');
+    }
 }

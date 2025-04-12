@@ -14,4 +14,10 @@ class Transportasi extends Model
     protected $fillable = [
         'alat_transport',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa()
+    {
+        return $this->hasMany(Transportasi::class, 'id_transport', 'id');
+    }
 }

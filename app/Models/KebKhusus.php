@@ -14,4 +14,9 @@ class KebKhusus extends Model
     protected $fillable = [
         'kebkhusus',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(KebKhusus::class, 'id_kebkhusus', 'id');
+    }
 }

@@ -14,4 +14,9 @@ class Prgbantuan extends Model
     protected $fillable = [
         'prgbantuan',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(Prgbantuan::class, 'id_prgbantuan', 'id');
+    }
 }

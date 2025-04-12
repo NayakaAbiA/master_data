@@ -103,6 +103,8 @@ Route::prefix('admin')
         Route::resource('krtbantuan', KrtBantuanController::class);
         Route::get('sekolah/list', [SekolahController::class, 'lists'])->name('sekolah.lists');
         Route::resource('sekolah', SekolahController::class);
+        Route::get('siswa/list', [SiswaController::class, 'lists'])->name('siswa.lists');
+        Route::resource('siswa', SiswaController::class);
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });

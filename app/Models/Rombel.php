@@ -18,4 +18,10 @@ class Rombel extends Model
     {
         return $this->hasOne(Pegawai::class, 'id', 'id_ptk_walas');
     }
+
+    //fungsi one to many ke model Siswa
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'id_rombel', 'id');
+    }
 }

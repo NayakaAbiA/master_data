@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="readonlyInput">Nama</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->nama}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NIK</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->NIK}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">No Kartu Keluarga</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->no_kk}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">No Registrasi Akta Lahir</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->no_reg_aktlhr}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NIPD</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->nipd}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NISN</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->nisn}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Jurusan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->jurusan->nama_jur ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Rombel</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->rombel->nama_rombel  ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Tempat Lahir</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->tempat_lahir}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Tanggal Lahir</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->tgl_lahir}}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="readonlyInput">Agama</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->agama->nama_agama  ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">NPSN</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->npsn}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Nomor HP</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->hp}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Email</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->email}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Anak ke</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->anak_ke}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Jumlah Saudara Kandung</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->jml_saudara_kandung}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Berat Badan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->berat_badan}} kg">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Tinggi Badan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->tinggi_badan}} cm">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Lingkar Kepala</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->lingkar_kepala}} cm">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Kewarganegaraan</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s->kewarganegaraan}}">
+        </div>
+    </div>
+</div>

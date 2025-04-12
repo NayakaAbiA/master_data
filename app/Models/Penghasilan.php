@@ -14,4 +14,20 @@ class Penghasilan extends Model
     protected $fillable = [
         'penghasilan',
     ];
+
+    
+    //fungsi one to many ke model Siswa
+    public function siswa_ayah() {
+        return $this->hasMany(Penghasilan::class, 'id_penghasilan_ayah', 'id');
+    }
+
+    //fungsi one to many ke model Siswa
+    public function siswa_ibu() {
+        return $this->hasMany(Penghasilan::class, 'id_penghasilan_ibu', 'id');
+    }
+    
+    //fungsi one to many ke model Siswa
+    public function siswa_wali() {
+        return $this->hasMany(Penghasilan::class, 'id_penghasilan_wali', 'id');
+    }
 }

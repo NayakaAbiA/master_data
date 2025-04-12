@@ -26,4 +26,9 @@ class Kelurahan extends Model
     public function pegawai() {
         return $this->hasMany(Kelurahan::class, 'id_kelurahan', 'id');
     }
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(Kelurahan::class, 'id_kelurahan', 'id');
+    }
 }

@@ -19,4 +19,9 @@ class Agama extends Model
     public function pegawai() {
         return $this->hasMany(Pegawai::class, 'id_agama', 'id');
     }
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(Siswa::class, 'id_agama', 'id');
+    }
 }

@@ -19,4 +19,9 @@ class Bank extends Model
     public function pegawai() {
         return $this->hasMany(Bank::class, 'id_bank', 'id');
     }
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(Bank::class, 'id_bank', 'id');
+    }
 }

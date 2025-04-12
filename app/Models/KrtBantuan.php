@@ -16,4 +16,9 @@ class KrtBantuan extends Model
         'nama_krtbantuan',
         'nama_pdkrt',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa() {
+        return $this->hasMany(KrtBantuan::class, 'id_krt_bantuan', 'id');
+    }
 }

@@ -158,13 +158,12 @@
             <i class="bi bi-grid-fill"></i>
             <span>Pegawai</span>
         </a>
-    </li>
-    {{-- <li class="sidebar-item active ">
+    </li> <li class="sidebar-item active ">
         <a href="{{ route('admin.siswa.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Siswa</span>
         </a>
-    </li> --}}
+    </li>
     <!-- <li>
         <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
