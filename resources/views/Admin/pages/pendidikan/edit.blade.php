@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Nama Pendidikan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenjang_pendidikan" class="form-control" name="jenjang_pendidikan" value="{{ $pendidikan->jenjang_pendidikan}}">
+                                            <input type="text" required id="jenjang_pendidikan" class="form-control" name="jenjang_pendidikan" value="{{ $pendidikan->jenjang_pendidikan}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="status_kawin" class="form-control" name="status_kawin"
+                                            <input type="text" required id="status_kawin" class="form-control" name="status_kawin"
                                                 placeholder="Masukkan Status Kawin">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

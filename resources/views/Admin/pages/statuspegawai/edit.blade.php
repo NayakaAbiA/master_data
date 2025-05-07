@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Status Pegawai</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="stat_peg" class="form-control" name="stat_peg" value="{{ $statpeg->stat_peg}}">
+                                            <input type="text" required id="stat_peg" class="form-control" name="stat_peg" value="{{ $statpeg->stat_peg}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

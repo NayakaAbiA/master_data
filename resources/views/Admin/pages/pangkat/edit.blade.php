@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Alat pangkat</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="pangkat" class="form-control" name="pangkat" value="{{ $pangkat->pangkat}}">
+                                            <input type="text" required id="pangkat" class="form-control" name="pangkat" value="{{ $pangkat->pangkat}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

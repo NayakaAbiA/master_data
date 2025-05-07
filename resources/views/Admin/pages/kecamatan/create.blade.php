@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kecamatan" class="form-control" name="kecamatan"
+                                            <input type="text" required id="kecamatan" class="form-control" name="kecamatan"
                                                 placeholder="Masukkan kecamatan">
                                         </div>
                                         <div class="col-md-4">

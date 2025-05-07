@@ -19,6 +19,9 @@ use App\Models\Agama;
 use App\Models\TgsTambahan;
 use App\Models\Pekerjaan;
 
+use App\Exports\pegawaiExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class PegawaiController extends Controller
 {
       /**
@@ -248,5 +251,9 @@ class PegawaiController extends Controller
             return redirect()->route('admin.pegawai.index')->with('success', 'Data berhasil disimpan.');
         }
         return redirect()->route('admin.pegawai.index')->with('error', 'Data gagal disimpan.');
+    }
+
+    public function pegawaiExport(){
+        return Excel::download(new PegawaiExport, 'pegawai.xlsx');
     }
 }

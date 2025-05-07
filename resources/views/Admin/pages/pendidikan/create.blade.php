@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenjang_pendidikan" class="form-control" name="jenjang_pendidikan"
+                                            <input type="text" required id="jenjang_pendidikan" class="form-control" name="jenjang_pendidikan"
                                                 placeholder="Masukkan Nama Pendidikan">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

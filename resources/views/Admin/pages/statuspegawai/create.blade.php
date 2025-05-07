@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="stat_peg" class="form-control" name="stat_peg"
+                                            <input type="text" required id="stat_peg" class="form-control" name="stat_peg"
                                                 placeholder="Masukkan Status Pegawai">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

@@ -31,19 +31,19 @@
                                             <label for="first-name-horizontal">No Kartu Bantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="no_krtbantuan" class="form-control" name="no_krtbantuan" value="{{ $krtbantuan->no_krtbantuan}}">
+                                            <input type="text" id="no_krtbantuan" required class="form-control" name="no_krtbantuan" value="{{ $krtbantuan->no_krtbantuan}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Nama Kartu Bantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_krtbantuan" class="form-control" name="nama_krtbantuan" value="{{ $krtbantuan->nama_krtbantuan}}">
+                                            <input type="text" id="nama_krtbantuan" required class="form-control" name="nama_krtbantuan" value="{{ $krtbantuan->nama_krtbantuan}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Nama Pendiri Kartu Bantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_pdkrt" class="form-control" name="nama_pdkrt" value="{{ $krtbantuan->nama_pdkrt}}">
+                                            <input type="text" id="nama_pdkrt" required class="form-control" name="nama_pdkrt" value="{{ $krtbantuan->nama_pdkrt}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

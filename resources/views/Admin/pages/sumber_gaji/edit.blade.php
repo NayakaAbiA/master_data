@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Sumber Gaji</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="sumber_gaji" class="form-control" name="sumber_gaji" value="{{ $sumbergaji->sumber_gaji}}">
+                                            <input type="text" required id="sumber_gaji" class="form-control" name="sumber_gaji" value="{{ $sumbergaji->sumber_gaji}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

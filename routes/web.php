@@ -1,35 +1,37 @@
 <?php
 use App\Models\TgsTambahan;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PegawaiExport;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\PekerjaanController;
-use App\Http\Controllers\Admin\PenghasilanController;
-use App\Http\Controllers\Admin\PrgbantuanController;
-use App\Http\Controllers\Admin\PendidikanController;
-use App\Http\Controllers\Admin\AgamaController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AgamaController;
+use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\RombelController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\PangkatController;
+use App\Http\Controllers\Admin\PegawaiController;
+use App\Http\Controllers\Admin\SekolahController;
 use App\Http\Controllers\Admin\JenisPTKController;
 use App\Http\Controllers\Admin\ProvinsiController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KebKhususController;
 use App\Http\Controllers\Admin\KecamatanController;
 use App\Http\Controllers\Admin\KelurahanController;
+use App\Http\Controllers\Admin\PekerjaanController;
+use App\Http\Controllers\Admin\KrtBantuanController;
+use App\Http\Controllers\Admin\PendidikanController;
+use App\Http\Controllers\Admin\PrgbantuanController;
 use App\Http\Controllers\Admin\SumberGajiController;
+use App\Http\Controllers\Admin\PenghasilanController;
 use App\Http\Controllers\Admin\StatusKawinController;
 use App\Http\Controllers\Admin\TgsTambahanController;
 use App\Http\Controllers\Admin\JenisTinggalController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\TransportasiController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PegawaiController;
-use App\Http\Controllers\Admin\KrtBantuanController;
-use App\Http\Controllers\Admin\SekolahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +44,9 @@ use App\Http\Controllers\Admin\SekolahController;
 |
 */
 
-
+Route::get('/export-pegawai', function () {
+    return Excel::download(new PegawaiExport, 'pegawai.xlsx');
+});
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.action');
 

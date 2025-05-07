@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="pangkat" class="form-control" name="pangkat"
+                                            <input type="text" id="pangkat" required class="form-control" name="pangkat"
                                                 placeholder="Masukkan Pangkat">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

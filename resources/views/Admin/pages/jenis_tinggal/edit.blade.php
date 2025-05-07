@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Jenis Tinggal</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jnstinggal" class="form-control" name="jnstinggal" value="{{ $jenistggl->jnstinggal}}">
+                                            <input type="text" id="jnstinggal" required class="form-control" name="jnstinggal" value="{{ $jenistggl->jnstinggal}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -31,13 +31,13 @@
                                             <label for="first-name-horizontal">Kelurahan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kelurahan" class="form-control" name="kelurahan" value="{{ old('kelurahan') ?? $kelurahan->kelurahan }}">
+                                            <input type="text" required id="kelurahan" class="form-control" name="kelurahan" value="{{ old('kelurahan') ?? $kelurahan->kelurahan }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kode Pos</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kode_pos" class="form-control" name="kode_pos" value="{{ old('kode_pos') ?? $kelurahan->kode_pos }}">
+                                            <input type="text" required id="kode_pos" class="form-control" name="kode_pos" value="{{ old('kode_pos') ?? $kelurahan->kode_pos }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kecamatan</label>

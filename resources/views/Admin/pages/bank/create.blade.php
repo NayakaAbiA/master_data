@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_bank" class="form-control" name="nama_bank"
+                                            <input type="text" required id="nama_bank" class="form-control" name="nama_bank"
                                                 placeholder="Masukkan Nama Bank">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

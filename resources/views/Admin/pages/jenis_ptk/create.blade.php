@@ -31,7 +31,7 @@
                                         </div>
                                         <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenis_ptk" class="form-control" name="jenis_ptk"
+                                            <input type="text" id="jenis_ptk" required class="form-control" name="jenis_ptk"
                                                 placeholder="Masukkan Jenis PTK">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

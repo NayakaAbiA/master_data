@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="sumber_gaji" class="form-control" name="sumber_gaji"
+                                            <input type="text" required id="sumber_gaji" class="form-control" name="sumber_gaji"
                                                 placeholder="Masukkan Sumber Gaji">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

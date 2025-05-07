@@ -31,19 +31,19 @@
                                             <label for="first-name-horizontal">NPSN</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="npsn" class="form-control" name="npsn" value="{{ $sekolah->npsn}}">
+                                            <input type="text" required id="npsn" class="form-control" name="npsn" value="{{ $sekolah->npsn}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Nama Sekolah</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_sekolah" class="form-control" name="nama_sekolah" value="{{ $sekolah->nama_sekolah}}">
+                                            <input type="text" required id="nama_sekolah" class="form-control" name="nama_sekolah" value="{{ $sekolah->nama_sekolah}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Jenjang</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenjang" class="form-control" name="jenjang" value="{{ $sekolah->jenjang}}">
+                                            <input type="text" required id="jenjang" class="form-control" name="jenjang" value="{{ $sekolah->jenjang}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="number" id="npsn" class="form-control" name="npsn"
+                                            <input type="number" required id="npsn" class="form-control" name="npsn"
                                                 placeholder="Masukkan NPSN">
                                         </div>
                                         <div class="col-md-4">
@@ -39,7 +39,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_sekolah" class="form-control" name="nama_sekolah"
+                                            <input type="text" required id="nama_sekolah" class="form-control" name="nama_sekolah"
                                                 placeholder="Masukkan Nama Sekolah">
                                         </div>
                                         <div class="col-md-4">
@@ -47,7 +47,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jenjang" class="form-control" name="jenjang"
+                                            <input type="text" required id="jenjang" class="form-control" name="jenjang"
                                                 placeholder="Masukkan Jenjang">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

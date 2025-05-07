@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="pekerjaan" class="form-control" name="pekerjaan"
+                                            <input type="text" required id="pekerjaan" class="form-control" name="pekerjaan"
                                                 placeholder="Masukkan Nama Pekerjaan">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

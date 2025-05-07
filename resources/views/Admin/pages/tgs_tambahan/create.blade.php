@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="tgs_tambahan" class="form-control" name="tgs_tambahan"
+                                            <input type="text" required id="tgs_tambahan" class="form-control" name="tgs_tambahan"
                                                 placeholder="Masukkan Status Pegawai">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

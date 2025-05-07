@@ -31,14 +31,14 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kelurahan" class="form-control" name="kelurahan"
+                                            <input type="text" required id="kelurahan" class="form-control" name="kelurahan"
                                                 placeholder="Masukkan kelurahan">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kode Pos</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="number" id="kode_pos" class="form-control" name="kode_pos"
+                                            <input type="number" required id="kode_pos" class="form-control" name="kode_pos"
                                                 placeholder="Masukkan kode pos">
                                         </div>
                                         <div class="col-md-4">

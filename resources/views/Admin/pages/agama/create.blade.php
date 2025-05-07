@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_agama" class="form-control" name="nama_agama"
+                                            <input type="text" id="nama_agama" class="form-control" required name="nama_agama"
                                                 placeholder="Masukkan Nama agama">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

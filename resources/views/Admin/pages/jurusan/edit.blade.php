@@ -32,7 +32,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jurusan" value="{{ $jurusan->nama_jur }}" class="form-control" name="nama_jur"
+                                            <input type="text" id="jurusan" required value="{{ $jurusan->nama_jur }}" class="form-control" name="nama_jur"
                                                 placeholder="Masukkan Nama jurusan">
                                         </div>
                                         <div class="col-md-4">

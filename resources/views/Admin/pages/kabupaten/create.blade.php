@@ -31,21 +31,21 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kabupaten" class="form-control" name="kabupaten"
+                                            <input type="text" id="kabupaten" required class="form-control" name="kabupaten"
                                                 placeholder="Masukkan kabupaten">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Ibu Kota</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="ibu_kota" class="form-control" name="ibu_kota"
+                                            <input type="text" required id="ibu_kota" class="form-control" name="ibu_kota"
                                                 placeholder="Masukkan Ibu Kota">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">BSNI</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="k_bsni" class="form-control" name="k_bsni"
+                                            <input type="text" required id="k_bsni" class="form-control" name="k_bsni"
                                                 placeholder="Masukkan BSNI">
                                         </div>
                                         <div class="col-md-4">

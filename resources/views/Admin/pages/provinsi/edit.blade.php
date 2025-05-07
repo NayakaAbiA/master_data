@@ -31,19 +31,19 @@
                                             <label for="first-name-horizontal">Provinsi</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="provinsi" class="form-control" name="provinsi" value="{{ $provinsi->provinsi}}">
+                                            <input type="text" required id="provinsi" class="form-control" name="provinsi" value="{{ $provinsi->provinsi}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Ibu Kota</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="ibu_kota" class="form-control" name="ibu_kota" value="{{ $provinsi->ibu_kota}}">
+                                            <input type="text" required id="ibu_kota" class="form-control" name="ibu_kota" value="{{ $provinsi->ibu_kota}}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">BSNI</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="p_bsni" class="form-control" name="p_bsni" value="{{ $provinsi->p_bsni}}">
+                                            <input type="text" required id="p_bsni" class="form-control" name="p_bsni" value="{{ $provinsi->p_bsni}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Kecamatan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kecamatan" class="form-control" name="kecamatan" value="{{ old('kecamatan') ?? $kecamatan->kecamatan }}">
+                                            <input type="text" id="kecamatan" required class="form-control" name="kecamatan" value="{{ old('kecamatan') ?? $kecamatan->kecamatan }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kabupaten</label>

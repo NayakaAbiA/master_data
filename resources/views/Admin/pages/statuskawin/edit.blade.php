@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Kebutuhan Khusus</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="status_kawin" class="form-control" name="status_kawin" value="{{ $statkawin->status_kawin}}">
+                                            <input type="text" required id="status_kawin" class="form-control" name="status_kawin" value="{{ $statkawin->status_kawin}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="no_krtbantuan" class="form-control" name="no_krtbantuan"
+                                            <input type="text" id="no_krtbantuan" required class="form-control" name="no_krtbantuan"
                                                 placeholder="Masukkan No Kartu Bantuan">
                                         </div>
                                         
@@ -39,7 +39,7 @@
                                                 <label for="first-name-horizontal">Nama Kartu Bantuan</label>
                                             </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_krtbantuan" class="form-control" name="nama_krtbantuan"
+                                            <input type="text" id="nama_krtbantuan" required class="form-control" name="nama_krtbantuan"
                                                 placeholder="Masukkan Nama Kartu Bantuan">
                                         </div>
                                         
@@ -47,7 +47,7 @@
                                                 <label for="first-name-horizontal">Pendiri Kartu Bantuan</label>
                                             </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_pdkrt" class="form-control" name="nama_pdkrt"
+                                            <input type="text" id="nama_pdkrt" required class="form-control" name="nama_pdkrt"
                                                 placeholder="Masukkan Nama Pendiri Kartu Bantuan">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Nama Prgbantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="penghasilan" class="form-control" name="prgbantuan" value="{{ $prgbantuan->prgbantuan}}">
+                                            <input type="text" required id="penghasilan" class="form-control" name="prgbantuan" value="{{ $prgbantuan->prgbantuan}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>
