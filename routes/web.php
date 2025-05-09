@@ -1,7 +1,8 @@
 <?php
 use App\Models\TgsTambahan;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SiswaExport;
 use App\Exports\PegawaiExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\BankController;
@@ -44,11 +45,17 @@ use App\Http\Controllers\Admin\StatusPegawaiController;
 |
 */
 
+Route::get('/', function () {
+    return view('landingpage');
+});
 Route::get('/export-pegawai', function () {
     return Excel::download(new PegawaiExport, 'pegawai.xlsx');
 });
-Route::get('/', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('login.action');
+Route::get('/export-siswa', function () {
+    return Excel::download(new SiswaExport, 'siswa.xlsx');
+});
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login/action', [LoginController::class, 'store'])->name('login.action');
 
 Route::get('/dashboard', [DashboardController::class, 'coba'])->name('coba');
 Route::prefix('admin')

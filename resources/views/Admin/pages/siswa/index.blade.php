@@ -16,6 +16,7 @@
                 Data Siswa
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.siswa.create')}}"><i class="bi bi-plus"></i>Tambah</a>
+            <a href="{{ url('/export-siswa') }}">exposrt data ke Excel</a>
         </div>
         <div class="card-body">
             <table class="table table-striped" id="table1">
