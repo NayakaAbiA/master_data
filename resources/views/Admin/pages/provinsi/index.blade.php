@@ -25,7 +25,7 @@
                         <th>Nama Provinsi</th>
                         <th>Ibu Kota</th>
                         <th>BSNI</th>
-                        <th>Aksi</th>
+                        <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

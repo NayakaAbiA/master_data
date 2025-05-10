@@ -25,7 +25,7 @@
                         <th>No</th>
                         <th>Nama rombel</th>
                         <th>Wali Kelas</th>
-                        <th>Aksi</th>
+                        <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

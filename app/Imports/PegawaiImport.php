@@ -1,0 +1,128 @@
+<?php
+
+namespace App\Imports;
+
+use App\Models\Pegawai;
+use App\Models\StatPegawai;
+use App\Models\JenisPTK;
+use App\Models\Agama;
+use App\Models\Provinsi;
+use App\Models\Kabupaten;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
+use App\Models\TgsTambahan;
+use App\Models\Pangkat;
+use App\Models\StatKawin;
+use App\Models\Pekerjaan;
+use App\Models\Bank;
+use App\Models\SumberGaji;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+
+class PegawaiImport implements ToModel, WithValidation, WithHeadingRow
+{
+    //Method untuk ambil data
+    public function model(array $row)
+    {
+        // PENTING , nama yang ada pada array $row[''], harus sesuai dengan header pada file Excel-nya
+        //Cari ID berdasarkan status yang sesuai dari Excel dengan data dari tiap status
+        $stat_peg = StatPegawai::where('stat_peg', $row['status_kepegawaian'] ?? '')->first();
+        $jenis_ptk = JenisPTK::where('jenis_ptk', $row['jenis_ptk'] ?? '')->first();
+        $agama = Agama::where('nama_agama', $row['agama'] ?? '')->first();
+        $provinsi = Provinsi::where('provinsi', $row['provinsi'] ?? '')->first();
+        $kabupaten = Kabupaten::where('kabupaten', $row['kabupaten'] ?? '')->first();
+        $kecamatan = Kecamatan::where('kecamatan', $row['kecamatan'] ?? '')->first();
+        $kelurahan = Kelurahan::where('kelurahan', $row['kelurahan'] ?? '')->first();
+        $tgs_tambahan = TgsTambahan::where('tgs_tambahan', $row['tugas_tambahan'] ?? '')->first();
+        $pangkat = Pangkat::where('pangkat', $row['pangkat_golongan'] ?? '')->first();
+        $status_kawin = StatKawin::where('status_kawin', $row['status_perkawinan'] ?? '')->first();
+        $pekerjaan_pasangan = Pekerjaan::where('pekerjaan', $row['pekerjaan_pasangan'] ?? '')->first();
+        $bank = Bank::where('nama_bank', $row['bank'] ?? '')->first();
+        $sumber_gaji = SumberGaji::where('sumber_gaji', $row['sumber_gaji'] ?? '')->first();
+
+        //Buat data baru 
+        return new Pegawai([
+            'nama' => $row['nama'],
+            'nik' => $row['nik'],
+            'nip' => $row['nip'],
+            'nuptk' => $row['nuptk'],
+            'email' => $row['email'],
+            'jenis_kelamin' => $row['jk'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tgl_lahir' => $row['tanggal_lahir'],
+            'id_stat_peg' => $stat_peg?->id,
+            'id_jns_ptk' => $jenis_ptk?->id,
+            'id_agama' => $agama?->id,
+            'jalan' => $row['alamat_jalan'],
+            'no_rumah' => $row['no_rumah'],
+            'rt' => $row['rt'],
+            'rw' => $row['rw'],
+            'id_provinsi' => $provinsi?->id,
+            'id_kabupaten' => $kabupaten?->id,
+            'id_kecamatan' => $kecamatan?->id,
+            'id_kelurahan' => $kelurahan?->id,
+            'kode_pos' => $row['kode_pos'],
+            'no_telepon' => $row['telepon'],
+            'hp' => $row['hp'],
+            'lintang' => $row['lintang'],
+            'bujur' => $row['bujur'],
+            'id_tgstambahan' => $tgs_tambahan?->id,
+            'no_sk_cpns' => $row['sk_cpns'],
+            'tgl_sk_cpns' => $row['tanggal_cpns'],
+            'no_sk_pengangkatan' => $row['sk_pengangkatan'],
+            'tmt_pengangkatan' => $row['tmt_pengangkatan'],
+            'lembaga_pengangkatan' => $row['lembaga_pengangkatan'],
+            'id_pangkat' => $pangkat?->id,
+            'nama_ibu_kandung' => $row['nama_ibu_kandung'],
+            'id_statkawin' => $status_kawin?->id,
+            'nama_pasangan' => $row['nama_pasangan'],
+            'nip_pasangan' => $row['nip_pasangan'],
+            'id_pekerjaan_pasangan' => $pekerjaan_pasangan?->id,
+            'lisensi_kepsek' => strtolower((string)$row['sudah_lisensi_kepala_sekolah']) === 'ya' ? 1 : 0,
+            'diklat_pengawas' => strtolower((string)$row['pernah_diklat_kepengawasan']) === 'ya' ? 1 : 0,
+            'keahlian_braille' => strtolower((string)$row['keahlian_braille']) === 'ya' ? 1 : 0,
+            'keahlian_bahasa_isyarat' => strtolower((string)$row['keahlian_bahasa_isyarat']) === 'ya' ? 1 : 0,
+            'no_npwp' => $row['npwp'],
+            'nama_wajib_pajak' => $row['nama_wajib_pajak'],
+            'kewarganegaraan' => $row['kewarganegaraan'],
+            'id_bank' => $bank?->id,
+            'id_sumber_gaji' => $sumber_gaji?->id,
+            'no_rek_bank' => $row['nomor_rekening_bank'],
+            'rek_atas_nama' => $row['rekening_atas_nama'],
+            'no_kk' => $row['no_kk'],
+            'no_karpeg' => $row['karpeg'],
+            'no_karis_karsu' => $row['karis_atau_karsu'],
+            'nuks' => $row['nuks'],
+        ]);
+    }
+
+    public function rules(): array
+    {
+        //Validasi kolom yang wajib diisi
+        return [
+            'nama' => ['sometimes','required'],
+            'nik' => ['sometimes','required'],
+            'email' => ['sometimes','required'],
+            'jk' => ['sometimes','required'],
+            'tempat_lahir' => ['sometimes','required'],
+            'tanggal_lahir' => ['sometimes','required', 'date'],
+            'alamat_jalan' => ['sometimes','required'],
+            'no_rumah' => ['sometimes','required'],
+            'rt' => ['sometimes','required'],
+            'rw' => ['sometimes','required'],
+            'kode_pos' => ['sometimes','required'],
+            'hp' => ['sometimes','required'],
+            'nama_ibu_kandung' => ['sometimes','required'],
+            'sudah_lisensi_kepala_sekolah' => ['sometimes','required'],
+            'pernah_diklat_kepengawasan' => ['sometimes','required'],
+            'keahlian_braille' => ['sometimes','required'],
+            'keahlian_bahasa_isyarat' => ['sometimes','required'],
+            'nama_wajib_pajak' => ['sometimes','required'],
+            'kewarganegaraan' => ['sometimes','required'],
+            'nomor_rekening_bank' => ['sometimes','required'],
+            'rekening_atas_nama' => ['sometimes','required'],
+            'no_kk' => ['sometimes','required'],
+        ];
+    }
+}

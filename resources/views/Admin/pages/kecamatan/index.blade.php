@@ -24,7 +24,7 @@
                         <th>No</th>
                         <th>Nama Kecamatan</th>
                         <th>Kabupaten</th>
-                        <th>Aksi</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

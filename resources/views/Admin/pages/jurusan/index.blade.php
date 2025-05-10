@@ -25,7 +25,7 @@
                         <th>No</th>
                         <th>Nama Jurusan</th>
                         <th>Ketua Program Keahlian</th>
-                        <th>Aksi</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

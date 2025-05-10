@@ -24,7 +24,7 @@
                     <tr>
                         <th>No</th>
                         <th>Role</th>
-                        <th>Aksi</th>
+                        <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

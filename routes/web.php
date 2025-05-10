@@ -110,12 +110,14 @@ Route::prefix('admin')
         Route::resource('prgbantuan', PrgbantuanController::class);
         Route::get('pegawai/list', [PegawaiController::class, 'lists'])->name('pegawai.lists');
         Route::resource('pegawai', PegawaiController::class);
+        Route::post('pegawai-import', [PegawaiController::class, 'import'])->name('pegawai.import');
         Route::get('krtbantuan/list', [KrtBantuanController::class, 'lists'])->name('krtbantuan.lists');
         Route::resource('krtbantuan', KrtBantuanController::class);
         Route::get('sekolah/list', [SekolahController::class, 'lists'])->name('sekolah.lists');
         Route::resource('sekolah', SekolahController::class);
         Route::get('siswa/list', [SiswaController::class, 'lists'])->name('siswa.lists');
         Route::resource('siswa', SiswaController::class);
+        Route::post('siswa-import', [SiswaController::class, 'import'])->name('siswa.import');
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });

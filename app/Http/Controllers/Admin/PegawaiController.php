@@ -20,7 +20,10 @@ use App\Models\TgsTambahan;
 use App\Models\Pekerjaan;
 
 use App\Exports\pegawaiExport;
+use App\Imports\PegawaiImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
@@ -255,5 +258,32 @@ class PegawaiController extends Controller
 
     public function pegawaiExport(){
         return Excel::download(new PegawaiExport, 'pegawai.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        try {
+            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
+            Excel::import(new PegawaiImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+
+            Storage::delete($file); //hapus file jika sudah berhasil
+
+            return redirect()->route('admin.pegawai.index')->with('success', 'Data pegawai berhasil diimpor');
+        } catch (ValidationException $e) {
+            // Menangap error untuk validasi baris dari Excel
+            $failures = $e->failures();
+
+            return redirect()->back()->with([
+                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
+                'failures' => $failures,
+            ]);
+        } catch (\Throwable $e) {
+            // Menangkap error dari excel yang tidak sesuai
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
     }
 }

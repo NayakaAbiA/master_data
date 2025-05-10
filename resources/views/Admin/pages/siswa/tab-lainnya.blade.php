@@ -41,10 +41,10 @@
         </div>
         <div class="col-lg-8">
             <div class="form-group">
-                <select class="choices form-select @error('id_krt_bantuan') is-invalid @enderror" id="id_pekerjaan_ayah" name="id_pekerjaan_ayah" data-placeholder="Pilih id_pekerjaan_ayah">
+                <select class="choices form-select @error('id_krt_bantuan') is-invalid @enderror" id="id_krt_bantuan" name="id_krt_bantuan" data-placeholder="Pilih id_krt_bantuan">
                     <option value="">Pilih Kartu Bantuan</option>
                     @foreach ($krt_bantuan as $krtbtn)
-                    <option value="{{ $krtbtn->id }}" @selected(($siswa->id_krt_bantuan ?? '') == $krtbtn->id)>{{ $krtbtn->kartubtn }}
+                    <option value="{{ $krtbtn->id }}" @selected(($siswa->id_krt_bantuan ?? '') == $krtbtn->id)>{{ $krtbtn->nama_krtbantuan }}
                     @endforeach
                 </option>
                 </select>

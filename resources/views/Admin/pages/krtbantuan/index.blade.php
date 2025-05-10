@@ -25,7 +25,7 @@
                         <th>No Kartu Bantuan</th>
                         <th>Nama Kartu Bantuan</th>
                         <th>Nama Pendiri Kartu Bantuan</th>
-                        <th>Aksi</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

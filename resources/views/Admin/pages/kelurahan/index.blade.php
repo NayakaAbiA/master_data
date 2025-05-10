@@ -25,7 +25,7 @@
                         <th>Nama Kelurahan</th>
                         <th>Kode Pos</th>
                         <th>Kecamatan</th>
-                        <th>Aksi</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

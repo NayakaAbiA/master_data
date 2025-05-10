@@ -1,5 +1,8 @@
 let jquery_datatable = $("#table1").DataTable({
-    responsive: true
+    responsive: true,
+    columnDefs: [
+        { orderable: false, targets: 'no-sort' } // class 'no-sort' akan menandai kolom yang tidak bisa di-sort
+    ]
 })
 let customized_datatable = $("#table2").DataTable({
     responsive: true,

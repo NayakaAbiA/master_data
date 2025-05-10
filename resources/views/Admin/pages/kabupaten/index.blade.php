@@ -26,7 +26,7 @@
                         <th>Ibu Kota</th>
                         <th>BSNI</th>
                         <th>Provinsi</th>
-                        <th>Aksi</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

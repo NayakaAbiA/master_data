@@ -25,7 +25,7 @@
                         <th>NPSN</th>
                         <th>Nama Sekolah</th>
                         <th>Jenjang</th>
-                        <th>Aksi</th>
+                        <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

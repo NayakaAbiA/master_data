@@ -22,6 +22,11 @@ use App\Models\Bank;
 use App\Models\PrgBantuan;
 use App\Models\KebKhusus;
 
+use App\Imports\SiswaImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
+use Illuminate\Support\Facades\Storage;
+
 class SiswaController extends Controller
 {
     /**
@@ -297,5 +302,32 @@ class SiswaController extends Controller
             return redirect()->route('admin.siswa.index')->with('success', 'Data berhasil disimpan.');
         }
         return redirect()->route('admin.siswa.index')->with('error', 'Data gagal disimpan.');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        try {
+            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
+            Excel::import(new SiswaImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+
+            Storage::delete($file); //hapus file jika sudah berhasil
+
+            return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diimpor');
+        } catch (ValidationException $e) {
+            // Menangap error untuk validasi baris dari Excel
+            $failures = $e->failures();
+
+            return redirect()->back()->with([
+                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
+                'failures' => $failures,
+            ]);
+        } catch (\Throwable $e) {
+            // Menangkap error dari excel yang tidak sesuai
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
     }
 }

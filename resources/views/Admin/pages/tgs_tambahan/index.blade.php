@@ -23,7 +23,7 @@
                     <tr>
                         <th>No</th>
                         <th>Tugas</th>
-                        <th>Aksi</th>
+                        <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

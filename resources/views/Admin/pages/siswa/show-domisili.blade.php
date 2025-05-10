@@ -75,7 +75,7 @@
         <div class="form-group">
             <label for="readonlyInput">Jarak ke sekolah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->jrk_rumah_sekolah}} m">
+            value="{{ $s->jrk_rumah_sekolah}} km">
         </div>
     </div>
 </div>

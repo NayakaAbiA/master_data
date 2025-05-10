@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="readonlyInput">Kartu Bantuan</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->krtbantuan->nama_krtbantuan ?? ''}}">
+            value="{{ $s->krt_bantuan->nama_krtbantuan ?? ''}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Nama Pada Kartu</label>
