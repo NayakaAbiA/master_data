@@ -22,7 +22,7 @@ class PangkatController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'pangkat' => ['sometimes', 'required'],
+            'pangkat' => ['sometimes', 'required', 'string', 'max:35', 'unique:tb_pangkat,pangkat'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = pangkat::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class PangkatController extends Controller
         $pangkat = Pangkat::findOrFail($id);
 
         $validated = $request->validate([
-            'pangkat' => ['sometimes', 'required'],
+            'pangkat' => ['sometimes', 'required', 'string', 'max:35'],
         ]);
         
         $pangkat->update($validated); //perbarui data sesuai request dari $validated

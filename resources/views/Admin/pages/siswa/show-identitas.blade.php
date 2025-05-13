@@ -6,6 +6,16 @@
             value="{{ $s->nama}}">
         </div>
         <div class="form-group">
+            <label for="readonlyInput">Jenis Kelamin</label>
+            @if ($s->jenis_kelamin == 'L')
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="Laki - laki">
+            @else
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="Perempuan">
+            @endif
+        </div>
+        <div class="form-group">
             <label for="readonlyInput">NIK</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s->NIK}}">

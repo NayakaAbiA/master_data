@@ -14,6 +14,23 @@
             @enderror
         </div>
         <div class="col-md-4">
+            <label for="first-name-horizontal">Jenis Kelamin</label>
+        </div>
+        <div class="col-md-8 form-group">
+            <div class="form-check">
+                <input class="form-check-input @error('jenis_kelamin') is-invalid @enderror" type="radio" name="jenis_kelamin" id="jenis_kelamin1" value="L"  @checked(($siswa->jenis_kelamin ?? '') == 'L')>
+                    <label class="form-check-label" for="jenis_kelamin1">
+                        Laki-laki
+                    </label>
+            </div>
+            <div class="form-check mt-2">
+                <input class="form-check-input @error('jenis_kelamin') is-invalid @enderror" type="radio" name="jenis_kelamin" id="jenis_kelamin2" value="P" @checked(($siswa->jenis_kelamin ?? '') == 'P')>
+                    <label class="form-check-label" for="jenis_kelamin2">
+                        Perempuan
+                    </label>
+            </div>
+        </div>
+        <div class="col-md-4">
             <label for="first-name-horizontal">NIK</label>
         </div>
         <div class="col-md-8 form-group">

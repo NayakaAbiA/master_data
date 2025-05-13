@@ -31,8 +31,11 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="stat_peg" class="form-control" name="stat_peg"
-                                                placeholder="Masukkan Status Pegawai">
+                                            <input type="text" required id="stat_peg" name="stat_peg"
+                                                class="form-control @error('stat_peg') is-invalid @enderror" placeholder="Masukkan Status Pegawai">
+                                            @error('stat_peg')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

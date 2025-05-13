@@ -31,8 +31,11 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="sumber_gaji" class="form-control" name="sumber_gaji"
-                                                placeholder="Masukkan Sumber Gaji">
+                                            <input type="text" required id="sumber_gaji" name="sumber_gaji"
+                                                class="form-control @error('sumber_gaji') is-invalid @enderror" placeholder="Masukkan Sumber Gaji">
+                                            @error('sumber_gaji')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

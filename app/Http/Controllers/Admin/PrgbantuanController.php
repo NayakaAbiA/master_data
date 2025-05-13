@@ -22,7 +22,7 @@ class PrgbantuanController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'prgbantuan' => ['sometimes', 'required'],
+            'prgbantuan' => ['sometimes', 'required', 'string', 'max:10', 'unique:tb_prgbantuan,prgbantuan'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Prgbantuan::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class PrgbantuanController extends Controller
         $prgbantuan = Prgbantuan::findOrFail($id);
 
         $validated = $request->validate([
-            'prgbantuan' => ['sometimes', 'required'],
+            'prgbantuan' => ['sometimes', 'required', 'string', 'max:10'],
         ]);
         
         $prgbantuan->update($validated); //perbarui data sesuai request dari $validated

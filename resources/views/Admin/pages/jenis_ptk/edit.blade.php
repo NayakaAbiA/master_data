@@ -31,7 +31,12 @@
                                             <label for="first-name-horizontal">Jenis PTK</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="jenis_ptk" class="form-control" name="jenis_ptk" value="{{ $jenisptk->jenis_ptk}}">
+                                            <input type="text" id="jenis_ptk" required class="form-control @error('jenis_ptk') is-invalid @enderror" name="jenis_ptk" value="{{  $jenisptk->jenis_ptk}}">
+                                            @error('jenis_ptk')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -22,9 +22,9 @@ class KrtBantuanController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'no_krtbantuan' => ['sometimes', 'required'],
-            'nama_krtbantuan' => ['sometimes', 'required'],
-            'nama_pdkrt' => ['sometimes', 'required'],
+            'no_krtbantuan' => ['sometimes', 'required', 'string', 'max:15', 'unique:tb_krtbantuan,no_krtbantuan'],
+            'nama_krtbantuan' => ['sometimes', 'required', 'string', 'max:15', 'unique:tb_krtbantuan,nama_krtbantuan'],
+            'nama_pdkrt' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_krtbantuan,nama_pdkrt'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = KrtBantuan::create($validated); //buat data sesuai request dari $validated
@@ -47,9 +47,9 @@ class KrtBantuanController extends Controller
         $krtbantuan = KrtBantuan::findOrFail($id);
 
         $validated = $request->validate([
-            'no_krtbantuan' => ['sometimes', 'required'],
-            'nama_krtbantuan' => ['sometimes', 'required'],
-            'nama_pdkrt' => ['sometimes', 'required'],
+            'no_krtbantuan' => ['sometimes', 'required', 'string', 'max:15'],
+            'nama_krtbantuan' => ['sometimes', 'required', 'string', 'max:15'],
+            'nama_pdkrt' => ['sometimes', 'required', 'string', 'max:40'],
         ]);
         
         $krtbantuan->update($validated); //perbarui data sesuai request dari $validated

@@ -22,7 +22,7 @@ class BankController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'nama_bank' => ['sometimes', 'required'],
+            'nama_bank' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_bank,nama_bank'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Bank::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class BankController extends Controller
         $bank = Bank::findOrFail($id);
 
         $validated = $request->validate([
-            'nama_bank' => ['sometimes', 'required'],
+            'nama_bank' => ['sometimes', 'required', 'string', 'max:50'],
         ]);
         
         $bank->update($validated); //perbarui data sesuai request dari $validated

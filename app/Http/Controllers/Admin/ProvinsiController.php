@@ -22,9 +22,9 @@ class ProvinsiController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'provinsi' => ['sometimes', 'required'],
-            'ibu_kota' => ['sometimes', 'required'],
-            'p_bsni' => ['sometimes', 'required'],
+            'provinsi' => ['sometimes', 'required', 'string', 'max:225', 'unique:tb_provinsi,provinsi'],
+            'ibu_kota' => ['sometimes', 'required', 'string', 'max:225', 'unique:tb_provinsi,ibu_kota'],
+            'p_bsni' => ['sometimes', 'required', 'string', 'max:225', 'unique:tb_provinsi,p_bsni'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Provinsi::create($validated); //buat data sesuai request dari $validated
@@ -47,9 +47,9 @@ class ProvinsiController extends Controller
         $provinsi = Provinsi::findOrFail($id);
 
         $validated = $request->validate([
-            'provinsi' => ['sometimes', 'required'],
-            'ibu_kota' => ['sometimes', 'required'],
-            'p_bsni' => ['sometimes', 'required'],
+            'provinsi' => ['sometimes', 'required', 'string', 'max:225'],
+            'ibu_kota' => ['sometimes', 'required', 'string', 'max:225'],
+            'p_bsni' => ['sometimes', 'required', 'string', 'max:225'],
         ]);
         
         $provinsi->update($validated); //perbarui data sesuai request dari $validated

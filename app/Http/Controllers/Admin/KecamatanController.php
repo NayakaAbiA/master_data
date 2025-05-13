@@ -23,8 +23,8 @@ class KecamatanController extends Controller
     public function store(Request $request) {
         //dd($request->all());
         $validated = $request->validate([
-            'kecamatan' => ['sometimes', 'required'],
-            'id_kabupaten' => ['sometimes', 'required'],
+            'kecamatan' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kecamatan,kecamatan'],
+            'id_kabupaten' => ['sometimes', 'required', 'integer'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Kecamatan::create($validated); //buat data sesuai request dari $validated
@@ -50,8 +50,8 @@ class KecamatanController extends Controller
         $kecamatan = Kecamatan::findOrFail($id);
 
         $validated = $request->validate([
-            'kecamatan' => ['sometimes', 'required'],
-            'id_kabupaten' => ['sometimes', 'required'],
+            'kecamatan' => ['sometimes', 'required', 'string', 'max:255'],
+            'id_kabupaten' => ['sometimes', 'required', 'integer'],
         ]);
         
         $kecamatan->update($validated); //perbarui data sesuai request dari $validated

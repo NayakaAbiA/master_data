@@ -38,8 +38,8 @@ class LoginController extends Controller
                 } elseif ($role == 'kepegawaian') {
                     echo "berhasil";
                 } else {
-            return redirect()->back()->withErrors('Username dan password salah');
-            }
+                return redirect()->back()->withErrors('Username dan password salah');
+                }
         }
         
     }

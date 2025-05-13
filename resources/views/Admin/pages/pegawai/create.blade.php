@@ -3,6 +3,7 @@
     <h3>Pegawai</h3>
 @endsection
 @section('content')
+    <!-- session untuk menampilkan error, jika import gagal -->
     @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif

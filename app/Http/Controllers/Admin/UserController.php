@@ -34,10 +34,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
          $validated = $request->validate([
-            'name' => ['sometimes', 'required'],
-            'email' => ['sometimes', 'required', 'unique:users,email,'],
-            'password' => ['sometimes', 'required'],
-            'role_id' => ['sometimes', 'required'],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'email' => ['sometimes', 'required', 'email', 'max:255', 'unique:users,email,'],
+            'password' => ['sometimes', 'required', 'max:255'],
+            'role_id' => ['sometimes', 'required', 'integer'],
         ],[
             'email.unique' => 'Email sudah tersedia.',
         ]); //validasi field jika ada direquest dan agar diisi
@@ -79,8 +79,8 @@ class UserController extends Controller
 
         // Validasi data yang diterima
         $validated = $request->validate([
-            'name' => ['sometimes', 'required'],
-            'email' => ['sometimes', 'required', 'email', 'unique:users,email,' . $user->id],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'email' => ['sometimes', 'required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable'], 
             'role_id' => ['sometimes', 'required', 'exists:roles,id'],
         ]);

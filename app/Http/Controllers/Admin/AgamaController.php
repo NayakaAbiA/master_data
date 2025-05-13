@@ -22,7 +22,7 @@ class AgamaController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'nama_agama' => ['sometimes', 'required'],
+            'nama_agama' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_agama,nama_agama'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Agama::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class AgamaController extends Controller
         $agama = Agama::findOrFail($id);
 
         $validated = $request->validate([
-            'nama_agama' => ['sometimes', 'required'],
+            'nama_agama' => ['sometimes', 'required', 'string', 'max:255'],
         ]);
         
         $agama->update($validated); //perbarui data sesuai request dari $validated

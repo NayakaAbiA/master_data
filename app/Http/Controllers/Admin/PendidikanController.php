@@ -22,7 +22,7 @@ class PendidikanController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'jenjang_pendidikan' => ['sometimes', 'required'],
+            'jenjang_pendidikan' => ['sometimes', 'required', 'string', 'max:25', 'unique:tb_pendidikan,jenjang_pendidikan'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Pendidikan::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class PendidikanController extends Controller
         $pendidikan = Pendidikan::findOrFail($id);
 
         $validated = $request->validate([
-            'jenjang_pendidikan' => ['sometimes', 'required'],
+            'jenjang_pendidikan' => ['sometimes', 'required', 'string', 'max:25'],
         ]);
         
         $pendidikan->update($validated); //perbarui data sesuai request dari $validated

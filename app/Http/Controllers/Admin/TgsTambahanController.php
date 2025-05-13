@@ -22,7 +22,7 @@ class TgsTambahanController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'tgs_tambahan' => ['sometimes', 'required'],
+            'tgs_tambahan' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_tgstambahan,tgs_tambahan'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = TgsTambahan::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class TgsTambahanController extends Controller
         $tgstambahan = TgsTambahan::findOrFail($id);
 
         $validated = $request->validate([
-            'tgs_tambahan' => ['sometimes', 'required'],
+            'tgs_tambahan' => ['sometimes', 'required', 'string', 'max:40'],
         ]);
         
         $tgstambahan->update($validated); //perbarui data sesuai request dari $validated

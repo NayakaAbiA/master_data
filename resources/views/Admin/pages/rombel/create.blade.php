@@ -31,18 +31,24 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input required type="text" id="rombel" class="form-control" name="nama_rombel"
-                                                placeholder="Masukkan Nama Rombel">
+                                            <input required type="text" id="rombel" name="nama_rombel"
+                                                class="form-control @error('nama_rombel') is-invalid @enderror" placeholder="Masukkan Nama Rombel">
+                                            @error('nama_rombel')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Wali Kelas</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                          <select name="id_ptk_walas" id="ptk_walas" class="form-control">
+                                        <select name="id_ptk_walas" id="ptk_walas" class="form-control @error('id_ptk_walas') is-invalid @enderror">
                                             @foreach ($ptk_walas as $walas)
-                                            <option value="{{ $walas->id }}">{{ $walas->nama }}</option>
+                                                <option value="{{ $walas->id }}">{{ $walas->nama }}</option>
                                             @endforeach
-                                          </select>
+                                        </select>
+                                        @error('id_ptk_walas')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

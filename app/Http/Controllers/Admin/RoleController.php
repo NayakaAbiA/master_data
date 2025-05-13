@@ -31,7 +31,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'role' => ['sometimes', 'required'],
+            'role' => ['sometimes', 'required', 'string', 'max:225', 'unique:roles,role'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Role::create($validated); //buat data sesuai request dari $validated
@@ -66,7 +66,7 @@ class RoleController extends Controller
          $role = Role::findOrFail($id);
 
         $validated = $request->validate([
-            'role' => ['sometimes', 'required'],
+            'role' => ['sometimes', 'required', 'string', 'max:225'],
         ]);
         
         $role->update($validated); //perbarui data sesuai request dari $validated

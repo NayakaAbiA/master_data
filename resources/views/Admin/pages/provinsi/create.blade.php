@@ -31,22 +31,31 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="provinsi" class="form-control" name="provinsi"
-                                                placeholder="Masukkan Provinsi">
+                                            <input type="text" required id="provinsi" name="provinsi"
+                                                class="form-control @error('provinsi') is-invalid @enderror" placeholder="Masukkan Provinsi">
+                                            @error('provinsi')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Ibu Kota</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="ibu_kota" class="form-control" name="ibu_kota"
-                                                placeholder="Masukkan Ibu Kota">
+                                            <input type="text" required id="ibu_kota" name="ibu_kota"
+                                                class="form-control @error('ibu_kota') is-invalid @enderror"  placeholder="Masukkan Ibu Kota">
+                                            @error('ibu_kota')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">BSNI</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="p_bsni" class="form-control" name="p_bsni"
-                                                placeholder="Masukkan BSNI">
+                                            <input type="text" required id="p_bsni" name="p_bsni"
+                                                class="form-control @error('p_bsni') is-invalid @enderror" placeholder="Masukkan BSNI">
+                                            @error('p_bsni')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

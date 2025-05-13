@@ -23,7 +23,7 @@ class JenisPTKController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'jenis_ptk' => ['sometimes', 'required'],
+            'jenis_ptk' => ['sometimes', 'required', 'string', 'max:25', 'unique:tb_jnsptk,jenis_ptk'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = JenisPTK::create($validated); //buat data sesuai request dari $validated
@@ -46,7 +46,7 @@ class JenisPTKController extends Controller
         $jenisptk = JenisPTK::findOrFail($id);
 
         $validated = $request->validate([
-            'jenis_ptk' => ['sometimes', 'required'],
+            'jenis_ptk' => ['sometimes', 'required', 'string', 'max:25'],
         ]);
         
         $jenisptk->update($validated); //perbarui data sesuai request dari $validated

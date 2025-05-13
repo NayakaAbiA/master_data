@@ -23,10 +23,10 @@ class KabupatenController extends Controller
     public function store(Request $request) {
         //dd($request->all());
         $validated = $request->validate([
-            'kabupaten' => ['sometimes', 'required'],
-            'ibu_kota' => ['sometimes', 'required'],
-            'k_bsni' => ['sometimes', 'required'],
-            'id_provinsi' => ['sometimes', 'required'],
+            'kabupaten' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kabupaten,kabupaten'],
+            'ibu_kota' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kabupaten,ibu_kota'],
+            'k_bsni' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kabupaten,k_bsni'],
+            'id_provinsi' => ['sometimes', 'required', 'integer'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Kabupaten::create($validated); //buat data sesuai request dari $validated
@@ -52,10 +52,10 @@ class KabupatenController extends Controller
         $kabupaten = Kabupaten::findOrFail($id);
 
         $validated = $request->validate([
-            'kabupaten' => ['sometimes', 'required'],
-            'ibu_kota' => ['sometimes', 'required'],
-            'k_bsni' => ['sometimes', 'required'],
-            'id_provinsi' => ['sometimes', 'required'],
+            'kabupaten' => ['sometimes', 'required', 'string', 'max:255'],
+            'ibu_kota' => ['sometimes', 'required', 'string', 'max:255'],
+            'k_bsni' => ['sometimes', 'required', 'string', 'max:255'],
+            'id_provinsi' => ['sometimes', 'required', 'integer'],
         ]);
         
         $kabupaten->update($validated); //perbarui data sesuai request dari $validated

@@ -31,19 +31,29 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="jurusan" class="form-control" name="nama_jur"
-                                                placeholder="Masukkan Nama jurusan">
+                                            <input type="text" id="jurusan" class="form-control @error('jurusan') is-invalid @enderror" required name="jurusan"
+                                                placeholder="Masukkan Nama Jurusan">
+                                                @error('jurusan')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="id_ptk_kakom">Pilih Ketua Program keahlian</label>
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                          <select name="id_ptk_kakom" class="form-control" id="id_ptk_kakom">
+                                          <select name="id_ptk_kakom" class="choices form-select @error('id_ptk_kakom') is-invalid @enderror" id="id_ptk_kakom">
                                             @foreach ($ptk as $pegawai)
                                                 <option value="{{ $pegawai->id }}">{{ $pegawai->nama }}</option>
                                             @endforeach
                                           </select>
+                                            @error('id_ptk_kakom')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

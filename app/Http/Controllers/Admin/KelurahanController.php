@@ -23,9 +23,9 @@ class KelurahanController extends Controller
     public function store(Request $request) {
         //dd($request->all());
         $validated = $request->validate([
-            'kelurahan' => ['sometimes', 'required'],
-            'kode_pos' => ['sometimes', 'required'],
-            'id_kecamatan' => ['sometimes', 'required'],
+            'kelurahan' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kelurahan,kelurahan'],
+            'kode_pos' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kelurahan,kode_pos'],
+            'id_kecamatan' => ['sometimes', 'required', 'integer'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Kelurahan::create($validated); //buat data sesuai request dari $validated
@@ -51,9 +51,9 @@ class KelurahanController extends Controller
         $kelurahan = Kelurahan::findOrFail($id);
 
         $validated = $request->validate([
-            'kelurahan' => ['sometimes', 'required'],
-            'kode_pos' => ['sometimes', 'required'],
-            'id_kecamatan' => ['sometimes', 'required'],
+            'kelurahan' => ['sometimes', 'required', 'string', 'max:255',],
+            'kode_pos' => ['sometimes', 'required', 'string', 'max:255',],
+            'id_kecamatan' => ['sometimes', 'required', 'integer'],
         ]);
         
         $kelurahan->update($validated); //perbarui data sesuai request dari $validated

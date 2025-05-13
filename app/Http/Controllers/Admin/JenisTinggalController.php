@@ -24,7 +24,7 @@ class JenisTinggalController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'jnstinggal' => ['sometimes', 'required'],
+            'jnstinggal' => ['sometimes', 'required', 'string', 'max:20', 'unique:tb_jnstinggal,jnstinggal'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = JenisTinggal::create($validated); //buat data sesuai request dari $validated
@@ -47,7 +47,7 @@ class JenisTinggalController extends Controller
         $jenistggl = JenisTinggal::findOrFail($id);
 
         $validated = $request->validate([
-            'jnstinggal' => ['sometimes', 'required'],
+            'jnstinggal' => ['sometimes', 'required', 'string', 'max:20'],
         ]);
         
         $jenistggl->update($validated); //perbarui data sesuai request dari $validated

@@ -31,8 +31,11 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="tgs_tambahan" class="form-control" name="tgs_tambahan"
-                                                placeholder="Masukkan Status Pegawai">
+                                            <input type="text" required id="tgs_tambahan" name="tgs_tambahan"
+                                                class="form-control @error('tgs_tambahan') is-invalid @enderror" placeholder="Masukkan Tugas Tambahan">
+                                            @error('tgs_tambahan')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

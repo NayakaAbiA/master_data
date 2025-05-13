@@ -22,7 +22,7 @@ class StatusPegawaiController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'stat_peg' => ['sometimes', 'required'],
+            'stat_peg' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_stat_peg,stat_peg'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = StatPegawai::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class StatusPegawaiController extends Controller
         $statpeg = StatPegawai::findOrFail($id);
 
         $validated = $request->validate([
-            'stat_peg' => ['sometimes', 'required'],
+            'stat_peg' => ['sometimes', 'required', 'string', 'max:30'],
         ]);
         
         $statpeg->update($validated); //perbarui data sesuai request dari $validated

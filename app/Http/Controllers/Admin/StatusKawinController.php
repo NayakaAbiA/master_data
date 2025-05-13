@@ -22,7 +22,7 @@ class StatusKawinController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'status_kawin' => ['sometimes', 'required'],
+            'status_kawin' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_statkawin,status_kawin'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = StatKawin::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class StatusKawinController extends Controller
         $statkawin = StatKawin::findOrFail($id);
 
         $validated = $request->validate([
-            'status_kawin' => ['sometimes', 'required'],
+            'status_kawin' => ['sometimes', 'required', 'string', 'max:30'],
         ]);
         
         $statkawin->update($validated); //perbarui data sesuai request dari $validated

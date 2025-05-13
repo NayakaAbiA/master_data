@@ -31,26 +31,41 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="kelurahan" class="form-control" name="kelurahan"
+                                            <input type="text" required id="kelurahan" class="form-control @error('kelurahan') is-invalid @enderror" name="kelurahan"
                                                 placeholder="Masukkan kelurahan">
+                                            @error('kelurahan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kode Pos</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="number" required id="kode_pos" class="form-control" name="kode_pos"
+                                            <input type="number" required id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos"
                                                 placeholder="Masukkan kode pos">
+                                            @error('kode_pos')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kecamatan</label>
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="form-group">
-                                                <select class="choices form-select" id="id_kecamatan" name="id_kecamatan">
-                                                    @foreach ($kecamatan as $k)
+                                            <select class="choices form-select @error('id_kecamatan') is-invalid @enderror" id="id_kecamatan" name="id_kecamatan">
+                                                @foreach ($kecamatan as $k)
                                                     <option value="{{ $k->id }}">{{ $k->kecamatan }}</option>
-                                                    @endforeach
-                                                </select>
+                                                @endforeach
+                                            </select>
+                                            @error('id_kecamatan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

@@ -33,8 +33,8 @@ class JurusanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_jur' => ['sometimes', 'required'],
-            'id_ptk_kakom' => ['sometimes', 'required'],
+            'nama_jur' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_jurusan,nama_jur'],
+            'id_ptk_kakom' => ['sometimes', 'required', 'integer'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Jurusan::create($validated); //buat data sesuai request dari $validated
@@ -72,8 +72,8 @@ class JurusanController extends Controller
         $jurusan = Jurusan::findOrFail($id);
 
         $validated = $request->validate([
-            'nama_jur' => ['sometimes', 'required'],
-            'id_ptk_kakom' => ['sometimes', 'required'],
+            'nama_jur' => ['sometimes', 'required', 'string', 'max:40'],
+            'id_ptk_kakom' => ['sometimes', 'required', 'integer'],
         ]);
 
         $jurusan->update($validated); //perbarui data sesuai request dari $validated

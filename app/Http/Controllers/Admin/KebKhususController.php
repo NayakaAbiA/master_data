@@ -23,7 +23,7 @@ class KebKhususController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'kebkhusus' => ['sometimes', 'required'],
+            'kebkhusus' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_kebkhusus,kebkhusus'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = KebKhusus::create($validated); //buat data sesuai request dari $validated
@@ -46,7 +46,7 @@ class KebKhususController extends Controller
         $kebkhusus = KebKhusus::findOrFail($id);
 
         $validated = $request->validate([
-            'kebkhusus' => ['sometimes', 'required'],
+            'kebkhusus' => ['sometimes', 'required', 'string', 'max:30'],
         ]);
         
         $kebkhusus->update($validated); //perbarui data sesuai request dari $validated

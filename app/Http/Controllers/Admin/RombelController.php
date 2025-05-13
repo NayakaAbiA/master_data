@@ -33,8 +33,8 @@ class RombelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_rombel' => ['sometimes', 'required'],
-            'id_ptk_walas' => ['sometimes', 'required'],
+            'nama_rombel' => ['sometimes', 'required', 'string', 'max:10', 'unique:tb_rombel,nama_rombel'],
+            'id_ptk_walas' => ['sometimes', 'required', 'integer'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Rombel::create($validated); //buat data sesuai request dari $validated
@@ -72,8 +72,8 @@ class RombelController extends Controller
          $rombel = Rombel::findOrFail($id);
 
         $validated = $request->validate([
-            'nama_rombel' => ['sometimes', 'required'],
-            'id_ptk_walas' => ['sometimes', 'required'],
+            'nama_rombel' => ['sometimes', 'required', 'string', 'max:10'],
+            'id_ptk_walas' => ['sometimes', 'required', 'integer'],
         ]);
 
         $rombel->update($validated); //perbarui data sesuai request dari $validated

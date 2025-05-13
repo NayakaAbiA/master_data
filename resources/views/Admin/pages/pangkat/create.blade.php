@@ -31,8 +31,13 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="pangkat" required class="form-control" name="pangkat"
+                                            <input type="text" id="pangkat" required class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
                                                 placeholder="Masukkan Pangkat">
+                                            @error('pangkat')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

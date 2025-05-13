@@ -22,9 +22,9 @@ class SekolahController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'npsn' => ['sometimes', 'required'],
-            'nama_sekolah' => ['sometimes', 'required'],
-            'jenjang' => ['sometimes', 'required'],
+            'npsn' => ['sometimes', 'required', 'string', 'max:12', 'unique:tb_sekolah,npsn'],
+            'nama_sekolah' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_sekolah,nama_sekolah'],
+            'jenjang' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_sekolah,jenjang'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Sekolah::create($validated); //buat data sesuai request dari $validated
@@ -47,9 +47,9 @@ class SekolahController extends Controller
         $sekolah = Sekolah::findOrFail($id);
 
         $validated = $request->validate([
-            'npsn' => ['sometimes', 'required'],
-            'nama_sekolah' => ['sometimes', 'required'],
-            'jenjang' => ['sometimes', 'required'],
+            'npsn' => ['sometimes', 'required', 'string', 'max:12'],
+            'nama_sekolah' => ['sometimes', 'required', 'string', 'max:50'],
+            'jenjang' => ['sometimes', 'required', 'string', 'max:30'],
         ]);
         
         $sekolah->update($validated); //perbarui data sesuai request dari $validated

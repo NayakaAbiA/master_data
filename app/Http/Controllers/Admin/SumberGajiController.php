@@ -22,7 +22,7 @@ class SumberGajiController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'sumber_gaji' => ['sometimes', 'required'],
+            'sumber_gaji' => ['sometimes', 'required', 'string', 'max:25', 'unique:tb_sumber_gaji,sumber_gaji'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = SumberGaji::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class SumberGajiController extends Controller
         $sumbergaji = SumberGaji::findOrFail($id);
 
         $validated = $request->validate([
-            'sumber_gaji' => ['sometimes', 'required'],
+            'sumber_gaji' => ['sometimes', 'required', 'string', 'max:25'],
         ]);
         
         $sumbergaji->update($validated); //perbarui data sesuai request dari $validated

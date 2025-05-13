@@ -22,7 +22,7 @@ class TransportasiController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'alat_transport' => ['sometimes', 'required'],
+            'alat_transport' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_transport,alat_transport'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Transportasi::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class TransportasiController extends Controller
         $transportasi = Transportasi::findOrFail($id);
 
         $validated = $request->validate([
-            'alat_transport' => ['sometimes', 'required'],
+            'alat_transport' => ['sometimes', 'required', 'string', 'max:40'],
         ]);
         
         $transportasi->update($validated); //perbarui data sesuai request dari $validated

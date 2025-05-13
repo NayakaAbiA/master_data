@@ -22,7 +22,7 @@ class PenghasilanController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         $validated = $request->validate([
-            'penghasilan' => ['sometimes', 'required'],
+            'penghasilan' => ['sometimes', 'required', 'string', 'max:20', 'unique:tb_penghasilan,penghasilan'],
         ]); //validasi field jika ada direquest dan agar diisi
 
         $created = Penghasilan::create($validated); //buat data sesuai request dari $validated
@@ -45,7 +45,7 @@ class PenghasilanController extends Controller
         $penghasilan = Penghasilan::findOrFail($id);
 
         $validated = $request->validate([
-            'penghasilan' => ['sometimes', 'required'],
+            'penghasilan' => ['sometimes', 'required', 'string', 'max:20'],
         ]);
         
         $penghasilan->update($validated); //perbarui data sesuai request dari $validated

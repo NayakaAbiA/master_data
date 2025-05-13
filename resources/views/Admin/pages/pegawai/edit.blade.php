@@ -14,7 +14,7 @@
     <div class="card col-md-12">
         <div class="card-header">
             <h5 class="card-title align-items-center">
-                Edit Pegawai
+                Edit Pegawai {{ $pegawai->nama }}
             </h5>
         </div>
         <div class="row match-height">

@@ -31,7 +31,12 @@
                                             <label for="first-name-horizontal">Nama Agama</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_agama" required class="form-control" name="nama_agama" value="{{  $agama->nama_agama}}">
+                                            <input type="text" id="nama_agama" required class="form-control @error('nama_agama') is-invalid @enderror" name="nama_agama" value="{{  $agama->nama_agama}}">
+                                            @error('nama_agama')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>
