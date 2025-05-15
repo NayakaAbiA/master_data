@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="number" required id="npsn" name="npsn"
+                                            <input type="number" value="{{ old('npsn') }}" id="npsn" name="npsn"
                                                 class="form-control @error('npsn') is-invalid @enderror" placeholder="Masukkan NPSN">
                                             @error('npsn')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -42,7 +42,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="nama_sekolah" name="nama_sekolah"
+                                            <input type="text" value="{{ old('nama_sekolah') }}" id="nama_sekolah" name="nama_sekolah"
                                                 class="form-control @error('nama_sekolah') is-invalid @enderror" placeholder="Masukkan Nama Sekolah">
                                             @error('nama_sekolah')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -53,7 +53,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="jenjang" name="jenjang"
+                                            <input type="text" value="{{ old('jenjang') }}" id="jenjang" name="jenjang"
                                                 class="form-control @error('jenjang') is-invalid @enderror"  placeholder="Masukkan Jenjang">
                                             @error('jenjang')
                                                 <div class="invalid-feedback">{{ $message }}</div>

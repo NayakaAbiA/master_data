@@ -93,7 +93,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => ['sometimes', 'required', 'string', 'max:100'],
             'NIK' => ['sometimes', 'required', 'digits:16', 'unique:tb_siswa,NIK'],
             'jenis_kelamin' => ['sometimes', 'required', 'string', 'max:10'],
@@ -214,7 +214,7 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
            'nama' => ['sometimes', 'required', 'string', 'max:100'],
             'NIK' => ['sometimes', 'required', 'digits:16'],
             'jenis_kelamin' => ['sometimes', 'required', 'string', 'max:10'],

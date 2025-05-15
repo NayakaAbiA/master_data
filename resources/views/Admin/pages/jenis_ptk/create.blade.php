@@ -31,7 +31,7 @@
                                         </div>
                                         <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                           <input type="text" id="jenis_ptk" class="form-control @error('jenis_ptk') is-invalid @enderror" required name="jenis_ptk"
+                                           <input type="text" value="{{ old('jenis_ptk') }}" id="jenis_ptk" class="form-control @error('jenis_ptk') is-invalid @enderror" name="jenis_ptk"
                                                 placeholder="Masukkan Jenis PTK">
                                                 @error('jenis_ptk')
                                                     <div class="invalid-feedback">

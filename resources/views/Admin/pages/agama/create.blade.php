@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_agama" class="form-control @error('nama_agama') is-invalid @enderror" required name="nama_agama"
+                                            <input type="text" id="nama_agama" class="form-control @error('nama_agama') is-invalid @enderror" value="{{ old('nama_agama') }}" name="nama_agama"
                                                 placeholder="Masukkan Nama agama">
                                                 @error('nama_agama')
                                                     <div class="invalid-feedback">

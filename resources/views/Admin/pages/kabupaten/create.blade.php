@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                          <div class="col-md-8 form-group">
-                                            <input type="text" id="kabupaten" required class="form-control @error('kabupaten') is-invalid @enderror" name="kabupaten"
+                                            <input type="text" id="kabupaten" value="{{ old('kabupaten') }}" class="form-control @error('kabupaten') is-invalid @enderror" name="kabupaten"
                                                 placeholder="Masukkan kabupaten">
                                             @error('kabupaten')
                                                 <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                                             <label for="first-name-horizontal">Ibu Kota</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="ibu_kota" class="form-control @error('ibu_kota') is-invalid @enderror" name="ibu_kota"
+                                            <input type="text" value="{{ old('ibu_kota') }}" id="ibu_kota" class="form-control @error('ibu_kota') is-invalid @enderror" name="ibu_kota"
                                                 placeholder="Masukkan Ibu Kota">
                                             @error('ibu_kota')
                                                 <div class="invalid-feedback">
@@ -55,7 +55,7 @@
                                             <label for="first-name-horizontal">BSNI</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="k_bsni" class="form-control @error('k_bsni') is-invalid @enderror" name="k_bsni"
+                                            <input type="text" value="{{ old('k_bsni') }}" id="k_bsni" class="form-control @error('k_bsni') is-invalid @enderror" name="k_bsni"
                                                 placeholder="Masukkan BSNI">
                                             @error('k_bsni')
                                                 <div class="invalid-feedback">

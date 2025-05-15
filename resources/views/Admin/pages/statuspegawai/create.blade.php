@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="stat_peg" name="stat_peg"
+                                            <input type="text" value="{{ old('stat_peg') }}" id="stat_peg" name="stat_peg"
                                                 class="form-control @error('stat_peg') is-invalid @enderror" placeholder="Masukkan Status Pegawai">
                                             @error('stat_peg')
                                                 <div class="invalid-feedback">{{ $message }}</div>

@@ -42,7 +42,7 @@
                                       </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                       <div class="col-md-8 form-group">
-                                        <input required type="text" id="User" name="name"
+                                        <input value="{{ old('name') }}" type="text" id="User" name="name"
                                             class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan Nama User">
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -53,7 +53,7 @@
                                       </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                       <div class="col-md-8 form-group">
-                                        <input required type="email" id="Email" name="email"
+                                        <input value="{{ old('email') }}" type="email" id="Email" name="email"
                                             class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Email User">
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -64,7 +64,7 @@
                                       </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                       <div class="col-md-8 form-group">
-                                        <input required type="email" id="Email" name="email"
+                                        <input type="email" id="Email" name="email"
                                             class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Email User">
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>

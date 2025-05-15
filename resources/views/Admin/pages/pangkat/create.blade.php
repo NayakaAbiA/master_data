@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="pangkat" required class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
+                                            <input type="text" id="pangkat" value="{{ old('pangkat') }}" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
                                                 placeholder="Masukkan Pangkat">
                                             @error('pangkat')
                                                 <div class="invalid-feedback">

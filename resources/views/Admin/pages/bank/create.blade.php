@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="nama_bank" class="form-control @error('nama_bank') is-invalid @enderror" name="nama_bank"
+                                            <input type="text" id="nama_bank" value="{{ old('nama_bank') }}" class="form-control @error('nama_bank') is-invalid @enderror" name="nama_bank"
                                                 placeholder="Masukkan Nama Bank">
                                                 @error('nama_bank')
                                                     <div class="invalid-feedback">

@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Jenis Tinggal</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jnstinggal" class="form-control @error('jnstinggal') is-invalid @enderror" required name="jnstinggal" value="{{ $jenistggl->jnstinggal}}">
+                                            <input type="text" id="jnstinggal" class="form-control @error('jnstinggal') is-invalid @enderror" name="jnstinggal" value="{{ $jenistggl->jnstinggal}}">
                                                 @error('jnstinggal')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}

@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="no_krtbantuan" required class="form-control @error('no_krtbantuan') is-invalid @enderror" name="no_krtbantuan"
+                                            <input type="text" id="no_krtbantuan" value="{{ old('no_krtbantuan') }}" class="form-control @error('no_krtbantuan') is-invalid @enderror" name="no_krtbantuan"
                                                 placeholder="Masukkan No Kartu Bantuan">
                                             @error('no_krtbantuan')
                                                 <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                                             <label for="first-name-horizontal">Nama Kartu Bantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_krtbantuan" required class="form-control @error('nama_krtbantuan') is-invalid @enderror" name="nama_krtbantuan"
+                                            <input type="text" id="nama_krtbantuan" value="{{ old('nama_krtbantuan') }}" class="form-control @error('nama_krtbantuan') is-invalid @enderror" name="nama_krtbantuan"
                                                 placeholder="Masukkan Nama Kartu Bantuan">
                                             @error('nama_krtbantuan')
                                                 <div class="invalid-feedback">
@@ -55,7 +55,7 @@
                                             <label for="first-name-horizontal">Pendiri Kartu Bantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="nama_pdkrt" required class="form-control @error('nama_pdkrt') is-invalid @enderror" name="nama_pdkrt"
+                                            <input type="text" id="nama_pdkrt" value="{{ old('nama_pdkrt') }}" class="form-control @error('nama_pdkrt') is-invalid @enderror" name="nama_pdkrt"
                                                 placeholder="Masukkan Nama Pendiri Kartu Bantuan">
                                             @error('nama_pdkrt')
                                                 <div class="invalid-feedback">

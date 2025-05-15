@@ -31,7 +31,7 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="sumber_gaji" name="sumber_gaji"
+                                            <input type="text" value="{{ old('sumber_gaji') }}" id="sumber_gaji" name="sumber_gaji"
                                                 class="form-control @error('sumber_gaji') is-invalid @enderror" placeholder="Masukkan Sumber Gaji">
                                             @error('sumber_gaji')
                                                 <div class="invalid-feedback">{{ $message }}</div>
