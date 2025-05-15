@@ -18,6 +18,7 @@
             <a class="btn btn-primary" href="{{ route('admin.bank.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
         <div class="card-body">
+            @include('pesansuccess')
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
@@ -31,16 +32,16 @@
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
-                        <td>{{ $d->nama_bank}}</td>
+                        <td>{{ $d['nama_bank']}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.bank.edit',  ['bank' => $d->id ] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.bank.destroy',  ['bank' => $d->id ] )}}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.bank.edit',  $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.bank.destroy',  $d['id'] )}}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d->bank}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d['nama_bank']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

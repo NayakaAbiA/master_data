@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agama;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class AgamaController extends Controller
 {
     public function index() {
-        $agama = Agama::all(); //ambil semua data di database melalui model
-        return view('admin.pages.agama.index', compact('agama')); //compact agar data bisa ditampilkan dihalaman
-    }
+       $client = new Client();
+       $url = "http://127.0.0.1:8000/api/agama";
+       $response = $client->request('GET',$url);
+       $content = $response->getBody()->getContents();
+       $contentArray = json_decode($content, true);
+       $agama = $contentArray['data'];
+       return view('admin.pages.agama.index', ['agama'=>$agama]);
+     }
 
     //method halaman create 
     public function create() {
@@ -20,50 +26,79 @@ class AgamaController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'nama_agama' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_agama,nama_agama'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $nama_agama = $request->nama_agama;
 
-        $created = Agama::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.agama.index')->with('success', 'Data berhasil disimpan.');
+        $parameter = [
+            'nama_agama'=>$nama_agama
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/agama";
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/agama')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.agama.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $agama = Agama::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.agama.edit', compact('agama'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/agama/$id";
+        $response = $client->request('GET',$url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!=true){
+            echo "Data tidak ditemukan";
+        } else {
+            $agama = $contentArray['data'];
+            return view('admin.pages.agama.edit', ['agama'=>$agama]);
+        }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $agama = Agama::findOrFail($id);
+        $nama_agama = $request->nama_agama;
 
-        $validated = $request->validate([
-            'nama_agama' => ['sometimes', 'required', 'string', 'max:255'],
+        $parameter = [
+            'nama_agama'=>$nama_agama
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/agama/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $agama->update($validated); //perbarui data sesuai request dari $validated
-        if ($agama) {
-            return redirect()->route('admin.agama.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/agama')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.agama.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $agama = Agama::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($agama) {
-            $agama->delete(); //hapus data, jika $agama ada
-            return redirect()->route('admin.agama.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/agama/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/agama')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.agama.index')->with('error', 'Data gagal disimpan.');
     }
 }

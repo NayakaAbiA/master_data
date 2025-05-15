@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class BankController extends Controller
 {
     public function index() {
-        $bank = Bank::all(); //ambil semua data di database melalui model
-        return view('admin.pages.bank.index', compact('bank')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/bank';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $bank = $contentArray['data'];
+        return view('admin.pages.bank.index', ['bank'=>$bank]);
+
     }
 
     //method halaman create 
@@ -20,51 +27,81 @@ class BankController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'nama_bank' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_bank,nama_bank'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $nama_bank = $request->nama_bank;
 
-        $created = Bank::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.bank.index')->with('success', 'Data berhasil disimpan.');
+        $parameter = [
+            'nama_bank'=>$nama_bank
+        ];
+
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/bank';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/bank')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.bank.index')->with('error', 'Data gagal disimpan.');
+        
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $bank = Bank::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.bank.edit', compact('bank'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/bank/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $bank = $contentArray['data'];
+        return view('admin.pages.bank.edit', ['bank'=>$bank]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $bank = Bank::findOrFail($id);
+        $nama_bank = $request->nama_bank;
 
-        $validated = $request->validate([
-            'nama_bank' => ['sometimes', 'required', 'string', 'max:50'],
+        $parameter = [
+            'nama_bank'=>$nama_bank
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/bank/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $bank->update($validated); //perbarui data sesuai request dari $validated
-        if ($bank) {
-            return redirect()->route('admin.bank.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/bank')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.bank.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $bank = Bank::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($bank) {
-            $bank->delete(); //hapus data, jika $bank ada
-            return redirect()->route('admin.bank.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/bank/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/bank')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.bank.index')->with('error', 'Data gagal disimpan.');
     }
 }
 

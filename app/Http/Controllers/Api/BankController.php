@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Agama;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class AgamaController extends Controller
+class BankController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $agama = Agama::all();
+        $data = Bank::all();
         return response()->json([
-            'status' => true,
-            'message' => 'Data berhasil ditemukan',
-            'data' => $agama
+            'status'=>true,
+            'message'=>'Data di temukan',
+            'data'=>$data
         ], 200);
     }
 
@@ -27,9 +27,9 @@ class AgamaController extends Controller
      */
     public function store(Request $request)
     {
-        $dataagama = new Agama();
+        $databank = new Bank;
         $rules = [
-            'nama_agama' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_agama,nama_agama'],
+            'nama_bank' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_bank,nama_bank'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -40,9 +40,9 @@ class AgamaController extends Controller
             ]);
         }
 
-        $dataagama->nama_agama = $request->nama_agama;
+        $databank->nama_bank = $request->nama_bank;
 
-        $post = $dataagama->save();
+        $post = $databank->save();
 
         return response()->json([
             'status'=>true,
@@ -55,7 +55,7 @@ class AgamaController extends Controller
      */
     public function show(string $id)
     {
-        $data = Agama::find($id);
+        $data = Bank::find($id);
         if ($data) {
             return response()->json([
                 'status'=>true,
@@ -68,6 +68,7 @@ class AgamaController extends Controller
                 'message'=>'Data tidak di temukan'
             ]);
         }
+        
     }
 
     /**
@@ -75,8 +76,8 @@ class AgamaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $dataagama = Agama::find($id);
-        if(empty($dataagama)){
+        $databank = Bank::find($id);
+        if(empty($databank)){
             return response()->json([
                 'status'=>false,
                 'message'=>'Data tidak ditemukan'
@@ -84,7 +85,7 @@ class AgamaController extends Controller
         }
 
         $rules = [
-            'nama_agama' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_agama,nama_agama'],
+            'nama_bank' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_bank,nama_bank'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -95,9 +96,9 @@ class AgamaController extends Controller
             ]);
         }
 
-        $dataagama->nama_agama = $request->nama_agama;
+        $databank->nama_bank = $request->nama_bank;
 
-        $post = $dataagama->save();
+        $post = $databank->save();
 
         return response()->json([
             'status'=>true,
@@ -110,14 +111,14 @@ class AgamaController extends Controller
      */
     public function destroy(string $id)
     {
-        $dataagama = Agama::find($id);
-        if(empty($dataagama)){
+        $databank = Bank::find($id);
+        if(empty($databank)){
             return response()->json([
                 'status'=>false,
                 'message'=>'Data tidak ditemukan'
             ], 404);
         }
-        $post = $dataagama->delete();
+        $post = $databank->delete();
 
         return response()->json([
             'status'=>true,

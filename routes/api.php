@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AgamaController;
+use App\Http\Controllers\Api\BankController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::apiResource('agama', AgamaController::class);
+Route::apiResource('bank', BankController::class);
