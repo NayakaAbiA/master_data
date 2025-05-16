@@ -118,6 +118,7 @@ Route::prefix('admin')
         Route::get('siswa/list', [SiswaController::class, 'lists'])->name('siswa.lists');
         Route::resource('siswa', SiswaController::class);
         Route::post('siswa-import', [SiswaController::class, 'import'])->name('siswa.import');
+        Route::post('siswa-naikKelas', [SiswaController::class, 'naikKelas'])->name('siswa.naikKelas');
 
         //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });

@@ -26,6 +26,7 @@ use App\Imports\SiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
@@ -332,5 +333,38 @@ class SiswaController extends Controller
             // Menangkap error dari excel yang tidak sesuai
             return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
+    }
+
+    public function naikKelas()
+    {
+        // Ambil siswa yang masih aktif
+        $siswaAktif = Siswa::where('Stat_siswa', 'Aktif')->with('rombel')->get();
+
+        foreach ($siswaAktif as $siswa) {
+            $rombel = $siswa->rombel; // diambil dari relasi di model
+            if (!$rombel) continue; // skip jika rombel tidak ditemukan
+
+            $namaRombel = $rombel->nama_rombel;
+
+            if (Str::startsWith($namaRombel, 'XII')) {
+                $siswa->Stat_siswa = 'Lulus';
+            } elseif (Str::startsWith($namaRombel, 'XI')) {
+                $rombelBaruNama = preg_replace('/^XI/', 'XII', $namaRombel);
+                $rombelBaru = Rombel::where('nama_rombel', $rombelBaruNama)->first();
+                if ($rombelBaru) {
+                    $siswa->id_rombel = $rombelBaru->id;
+                }
+            } elseif (Str::startsWith($namaRombel, 'X')) {
+                $rombelBaruNama = preg_replace('/^X(?!I)/', 'XI', $namaRombel);
+                $rombelBaru = Rombel::where('nama_rombel', $rombelBaruNama)->first();
+                if ($rombelBaru) {
+                    $siswa->id_rombel = $rombelBaru->id;
+                }
+            }
+
+            $siswa->save();
+        }
+
+        return redirect()->back()->with('success', 'Kenaikan kelas berhasil diproses berdasarkan rombel.');
     }
 }

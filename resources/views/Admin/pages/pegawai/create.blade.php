@@ -60,9 +60,7 @@
                                         </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary ms-1"
-                                        data-bs-dismiss="modal">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                    <button type="submit" class="btn btn-primary">
                                         <span class="d-none d-sm-block">Import</span>
                                     </button>
                                 </div>
