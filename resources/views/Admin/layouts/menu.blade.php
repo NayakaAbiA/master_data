@@ -1,305 +1,67 @@
 <ul class="menu">
-    <li class="sidebar-title">Menu</li>
-    
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.user.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>User</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.role.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Role</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.agama.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Agama</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.bank.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Bank</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.jenisptk.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Jenis PTK</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.jenistggl.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Jenis Tinggal</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.jurusan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Jurusan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.kebkhusus.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Kebutuhan Khusus</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.krtbantuan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Kartu Bantuan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pangkat.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pangkat</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pekerjaann</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pendidikan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pendidikan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.penghasilan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Penghasilan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.prgbantuan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Program Bantuan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.statkawin.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Status Kawin</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.statpeg.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Status Pegawai</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.sumbergaji.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Sumber Gaji</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.tgstambahan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Tugas Tambahan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.provinsi.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Provinsi</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.kabupaten.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Kabupaten</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.kecamatan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Kecamatan</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.kelurahan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Kelurahan</span>
-        </a>
-    </li>
-
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.transportasi.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Transportasi</span>
-        </a>
-    </li>
-
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.rombel.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Rombel</span>
-        </a>
-    </li>
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.pegawai.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pegawai</span>
-        </a>
-    </li> <li class="sidebar-item active ">
-        <a href="{{ route('admin.siswa.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Siswa</span>
-        </a>
-    </li>
-    <!-- <li>
-        <a href="{{ route('admin.pekerjaan.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Pekerjaan</span>
-        </a>
-    </li> -->
-
-
-
-
-    <li class="sidebar-item active ">
-        <a href="{{ route('admin.sekolah.index') }}" class='sidebar-link'>
-            <i class="bi bi-grid-fill"></i>
-            <span>Sekolah</span>
-        </a>
-    </li>
-    {{-- <li class="sidebar-item  has-sub">
+    <li class="sidebar-item has-sub {{ request()->routeIs('admin.user.*') || request()->routeIs('admin.role.*') ? 'active' : '' }}">
         <a href="#" class='sidebar-link'>
-            <i class="bi bi-stack"></i>
-            <span>Data</span>
-        </a>        
-         <ul class="submenu ">  
-            <li class="submenu-item  ">
-                <a href="component-accordion.html" class="submenu-link">Data Pegawai</a>               
-            </li>            --}}
-            {{-- <li class="submenu-item  ">
-                <a href="component-alert.html" class="submenu-link">Alert</a>      
-            </li>           
-            <li class="submenu-item  ">
-                <a href="component-badge.html" class="submenu-link">Badge</a> 
-            </li>            
-            <li class="submenu-item  ">
-                <a href="component-breadcrumb.html" class="submenu-link">Breadcrumb</a>              
-            </li>           
-            <li class="submenu-item  ">
-                <a href="component-button.html" class="submenu-link">Button</a>               
-            </li>            
-            <li class="submenu-item  ">
-                <a href="component-card.html" class="submenu-link">Card</a>               
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-carousel.html" class="submenu-link">Carousel</a>   
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-collapse.html" class="submenu-link">Collapse</a>  
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-dropdown.html" class="submenu-link">Dropdown</a>  
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-list-group.html" class="submenu-link">List Group</a> 
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-modal.html" class="submenu-link">Modal</a>  
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-navs.html" class="submenu-link">Navs</a>   
-            </li> 
-            <li class="submenu-item  ">
-                <a href="component-pagination.html" class="submenu-link">Pagination</a>    
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-placeholder.html" class="submenu-link">Placeholder</a>   
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-progress.html" class="submenu-link">Progress</a>   
-            </li>          
-            <li class="submenu-item  ">
-                <a href="component-spinner.html" class="submenu-link">Spinner</a>
-            </li>      
-            <li class="submenu-item  ">
-                <a href="component-toasts.html" class="submenu-link">Toasts</a>          
-            </li>
-            <li class="submenu-item  ">
-                <a href="component-tooltip.html" class="submenu-link">Tooltip</a>
-            </li>
-        </ul> --}}
+            <i class="bi bi-person-workspace"></i>
+            <span>Manajemen User</span>
+        </a>
+        <ul class="submenu">
+            <li class="submenu-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}"><a href="{{ route('admin.user.index') }}" class="submenu-link">User</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.role.index') ? 'active' : '' }}"><a href="{{ route('admin.role.index') }}" class="submenu-link">Role</a></li>
+        </ul>
     </li>
-    
-    {{-- <li  class="sidebar-item  has-sub">
+
+    <li class="sidebar-item has-sub {{ request()->routeIs('admin.agama.*', 'admin.bank.*', 'admin.jenisptk.*', 'admin.jenistggl.*', 'admin.kebkhusus.*', 'admin.krtbantuan.*', 'admin.pangkat.*', 
+        'admin.pekerjaan.*', 'admin.pendidikan.*', 'admin.penghasilan.*', 'admin.prgbantuan.*', 'admin.statkawin.*', 'admin.statpeg.*', 'admin.sumbergaji.*', 'admin.transportasi.*') ? 'active' : '' }}">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-collection-fill"></i>
-            <span>Extra Components</span>
-        </a>       
-        <ul class="submenu ">           
-            <li class="submenu-item  ">
-                <a href="extra-component-avatar.html" class="submenu-link">Avatar</a>               
-            </li>           
-            <li class="submenu-item  ">
-                <a href="extra-component-comment.html" class="submenu-link">Comment</a>              
-            </li>          
-            <li class="submenu-item  ">
-                <a href="extra-component-divider.html" class="submenu-link">Divider</a>               
-            </li>         
-            <li class="submenu-item  ">
-                <a href="extra-component-date-picker.html" class="submenu-link">Date Picker</a>             
-            </li>         
-            <li class="submenu-item  ">
-                <a href="extra-component-flag.html" class="submenu-link">Flag</a>    
-            </li>  
-            <li class="submenu-item  ">
-                <a href="extra-component-sweetalert.html" class="submenu-link">Sweet Alert</a>
-            </li>
-            <li class="submenu-item  ">
-                <a href="extra-component-toastify.html" class="submenu-link">Toastify</a>   
-            </li>
-            <li class="submenu-item  ">
-                <a href="extra-component-rating.html" class="submenu-link">Rating</a>    
-            </li>
-        </ul>
-    </li>
-    
-    <li class="sidebar-item  has-sub">
-        <a href="#" class='sidebar-link'>
-            <i class="bi bi-grid-1x2-fill"></i>
-            <span>Layouts</span>
+            <span>Master Data</span>
         </a>
-        <ul class="submenu ">           
-            <li class="submenu-item  ">
-                <a href="layout-default.html" class="submenu-link">Default Layout</a>               
-            </li>
-            <li class="submenu-item  ">
-                <a href="layout-vertical-1-column.html" class="submenu-link">1 Column</a>   
-            </li>
-            <li class="submenu-item  ">
-                <a href="layout-vertical-navbar.html" class="submenu-link">Vertical Navbar</a>  
-            </li>
-            <li class="submenu-item  ">
-                <a href="layout-rtl.html" class="submenu-link">RTL Layout</a>  
-            </li>
-            <li class="submenu-item  ">
-                <a href="layout-horizontal.html" class="submenu-link">Horizontal Menu</a>
-            </li>
+        <ul class="submenu">
+            <li class="submenu-item {{ request()->routeIs('admin.agama.index') ? 'active' : '' }}"><a href="{{ route('admin.agama.index') }}" class="submenu-link">Agama</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.bank.index') ? 'active' : '' }}"><a href="{{ route('admin.bank.index') }}" class="submenu-link">Bank</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.jenisptk.index') ? 'active' : '' }}"><a href="{{ route('admin.jenisptk.index') }}" class="submenu-link">Jenis PTK</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.jenistggl.index') ? 'active' : '' }}"><a href="{{ route('admin.jenistggl.index') }}" class="submenu-link">Jenis Tinggal</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.kebkhusus.index') ? 'active' : '' }}"><a href="{{ route('admin.kebkhusus.index') }}" class="submenu-link">Kebutuhan Khusus</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.krtbantuan.index') ? 'active' : '' }}"><a href="{{ route('admin.krtbantuan.index') }}" class="submenu-link">Kartu Bantuan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.pangkat.index') ? 'active' : '' }}"><a href="{{ route('admin.pangkat.index') }}" class="submenu-link">Pangkat</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.pekerjaan.index') ? 'active' : '' }}"><a href="{{ route('admin.pekerjaan.index') }}" class="submenu-link">Pekerjaan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.pendidikan.index') ? 'active' : '' }}"><a href="{{ route('admin.pendidikan.index') }}" class="submenu-link">Pendidikan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.penghasilan.index') ? 'active' : '' }}"><a href="{{ route('admin.penghasilan.index') }}" class="submenu-link">Penghasilan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.prgbantuan.index') ? 'active' : '' }}"><a href="{{ route('admin.prgbantuan.index') }}" class="submenu-link">Program Bantuan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.statkawin.index') ? 'active' : '' }}"><a href="{{ route('admin.statkawin.index') }}" class="submenu-link">Status Kawin</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.statpeg.index') ? 'active' : '' }}"><a href="{{ route('admin.statpeg.index') }}" class="submenu-link">Status Pegawai</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.sumbergaji.index') ? 'active' : '' }}"><a href="{{ route('admin.sumbergaji.index') }}" class="submenu-link">Sumber Gaji</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.tgstambahan.index') ? 'active' : '' }}"><a href="{{ route('admin.tgstambahan.index') }}" class="submenu-link">Tugas Tambahan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.transportasi.index') ? 'active' : '' }}"><a href="{{ route('admin.transportasi.index') }}" class="submenu-link">Transportasi</a></li>
         </ul>
     </li>
-    <li class="sidebar-title">Forms &amp; Tables</li>
+
+    <li class="sidebar-item has-sub {{ request()->routeIs('admin.provinsi.*', 'admin.kabupaten.*', 'admin.kecamatan.*', 'admin.kelurahan.*') ? 'active' : '' }}">
+        <a href="#" class='sidebar-link'>
+            <i class="bi bi-map-fill"></i>
+            <span>Data Wilayah</span>
+        </a>
+        <ul class="submenu">
+            <li class="submenu-item {{ request()->routeIs('admin.provinsi.index') ? 'active' : '' }}"><a href="{{ route('admin.provinsi.index') }}" class="submenu-link">Provinsi</a> </li>
+            <li class="submenu-item {{ request()->routeIs('admin.kabupaten.index') ? 'active' : '' }}"><a href="{{ route('admin.kabupaten.index') }}" class="submenu-link">Kabupaten</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.kecamatan.index') ? 'active' : '' }}"><a href="{{ route('admin.kecamatan.index') }}" class="submenu-link">Kecamatan</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.kelurahan.index') ? 'active' : '' }}"><a href="{{ route('admin.kelurahan.index') }}" class="submenu-link">Kelurahan</a></li>
+        </ul>
+    </li>
+
+    <li class="sidebar-item has-sub {{ request()->routeIs('admin.pegawai.*', 'admin.siswa.*', 'admin.sekolah.*') ? 'active' : '' }}">
+        <a href="#" class='sidebar-link'>
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>Data Sekolah</span>
+        </a>
+        <ul class="submenu">
+            <li class="submenu-item {{ request()->routeIs('admin.pegawai.index') ? 'active' : '' }}"><a href="{{ route('admin.pegawai.index') }}" class="submenu-link">Pegawai</a></li>
+            <li class="submenu-item {{ request()->routeIs('admin.siswa.index') ? 'active' : '' }}"><a href="{{ route('admin.siswa.index') }}" class="submenu-link">Siswa</a> </li>
+            <li class="submenu-item {{ request()->routeIs('admin.sekolah.index') ? 'active' : '' }}"><a href="{{ route('admin.sekolah.index') }}" class="submenu-link">Sekolah</a></li>
+        </ul>
+    </li>
+
+    <!-- <li class="sidebar-title">Forms &amp; Tables</li>
     <li class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-hexagon-fill"></i>
@@ -573,5 +335,5 @@
             <i class="bi bi-cash"></i>
             <span>Donate</span>
         </a>
-    </li>    --}}
+    </li>   -->
 </ul>

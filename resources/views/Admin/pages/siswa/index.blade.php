@@ -4,6 +4,12 @@
 @endsection
 @section('content')
     <div class="card-body">
+    <form action="{{ route('admin.siswa.naikKelas') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin memproses kenaikan kelas seluruh siswa?');">
+    @csrf
+    <button type="submit" class="btn btn-primary">
+        Proses Kenaikan Kelas
+    </button>
+    </form>
     <nav aria-label="breadcrumb" class="d-flex justify-content-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('admin.siswa.index')}}">Index</a></li>
