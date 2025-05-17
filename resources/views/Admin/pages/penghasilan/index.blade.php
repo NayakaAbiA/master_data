@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     <div class="card-body">
+        @include('pesansuccess')
     <nav aria-label="breadcrumb" class="d-flex justify-content-end">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('admin.penghasilan.index')}}">Index</a></li>
@@ -31,16 +32,16 @@
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
-                        <td>{{ $d->penghasilan}}</td>
+                        <td>{{ $d['penghasilan']}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.penghasilan.edit',  ['penghasilan' => $d->id ] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.penghasilan.destroy',  ['penghasilan' => $d->id ] )}}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.penghasilan.edit', $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.penghasilan.destroy', $d['id'] )}}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d->$penghasilan}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d['penghasilan']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

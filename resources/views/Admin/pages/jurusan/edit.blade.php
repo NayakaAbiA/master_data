@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.jurusan.update' , ['jurusan' => $jurusan->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.jurusan.update' , $jurusan['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                   <div class="form-body">
@@ -32,9 +32,9 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jurusan" class="form-control @error('jurusan') is-invalid @enderror" value="{{ $jurusan->nama_jur }}" class="form-control" name="nama_jur"
+                                            <input type="text" id="jurusan" class="form-control @error('nama_jur') is-invalid @enderror" value="{{ $jurusan['nama_jur'] }}" class="form-control" name="nama_jur"
                                                 placeholder="Masukkan Nama jurusan">
-                                                @error('jurusan')
+                                                @error('nama_jur')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -45,11 +45,14 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                          <select name="id_ptk_kakom" class="choices form-select @error('id_ptk_kakom') is-invalid @enderror" id="id_ptk_kakom">
-                                            @foreach ($ptk as $pegawai)
-                                                <option value="{{ $pegawai->id }}">{{ $pegawai->nama }}</option>
-                                            @endforeach
-                                          </select>
+                                            <select name="id_ptk_kakom" class="choices form-select @error('id_ptk_kakom') is-invalid @enderror" id="id_ptk_kakom">
+                                                @foreach ($ptk as $pegawai)
+                                                    <option value="{{ $pegawai->id }}" 
+                                                        {{ (old('id_ptk_kakom', $jurusan['id_ptk_kakom']) == $pegawai->id) ? 'selected' : '' }}>
+                                                        {{ $pegawai->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                             @error('id_ptk_kakom')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Models\Jurusan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class JurusanController extends Controller
 {
@@ -14,8 +15,13 @@ class JurusanController extends Controller
      */
     public function index()
     {
-        $jurusan = Jurusan::with('pegawai')->get();
-        return view('Admin.pages.jurusan.index', compact('jurusan'));
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/jurusan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $jurusan = $contentArray['data'];
+        return view('admin.pages.jurusan.index', ['jurusan'=>$jurusan]);
     }
 
     /**
@@ -32,36 +38,48 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_jur' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_jurusan,nama_jur'],
-            'id_ptk_kakom' => ['sometimes', 'required', 'integer'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $nama_jur = $request->nama_jur;
+        $id_ptk_kakom = $request->id_ptk_kakom;
+        $parameter = [
+            'nama_jur'=>$nama_jur,
+            'id_ptk_kakom'=>$id_ptk_kakom
+        ];
 
-        $created = Jurusan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.jurusan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/jurusan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jurusan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.jurusan.index')->with('error', 'Data gagal disimpan.');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $data = [
-           'jurusan' => Jurusan::findOrFail($id), //ambil data berdasarkan id dari halaman edit
-           'ptk' => Pegawai::get(), //ambil data Pegawai
-        ];
-        return view('Admin.pages.jurusan.edit', $data);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jurusan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $jurusan = $contentArray['data'];
+        $ptk = Pegawai::select('id', 'nama')->get();
+        return view('admin.pages.jurusan.edit', [
+            'jurusan' => $jurusan,
+            'ptk' => $ptk
+        ]);
+       }
     }
 
     /**
@@ -69,18 +87,27 @@ class JurusanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $jurusan = Jurusan::findOrFail($id);
+        $nama_jur = $request->nama_jur;
+        $id_ptk_kakom = $request->id_ptk_kakom;
+        $parameter = [
+            'nama_jur'=>$nama_jur,
+            'id_ptk_kakom'=>$id_ptk_kakom
+        ];
 
-        $validated = $request->validate([
-            'nama_jur' => ['sometimes', 'required', 'string', 'max:40'],
-            'id_ptk_kakom' => ['sometimes', 'required', 'integer'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jurusan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-
-        $jurusan->update($validated); //perbarui data sesuai request dari $validated
-        if ($jurusan) {
-            return redirect()->route('admin.jurusan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jurusan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.jurusan.index')->with('error', 'Data gagal disimpan.');
     }
 
     /**
@@ -88,13 +115,16 @@ class JurusanController extends Controller
      */
     public function destroy(string $id)
     {
-        $jurusan = jurusan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($jurusan) {
-            $jurusan->delete(); //hapus data, jika $jurusan ada
-            return redirect()->route('admin.jurusan.index')->with('success', 'Data berhasil di delete.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jurusan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jurusan')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.jurusan.index')->with('error', 'Data gagal disimpan.');
     }
 }

@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Models\KrtBantuan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KrtBantuanController extends Controller
 {
     public function index() {
-        $krtbantuan = KrtBantuan::all(); //ambil semua data di database melalui model
-        return view('admin.pages.krtbantuan.index', compact('krtbantuan')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/krtbantuan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $krtbantuan = $contentArray['data'];
+        return view('admin.pages.krtbantuan.index', ['krtbantuan'=>$krtbantuan]);
     }
 
     //method halaman create 
@@ -20,55 +26,88 @@ class KrtBantuanController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'no_krtbantuan' => ['sometimes', 'required', 'string', 'max:15', 'unique:tb_krtbantuan,no_krtbantuan'],
-            'nama_krtbantuan' => ['sometimes', 'required', 'string', 'max:15', 'unique:tb_krtbantuan,nama_krtbantuan'],
-            'nama_pdkrt' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_krtbantuan,nama_pdkrt'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $no_krtbantuan = $request->no_krtbantuan;
+        $nama_krtbantuan = $request->nama_krtbantuan;
+        $nama_pdkrt = $request->nama_pdkrt;
+        $parameter = [
+            'no_krtbantuan'=>$no_krtbantuan,
+            'nama_krtbantuan'=>$nama_krtbantuan,
+            'nama_pdkrt'=>$nama_pdkrt,
+        ];
 
-        $created = KrtBantuan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.krtbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/krtbantuan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/krtbantuan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.krtbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $krtbantuan = KrtBantuan::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.krtbantuan.edit', compact('krtbantuan'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/krtbantuan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $krtbantuan = $contentArray['data'];
+        return view('admin.pages.krtbantuan.edit', [
+            'krtbantuan' => $krtbantuan,
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $krtbantuan = KrtBantuan::findOrFail($id);
+        $no_krtbantuan = $request->no_krtbantuan;
+        $nama_krtbantuan = $request->nama_krtbantuan;
+        $nama_pdkrt = $request->nama_pdkrt;
+        $parameter = [
+            'no_krtbantuan'=>$no_krtbantuan,
+            'nama_krtbantuan'=>$nama_krtbantuan,
+            'nama_pdkrt'=>$nama_pdkrt,
+        ];
 
-        $validated = $request->validate([
-            'no_krtbantuan' => ['sometimes', 'required', 'string', 'max:15'],
-            'nama_krtbantuan' => ['sometimes', 'required', 'string', 'max:15'],
-            'nama_pdkrt' => ['sometimes', 'required', 'string', 'max:40'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/krtbantuan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $krtbantuan->update($validated); //perbarui data sesuai request dari $validated
-        if ($krtbantuan) {
-            return redirect()->route('admin.krtbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/krtbantuan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.krtbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $krtbantuan = KrtBantuan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($krtbantuan) {
-            $krtbantuan->delete(); //hapus data, jika $bank ada
-            return redirect()->route('admin.krtbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/krtbantuan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/krtbantuan')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.krtbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 }
 

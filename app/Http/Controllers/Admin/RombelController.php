@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Pegawai;
 use App\Models\Rombel;
+use GuzzleHttp\Client;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RombelController extends Controller
 {
@@ -14,8 +15,13 @@ class RombelController extends Controller
      */
     public function index()
     {
-        $rombel = Rombel::with('walas')->get();
-        return view('Admin.pages.rombel.index', compact('rombel'));
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/rombel';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $rombel = $contentArray['data'];
+        return view('admin.pages.rombel.index', ['rombel'=>$rombel]);
     }
 
     /**
@@ -32,16 +38,28 @@ class RombelController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_rombel' => ['sometimes', 'required', 'string', 'max:10', 'unique:tb_rombel,nama_rombel'],
-            'id_ptk_walas' => ['sometimes', 'required', 'integer'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $nama_rombel = $request->nama_rombel;
+        $id_ptk_walas = $request->id_ptk_walas;
 
-        $created = Rombel::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.rombel.index')->with('success', 'Data berhasil disimpan.');
+        $parameter = [
+            'nama_rombel'=>$nama_rombel,
+            'id_ptk_walas'=>$id_ptk_walas,
+        ];
+
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/rombel';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/rombel')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.rombel.index')->with('error', 'Data gagal disimpan.');
     }
 
     /**
@@ -57,11 +75,21 @@ class RombelController extends Controller
      */
     public function edit(string $id)
     {
-        $data = [
-            'ptk_walas'=> Pegawai::all(),
-            'rombel' => Rombel::findOrFail($id)
-        ];
-        return view('Admin.pages.rombel.edit', $data);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/rombel/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $ptk_walas = Pegawai::all();
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $rombel = $contentArray['data'];
+        return view('admin.pages.rombel.edit', [
+            'rombel' => $rombel,
+            'ptk_walas' => $ptk_walas,
+        ]);
+       }
     }
 
     /**
@@ -69,18 +97,28 @@ class RombelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         $rombel = Rombel::findOrFail($id);
+        $nama_rombel = $request->nama_rombel;
+        $id_ptk_walas = $request->id_ptk_walas;
 
-        $validated = $request->validate([
-            'nama_rombel' => ['sometimes', 'required', 'string', 'max:10'],
-            'id_ptk_walas' => ['sometimes', 'required', 'integer'],
+        $parameter = [
+            'nama_rombel'=>$nama_rombel,
+            'id_ptk_walas'=>$id_ptk_walas,
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/rombel/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-
-        $rombel->update($validated); //perbarui data sesuai request dari $validated
-        if ($rombel) {
-            return redirect()->route('admin.rombel.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/rombel')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.rombel.index')->with('error', 'Data gagal disimpan.');
     }
 
     /**
@@ -88,13 +126,16 @@ class RombelController extends Controller
      */
     public function destroy(string $id)
     {
-        $rombel = Rombel::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($rombel) {
-            $rombel->delete(); //hapus data, jika $rombel ada
-            return redirect()->route('admin.rombel.index')->with('success', 'Data berhasil di delete.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/rombel/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/rombel')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.rombel.index')->with('error', 'Data gagal disimpan.');
     }
 }

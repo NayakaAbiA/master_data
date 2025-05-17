@@ -18,6 +18,7 @@
             <a class="btn btn-primary" href="{{ route('admin.kabupaten.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
         <div class="card-body">
+            @include('pesansuccess')
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
@@ -34,19 +35,19 @@
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
-                        <td>{{ $d->kabupaten}}</td>
-                        <td>{{ $d->ibu_kota}}</td>
-                        <td>{{ $d->k_bsni}}</td>
-                        <td>{{ $d->provinsi->provinsi ?? 'Tidak ada Provinsi'}}</td>
+                        <td>{{ $d['kabupaten']}}</td>
+                        <td>{{ $d['ibu_kota']}}</td>
+                        <td>{{ $d['k_bsni']}}</td>
+                        <td>{{ $d['provinsi']['provinsi'] ?? 'Tidak ada Provinsi'}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.kabupaten.edit',  ['kabupaten' => $d->id ] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.kabupaten.destroy',  ['kabupaten' => $d->id ] )}}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.kabupaten.edit',  $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.kabupaten.destroy',  $d['id'] )}}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d->kabupaten}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d['kabupaten']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

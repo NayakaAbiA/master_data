@@ -27,13 +27,13 @@
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="jurusan">Jenis Tinggal</label>
+                                            <label for="jurusan">Jurusan</label>
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="jurusan" value="{{ old('jurusan') }}" class="form-control @error('jurusan') is-invalid @enderror" name="jurusan"
+                                            <input type="text" id="jurusan" value="{{ old('nama_jur') }}" class="form-control @error('nama_jur') is-invalid @enderror" name="nama_jur"
                                                 placeholder="Masukkan Nama Jurusan">
-                                                @error('jurusan')
+                                                @error('nama_jur')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>

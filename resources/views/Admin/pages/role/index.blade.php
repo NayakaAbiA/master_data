@@ -17,7 +17,7 @@
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.role.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
-        @include('Admin.pesan') {{-- untuk menampilkan pesan benar atau salah --}}
+        @include('pesansuccess')
         <div class="card-body">
             <table class="table table-striped" id="table1">
                 <thead>
@@ -32,16 +32,16 @@
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
-                        <td>{{ $item->role}}</td>
+                        <td>{{ $item['role']}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.role.edit',  ['role' => $item->id ] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.role.destroy',  ['role' => $item->id ] )}}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.role.edit', $item['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.role.destroy', $item['id'] )}}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item->role}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['role']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Bank;
+use App\Models\Agama;
+use GuzzleHttp\Client;
+use App\Models\Pangkat;
 use App\Models\Pegawai;
-use App\Models\StatKawin;
-use App\Models\StatPegawai;
 use App\Models\JenisPTK;
-use App\Models\SumberGaji;
 use App\Models\Provinsi;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
-use App\Models\Bank;
-use App\Models\Pangkat;
-use App\Models\Agama;
-use App\Models\TgsTambahan;
 use App\Models\Pekerjaan;
+use App\Models\StatKawin;
+use App\Models\SumberGaji;
+use App\Models\StatPegawai;
+use App\Models\TgsTambahan;
+use Illuminate\Http\Request;
 
 use App\Exports\pegawaiExport;
 use App\Imports\PegawaiImport;
+use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Validators\ValidationException;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class PegawaiController extends Controller
 {
@@ -32,23 +33,13 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        //relasi dengan model lain,untuk show data
-        $pegawai = Pegawai::with([
-            'statpegawai', 
-            'agama',
-            'statkawin', 
-            'pekerjaan_pasangan', 
-            'provinsi', 
-            'kabupaten', 
-            'kecamatan', 
-            'kelurahan', 
-            'jns_ptk', 
-            'pangkat', 
-            'tgstambahan', 
-            'sumber_gaji', 
-            'bank'
-        ])->get();
-        return view('admin.pages.pegawai.index', compact('pegawai'));
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/pegawai';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $pegawai = $contentArray['data'];
+        return view('admin.pages.pegawai.index', ['pegawai'=>$pegawai]);
     }
 
     /**
@@ -154,8 +145,12 @@ class PegawaiController extends Controller
      */
     public function edit(string $id)
     {
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/pegawai/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
         $data = [
-            'pegawai' => Pegawai::findOrFail($id),
             'status_kawin' => StatKawin::get(),
             'status_kepegawaian' => StatPegawai::get(),
             'jenis_ptk' => JenisPTK::get(),
@@ -170,7 +165,14 @@ class PegawaiController extends Controller
             'tugas_tambahan' => TgsTambahan::get(),
             'pekerjaan_pasangan' => Pekerjaan::get(),
         ];
-        return view('admin.pages.pegawai.edit', $data);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $pegawai = $contentArray['data'];
+        return view('admin.pages.pegawai.edit',$data, [
+            'pegawai' => $pegawai,
+        ]);
+       }
     }
 
     /**
@@ -246,14 +248,17 @@ class PegawaiController extends Controller
      */
     public function destroy(string $id)
     {
-        $pegawai = Pegawai::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($pegawai) {
-            $pegawai->delete(); //hapus data, jika $pegawai ada
-            return redirect()->route('admin.pegawai.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/pegawai/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/pegawai')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.pegawai.index')->with('error', 'Data gagal disimpan.');
     }
 
     public function pegawaiExport(){

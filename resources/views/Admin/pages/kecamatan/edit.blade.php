@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.kecamatan.update' , ['kecamatan' => $kecamatan->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.kecamatan.update' ,$kecamatan['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,7 +31,12 @@
                                             <label for="first-name-horizontal">Kecamatan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kecamatan" required class="form-control" name="kecamatan" value="{{ old('kecamatan') ?? $kecamatan->kecamatan }}">
+                                            <input type="text" id="kecamatan" class="form-control @error('kecamatan') is-invalid @enderror" name="kecamatan" value="{{ old('kecamatan') ?? $kecamatan['kecamatan'] }}">
+                                            @error('kecamatan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kabupaten</label>
@@ -40,7 +45,7 @@
                                             <div class="form-group">
                                                 <select class="choices form-select" id="id_kabupaten" name="id_kabupaten">
                                                     @foreach ($kabupaten as $k)
-                                                    <option @selected($k->id == $kecamatan->id_kabupaten) value="{{ $k->id }}">{{ $k->kabupaten }}</option>
+                                                    <option @selected($k['id'] == $kecamatan['id_kabupaten']) value="{{ $k['id'] }}">{{ $k['kabupaten'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

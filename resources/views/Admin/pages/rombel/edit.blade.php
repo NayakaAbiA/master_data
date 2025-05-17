@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.rombel.update' , ['rombel' => $rombel->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.rombel.update' ,$rombel['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -32,18 +32,24 @@
                                         </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                         <div class="col-md-8 form-group">
-                                            <input required type="text" value="{{ $rombel->nama_rombel }}" id="rombel" class="form-control" name="nama_rombel"
+                                            <input type="text" value="{{ $rombel['nama_rombel'] }}" id="rombel" class="form-control @error('nama_rombel') is-invalid @enderror" name="nama_rombel"
                                                 placeholder="Masukkan Nama Rombel">
+                                                @error('nama_rombel')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Wali Kelas</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                          <select name="id_ptk_walas" id="ptk_walas" class="form-control">
-                                            @foreach ($ptk_walas as $walas)
-                                            <option value="{{ $walas->id }}">{{ $walas->nama }}</option>
-                                            @endforeach
-                                          </select>
+                                            <select name="id_ptk_walas" id="ptk_walas" class="form-control">
+                                                @foreach ($ptk_walas as $walas)
+                                                  <option value="{{ $walas['id'] }}"
+                                                    {{ old('id_ptk_walas', $rombel['id_ptk_walas']) == $walas['id'] ? 'selected' : '' }}>
+                                                    {{ $walas['nama'] }}
+                                                  </option>
+                                                @endforeach
+                                              </select>                                              
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

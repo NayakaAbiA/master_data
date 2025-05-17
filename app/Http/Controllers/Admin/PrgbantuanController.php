@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Models\Prgbantuan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PrgbantuanController extends Controller
 {
     public function index() {
-        $prgbantuan = Prgbantuan::all(); //ambil semua data di database melalui model
-        return view('admin.pages.prgbantuan.index', compact('prgbantuan')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/prgbantuan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $prgbantuan = $contentArray['data'];
+        return view('admin.pages.prgbantuan.index', ['prgbantuan'=>$prgbantuan]);
     }
 
     //method halaman create 
@@ -20,50 +26,79 @@ class PrgbantuanController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'prgbantuan' => ['sometimes', 'required', 'string', 'max:10', 'unique:tb_prgbantuan,prgbantuan'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $prgbantuan = $request->prgbantuan;
+        $parameter = [
+            'prgbantuan'=>$prgbantuan,
+        ];
 
-        $created = Prgbantuan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.prgbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/prgbantuan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/prgbantuan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.prgbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $prgbantuan = Prgbantuan::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.prgbantuan.edit', compact('prgbantuan'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/prgbantuan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $prgbantuan = $contentArray['data'];
+        return view('admin.pages.prgbantuan.edit', [
+            'prgbantuan' => $prgbantuan,
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $prgbantuan = Prgbantuan::findOrFail($id);
+        $prgbantuan = $request->prgbantuan;
+        $parameter = [
+            'prgbantuan'=>$prgbantuan,
+        ];
 
-        $validated = $request->validate([
-            'prgbantuan' => ['sometimes', 'required', 'string', 'max:10'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/prgbantuan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $prgbantuan->update($validated); //perbarui data sesuai request dari $validated
-        if ($prgbantuan) {
-            return redirect()->route('admin.prgbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/prgbantuan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.prgbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $prgbantuan = Prgbantuan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($prgbantuan) {
-            $prgbantuan->delete(); //hapus data, jika $prgbantuan ada
-            return redirect()->route('admin.prgbantuan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/prgbantuan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/prgbantuan')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.prgbantuan.index')->with('error', 'Data gagal disimpan.');
     }
 }

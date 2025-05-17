@@ -17,7 +17,6 @@ class BankController extends Controller
         $contentArray = json_decode($content, true);
         $bank = $contentArray['data'];
         return view('admin.pages.bank.index', ['bank'=>$bank]);
-
     }
 
     //method halaman create 

@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Kecamatan;
+use GuzzleHttp\Client;
 use App\Models\Kabupaten;
+use App\Models\Kecamatan;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KecamatanController extends Controller
 {
     public function index() {
-        $kecamatan = Kecamatan::with('kabupaten')->get(); //ambil semua data di database melalui model,bersama dengan fungsi relasinya
-        return view('admin.pages.kecamatan.index', compact('kecamatan')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kecamatan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $kecamatan = $contentArray['data'];
+        return view('admin.pages.kecamatan.index', ['kecamatan'=>$kecamatan]);
     }
 
     //method halaman create 
@@ -21,55 +27,85 @@ class KecamatanController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        //dd($request->all());
-        $validated = $request->validate([
-            'kecamatan' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kecamatan,kecamatan'],
-            'id_kabupaten' => ['sometimes', 'required', 'integer'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $kecamatan = $request->kecamatan;
+        $id_kabupaten = $request->id_kabupaten;
+        $parameter = [
+            'kecamatan'=>$kecamatan,
+            'id_kabupaten'=>$id_kabupaten,
+        ];
 
-        $created = Kecamatan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.kecamatan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kecamatan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kecamatan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.kecamatan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $data = [
-           'kecamatan' => Kecamatan::findOrFail($id), //ambil data berdasarkan id dari halaman edit
-           'kabupaten' => Kabupaten::get(), //ambil data kabupaten dari fungsi 'kabupaten'
-        ];
-
-        return view('admin.pages.kecamatan.edit', $data);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kecamatan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $kabupaten = Kabupaten::all();
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $kecamatan = $contentArray['data'];
+        return view('admin.pages.kecamatan.edit', [
+            'kecamatan' => $kecamatan,
+            'kabupaten'=>$kabupaten
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        //dd($request->all());
-        $kecamatan = Kecamatan::findOrFail($id);
+        $kecamatan = $request->kecamatan;
+        $id_kabupaten = $request->id_kabupaten;
+        $parameter = [
+            'kecamatan'=>$kecamatan,
+            'id_kabupaten'=>$id_kabupaten,
+        ];
 
-        $validated = $request->validate([
-            'kecamatan' => ['sometimes', 'required', 'string', 'max:255'],
-            'id_kabupaten' => ['sometimes', 'required', 'integer'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kecamatan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $kecamatan->update($validated); //perbarui data sesuai request dari $validated
-        if ($kecamatan) {
-            return redirect()->route('admin.kecamatan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kecamatan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.kecamatan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $kecamatan = Kecamatan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($kecamatan) {
-            $kecamatan->delete(); //hapus data, jika $kecamatan ada
-            return redirect()->route('admin.kecamatan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kecamatan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kecamatan')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.kecamatan.index')->with('error', 'Data gagal disimpan.');
     }
 }

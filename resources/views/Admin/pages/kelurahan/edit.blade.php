@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.kelurahan.update' , ['kelurahan' => $kelurahan->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.kelurahan.update' ,$kelurahan['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,13 +31,23 @@
                                             <label for="first-name-horizontal">Kelurahan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="kelurahan" class="form-control" name="kelurahan" value="{{ old('kelurahan') ?? $kelurahan->kelurahan }}">
+                                            <input type="text" id="kelurahan" class="form-control @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ old('kelurahan') ?? $kelurahan['kelurahan'] }}">
+                                            @error('kelurahan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kode Pos</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="kode_pos" class="form-control" name="kode_pos" value="{{ old('kode_pos') ?? $kelurahan->kode_pos }}">
+                                            <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ old('kode_pos') ?? $kelurahan['kode_pos'] }}">
+                                            @error('kode_pos')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Kecamatan</label>
@@ -46,7 +56,7 @@
                                             <div class="form-group">
                                                 <select class="choices form-select" id="id_kecamatan" name="id_kecamatan">
                                                     @foreach ($kecamatan as $k)
-                                                    <option @selected($k->id == $kelurahan->id_kecamatan) value="{{ $k->id }}">{{ $k->kecamatan }}</option>
+                                                    <option @selected($k['id'] == $kelurahan['id_kecamatan']) value="{{ $k['id'] }}">{{ $k['kecamatan'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

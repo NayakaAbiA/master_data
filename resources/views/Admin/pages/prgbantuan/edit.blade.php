@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.prgbantuan.update' , ['prgbantuan' => $prgbantuan->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.prgbantuan.update' , $prgbantuan['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,7 +31,10 @@
                                             <label for="first-name-horizontal">Nama Prgbantuan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="penghasilan" class="form-control" name="prgbantuan" value="{{ $prgbantuan->prgbantuan}}">
+                                            <input type="text" required id="penghasilan" class="form-control @error('prgbantuan') is-invalid @enderror" name="prgbantuan" value="{{ old('prgbantuan', $prgbantuan['prgbantuan'])}}">
+                                            @error('prgbantuan')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

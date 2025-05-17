@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.pangkat.update' , ['pangkat' => $pangkat->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.pangkat.update' ,$pangkat['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,7 +31,12 @@
                                             <label for="first-name-horizontal">Alat pangkat</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="pangkat" class="form-control" name="pangkat" value="{{ $pangkat->pangkat}}">
+                                            <input type="text" id="pangkat" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat" value="{{ $pangkat['pangkat']}}">
+                                            @error('pangkat')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use App\Models\KebKhusus;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KebKhususController extends Controller
 {
     //method halaman index 
     public function index() {
-        $kebkhusus = KebKhusus::all(); //ambil semua data di database melalui model
-        return view('admin.pages.kebkhusus.index', compact('kebkhusus')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kebkhusus';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $kebkhusus = $contentArray['data'];
+        return view('admin.pages.kebkhusus.index', ['kebkhusus'=>$kebkhusus]);
     }
 
     //method halaman create 
@@ -21,50 +27,79 @@ class KebKhususController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'kebkhusus' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_kebkhusus,kebkhusus'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $kebkhusus = $request->kebkhusus;
+        $parameter = [
+            'kebkhusus'=>$kebkhusus,
+        ];
 
-        $created = KebKhusus::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.kebkhusus.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kebkhusus';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kebkhusus')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.kebkhusus.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $kebkhusus = KebKhusus::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.kebkhusus.edit', compact('kebkhusus'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kebkhusus/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $kebkhusus = $contentArray['data'];
+        return view('admin.pages.kebkhusus.edit', [
+            'kebkhusus' => $kebkhusus,
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $kebkhusus = KebKhusus::findOrFail($id);
+        $kebkhusus = $request->kebkhusus;
+        $parameter = [
+            'kebkhusus'=>$kebkhusus,
+        ];
 
-        $validated = $request->validate([
-            'kebkhusus' => ['sometimes', 'required', 'string', 'max:30'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kebkhusus/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $kebkhusus->update($validated); //perbarui data sesuai request dari $validated
-        if ($kebkhusus) {
-            return redirect()->route('admin.kebkhusus.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kebkhusus')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.kebkhusus.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $kebkhusus = KebKhusus::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($kebkhusus) {
-            $kebkhusus->delete(); //hapus data, jika $kebkhusus ada
-            return redirect()->route('admin.kebkhusus.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kebkhusus/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kebkhusus')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.kebkhusus.index')->with('error', 'Data gagal disimpan.');
     }
 }

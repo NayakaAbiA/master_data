@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Role;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
@@ -13,8 +14,13 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $role = Role::all();
-        return view('Admin.pages.role.index', compact('role'));
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/role';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $role = $contentArray['data'];
+        return view('admin.pages.role.index', ['role'=>$role]);
     }
 
     /**
@@ -30,15 +36,25 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'role' => ['sometimes', 'required', 'string', 'max:225', 'unique:roles,role'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $role = $request->role;
+        $parameter = [
+            'role'=>$role,
+        ];
 
-        $created = Role::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.role.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/role';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/role')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.role.index')->with('error', 'Data gagal disimpan.');
     }
 
     /**
@@ -54,8 +70,19 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        $role = Role::findOrFail($id);
-        return view('Admin.pages.role.edit', compact('role'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/role/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $role = $contentArray['data'];
+        return view('admin.pages.role.edit', [
+            'role' => $role,
+        ]);
+       }
     }
 
     /**
@@ -63,17 +90,25 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         $role = Role::findOrFail($id);
+        $role = $request->role;
+        $parameter = [
+            'role'=>$role,
+        ];
 
-        $validated = $request->validate([
-            'role' => ['sometimes', 'required', 'string', 'max:225'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/role/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $role->update($validated); //perbarui data sesuai request dari $validated
-        if ($role) {
-            return redirect()->route('admin.role.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/role')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.role.index')->with('error', 'Data gagal disimpan.');
     }
 
     /**
@@ -81,13 +116,16 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        $role = Role::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($role) {
-            $role->delete(); //hapus data, jika $role ada
-            return redirect()->route('admin.role.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/role/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/role')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.role.index')->with('error', 'Data gagal disimpan.');
     }
 }

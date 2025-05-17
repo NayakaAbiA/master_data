@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Models\Penghasilan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PenghasilanController extends Controller
 {
     public function index() {
-        $penghasilan = Penghasilan::all(); //ambil semua data di database melalui model
-        return view('admin.pages.penghasilan.index', compact('penghasilan')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/penghasilan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $penghasilan = $contentArray['data'];
+        return view('admin.pages.penghasilan.index', ['penghasilan'=>$penghasilan]);
     }
 
     //method halaman create 
@@ -20,49 +26,79 @@ class PenghasilanController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'penghasilan' => ['sometimes', 'required', 'string', 'max:20', 'unique:tb_penghasilan,penghasilan'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $penghasilan = $request->penghasilan;
+        $parameter = [
+            'penghasilan'=>$penghasilan,
+        ];
 
-        $created = Penghasilan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.penghasilan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/penghasilan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/penghasilan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.peghasilan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $penghasilan = Penghasilan::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.penghasilan.edit', compact('penghasilan'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/penghasilan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $penghasilan = $contentArray['data'];
+        return view('admin.pages.penghasilan.edit', [
+            'penghasilan' => $penghasilan,
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $penghasilan = Penghasilan::findOrFail($id);
+        $penghasilan = $request->penghasilan;
+        $parameter = [
+            'penghasilan'=>$penghasilan,
+        ];
 
-        $validated = $request->validate([
-            'penghasilan' => ['sometimes', 'required', 'string', 'max:20'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/penghasilan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $penghasilan->update($validated); //perbarui data sesuai request dari $validated
-        if ($penghasilan) {
-            return redirect()->route('admin.penghasilan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/penghasilan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.penghasilan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $penghasilan = Penghasilan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($penghasilan) {
-            $penghasilan->delete(); //hapus data, jika $penghasilan ada
-            return redirect()->route('admin.penghasilan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/penghasilan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/penghasilan')->with('success','Berhasil menghapus data');
         }
         return redirect()->route('admin.penghasilan.index')->with('error', 'Data gagal disimpan.');
     }

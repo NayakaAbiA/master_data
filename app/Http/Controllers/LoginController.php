@@ -14,13 +14,12 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
-            'email'=>'required',
-            'password'=>'required'
-        ],[
-            'email.required'=>'Email wajib diisi',
-            'password.required'=>'Password wajib diisi'
+            'email' => 'required',
+            'password' => 'required'
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'password.required' => 'Password wajib diisi'
         ]);
 
         $infologin = [
@@ -28,20 +27,25 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($infologin)) 
-        {
-            $role = Auth::user()->role->role;
-                if ($role == 'admin') {
-                    return redirect()->route('coba');
-                } elseif ($role == 'kesiswaan') {
-                    echo "sukses";
-                } elseif ($role == 'kepegawaian') {
-                    echo "berhasil";
-                } else {
-                return redirect()->back()->withErrors('Username dan password salah');
-                }
+        if (Auth::attempt($infologin)) {
+            $user = Auth::user();
+            $role = $user->role->role ?? null; 
+
+            switch ($role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'kesiswaan':
+                    return response('sukses');
+                case 'kepegawaian':
+                    return response('berhasil');
+                default:
+                    Auth::logout(); 
+                    return redirect()->back()->withErrors(['login' => 'Role tidak dikenali']);
+            }
+        } else {
+            return redirect()->back()->withErrors(['login' => 'Email atau password salah']);
         }
-        
     }
+
 
 }

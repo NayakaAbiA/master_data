@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Kelurahan;
+use GuzzleHttp\Client;
 use App\Models\Kecamatan;
+use App\Models\Kelurahan;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KelurahanController extends Controller
 {
     public function index() {
-        $kelurahan = Kelurahan::with('kecamatan')->get(); //ambil semua data di database melalui model,bersama dengan fungsi relasinya
-        return view('admin.pages.kelurahan.index', compact('kelurahan')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kelurahan';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $kelurahan = $contentArray['data'];
+        return view('admin.pages.kelurahan.index', ['kelurahan'=>$kelurahan]);
     }
 
     //method halaman create 
@@ -21,57 +27,89 @@ class KelurahanController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        //dd($request->all());
-        $validated = $request->validate([
-            'kelurahan' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kelurahan,kelurahan'],
-            'kode_pos' => ['sometimes', 'required', 'string', 'max:255', 'unique:tb_kelurahan,kode_pos'],
-            'id_kecamatan' => ['sometimes', 'required', 'integer'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $kelurahan = $request->kelurahan;
+        $kode_pos = $request->kode_pos;
+        $id_kecamatan = $request->id_kecamatan;
+        $parameter = [
+            'kelurahan'=>$kelurahan,
+            'kode_pos'=>$kode_pos,
+            'id_kecamatan'=>$id_kecamatan,
+        ];
 
-        $created = Kelurahan::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.kelurahan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/kelurahan';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kelurahan')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.kelurahan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $data = [
-           'kelurahan' => Kelurahan::findOrFail($id), //ambil data berdasarkan id dari halaman edit
-           'kecamatan' => Kecamatan::get(), //ambil data kecamatan dari fungsi 'kecamatan'
-        ];
-
-        return view('admin.pages.kelurahan.edit', $data);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kelurahan/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $kecamatan = Kecamatan::get();
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $kelurahan = $contentArray['data'];
+        return view('admin.pages.kelurahan.edit', [
+            'kelurahan' => $kelurahan,
+            'kecamatan'=> $kecamatan
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        //dd($request->all());
-        $kelurahan = Kelurahan::findOrFail($id);
+        $kelurahan = $request->kelurahan;
+        $kode_pos = $request->kode_pos;
+        $id_kecamatan = $request->id_kecamatan;
+        $parameter = [
+            'kelurahan'=>$kelurahan,
+            'kode_pos'=>$kode_pos,
+            'id_kecamatan'=>$id_kecamatan,
+        ];
 
-        $validated = $request->validate([
-            'kelurahan' => ['sometimes', 'required', 'string', 'max:255',],
-            'kode_pos' => ['sometimes', 'required', 'string', 'max:255',],
-            'id_kecamatan' => ['sometimes', 'required', 'integer'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kelurahan/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $kelurahan->update($validated); //perbarui data sesuai request dari $validated
-        if ($kelurahan) {
-            return redirect()->route('admin.kelurahan.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kelurahan')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.kelurahan.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $kelurahan = Kelurahan::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($kelurahan) {
-            $kelurahan->delete(); //hapus data, jika $kelurahan ada
-            return redirect()->route('admin.kelurahan.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/kelurahan/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/kelurahan')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.kelurahan.index')->with('error', 'Data gagal disimpan.');
     }
 }

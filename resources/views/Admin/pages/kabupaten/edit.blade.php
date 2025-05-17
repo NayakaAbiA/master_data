@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.kabupaten.update' , ['kabupaten' => $kabupaten->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.kabupaten.update' , $kabupaten['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,30 +31,48 @@
                                             <label for="first-name-horizontal">Kabupaten</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="kabupaten" class="form-control" name="kabupaten" value="{{ old('kabupaten') ?? $kabupaten->kabupaten }}">
+                                            <input type="text" id="kabupaten" class="form-control @error('kabupaten') is-invalid @enderror" name="kabupaten" value="{{ old('kabupaten') ?? $kabupaten['kabupaten'] }}">
+                                            @error('kabupaten')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Ibu Kota</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="ibu_kota" class="form-control" name="ibu_kota" value="{{ old('kabupaten') ?? $kabupaten->ibu_kota}}">
+                                            <input type="text" id="ibu_kota" class="form-control @error('ibu_kota') is-invalid @enderror" name="ibu_kota" value="{{ old('kabupaten') ?? $kabupaten['ibu_kota']}}">
+                                            @error('ibu_kota')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">BSNI</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="k_bsni" class="form-control" name="k_bsni" value="{{ old('kabupaten') ?? $kabupaten->k_bsni}}">
+                                            <input type="text" id="k_bsni" class="form-control @error('k_bsni') is-invalid @enderror" name="k_bsni" value="{{ old('kabupaten') ?? $kabupaten['k_bsni']}}">
+                                            @error('k_bsni')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="first-name-horizontal">Provinsi</label>
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="form-group">
-                                                <select class="choices form-select" id="id_provinsi" name="id_provinsi">
+                                                <select name="id_provinsi" class="choices form-select @error('id_provinsi') is-invalid @enderror" id="provinsi">
                                                     @foreach ($provinsi as $p)
-                                                    <option @selected($p->id == $kabupaten->id_provinsi) value="{{ $p->id }}">{{ $p->provinsi }}</option>
+                                                        <option value="{{ $p->id }}" 
+                                                            {{ (old('id_provinsi', $kabupaten['id_provinsi']) == $p->id) ? 'selected' : '' }}>
+                                                            {{ $p->provinsi }}
+                                                        </option>
                                                     @endforeach
-                                                </select>
+                                                </select>                                                
                                             </div>
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">

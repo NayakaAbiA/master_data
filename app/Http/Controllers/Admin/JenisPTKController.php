@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use App\Models\JenisPTK;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class JenisPTKController extends Controller
 {
     //method halaman index 
     public function index() {
-        $jenisptk = JenisPTK::all(); //ambil semua data di database melalui model
-        return view('admin.pages.jenis_ptk.index', compact('jenisptk')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/jenisptk';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $jenisptk = $contentArray['data'];
+        return view('admin.pages.jenis_ptk.index', ['jenisptk'=>$jenisptk]);
     }
 
     //method halaman create 
@@ -21,50 +27,77 @@ class JenisPTKController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'jenis_ptk' => ['sometimes', 'required', 'string', 'max:25', 'unique:tb_jnsptk,jenis_ptk'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $jenisptk = $request->jenis_ptk;
+        $parameter = [
+            'jenis_ptk'=>$jenisptk
+        ];
 
-        $created = JenisPTK::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.jenisptk.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/jenisptk';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jenisptk')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.jenisptk.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $jenisptk = JenisPTK::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.jenis_ptk.edit', compact('jenisptk'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jenisptk/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $jenisptk = $contentArray['data'];
+        return view('admin.pages.jenis_ptk.edit', ['jenisptk'=>$jenisptk]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $jenisptk = JenisPTK::findOrFail($id);
+        $jenisptk = $request->jenis_ptk;
+        $parameter = [
+            'jenis_ptk'=>$jenisptk
+        ];
 
-        $validated = $request->validate([
-            'jenis_ptk' => ['sometimes', 'required', 'string', 'max:25'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jenisptk/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $jenisptk->update($validated); //perbarui data sesuai request dari $validated
-        if ($jenisptk) {
-            return redirect()->route('admin.jenisptk.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jenisptk')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.jenisptk.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $jenisptk = JenisPTK::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($jenisptk) {
-            $jenisptk->delete(); //hapus data, jika $jenisptk ada
-            return redirect()->route('admin.jenisptk.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/jenisptk/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/jenisptk')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.jenisptk.index')->with('error', 'Data gagal disimpan.');
     }
 }

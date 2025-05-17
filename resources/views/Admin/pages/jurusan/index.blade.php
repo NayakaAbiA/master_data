@@ -33,19 +33,13 @@
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->nama_jur }}</td>
-                        <td>
-                            @if($item->pegawai)
-                                {{ $item->pegawai->nama }}
-                            @else
-                                Tidak ada pegawai
-                            @endif
-                        </td>
+                        <td>{{ $item['nama_jur'] }}</td>
+                        <td>{{ $item['pegawai']['nama'] ?? '-' }}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.jurusan.edit', ['jurusan' => $item->id ]) }}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.jurusan.destroy', ['jurusan' => $item->id ]) }}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.jurusan.edit',$item['id']) }}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.jurusan.destroy', $item['id']) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     

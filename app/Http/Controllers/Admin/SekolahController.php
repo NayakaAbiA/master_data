@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SekolahController extends Controller
 {
     public function index() {
-        $sekolah = Sekolah::all(); //ambil semua data di database melalui model
-        return view('admin.pages.sekolah.index', compact('sekolah')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/sekolah';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $sekolah = $contentArray['data'];
+        return view('admin.pages.sekolah.index', ['sekolah'=>$sekolah]);
     }
 
     //method halaman create 
@@ -20,55 +26,88 @@ class SekolahController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'npsn' => ['sometimes', 'required', 'string', 'max:12', 'unique:tb_sekolah,npsn'],
-            'nama_sekolah' => ['sometimes', 'required', 'string', 'max:50', 'unique:tb_sekolah,nama_sekolah'],
-            'jenjang' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_sekolah,jenjang'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $npsn = $request->npsn;
+        $nama_sekolah = $request->nama_sekolah;
+        $jenjang = $request->jenjang;
+        $parameter = [
+            'npsn'=>$npsn,
+            'nama_sekolah'=>$nama_sekolah,
+            'jenjang'=>$jenjang,
+        ];
 
-        $created = Sekolah::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.sekolah.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/sekolah';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/sekolah')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.sekolah.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $sekolah = Sekolah::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.sekolah.edit', compact('sekolah'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/sekolah/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $sekolah = $contentArray['data'];
+        return view('admin.pages.sekolah.edit', [
+            'sekolah' => $sekolah,
+        ]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $sekolah = Sekolah::findOrFail($id);
+        $npsn = $request->npsn;
+        $nama_sekolah = $request->nama_sekolah;
+        $jenjang = $request->jenjang;
+        $parameter = [
+            'npsn'=>$npsn,
+            'nama_sekolah'=>$nama_sekolah,
+            'jenjang'=>$jenjang,
+        ];
 
-        $validated = $request->validate([
-            'npsn' => ['sometimes', 'required', 'string', 'max:12'],
-            'nama_sekolah' => ['sometimes', 'required', 'string', 'max:50'],
-            'jenjang' => ['sometimes', 'required', 'string', 'max:30'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/sekolah/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $sekolah->update($validated); //perbarui data sesuai request dari $validated
-        if ($sekolah) {
-            return redirect()->route('admin.sekolah.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/sekolah')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.sekolah.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $sekolah = Sekolah::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($sekolah) {
-            $sekolah->delete(); //hapus data, jika $bank ada
-            return redirect()->route('admin.sekolah.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/sekolah/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/sekolah')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.sekolah.index')->with('error', 'Data gagal disimpan.');
     }
 }
 

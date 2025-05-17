@@ -9,8 +9,8 @@
                 <select class="choices form-select @error('id_stat_peg') is-invalid @enderror" id="id_stat_peg" name="id_stat_peg">
                     <option value="">Pilih Status Kepegawaian</option>
                     @foreach ($status_kepegawaian as $stat_peg)
-                        <option value="{{ $stat_peg->id }}" @selected(old('id_stat_peg', $pegawai->id_stat_peg ?? '') == $stat_peg->id)>
-                            {{ $stat_peg->stat_peg }}
+                        <option value="{{ $stat_peg['id'] }}" @selected(old('id_stat_peg', $pegawai['id_stat_peg'] ?? '') == $stat_peg['id'])>
+                            {{ $stat_peg['stat_peg'] }}
                         </option>
                     @endforeach
                 </select>
@@ -29,8 +29,8 @@
                 <select class="choices form-select @error('id_jns_ptk') is-invalid @enderror" id="id_jns_ptk" name="id_jns_ptk">
                     <option value="">Pilih Jenis PTK</option>
                     @foreach ($jenis_ptk as $jnsptk)
-                        <option value="{{ $jnsptk->id }}" @selected(old('id_jns_ptk', $pegawai->id_jns_ptk ?? '') == $jnsptk->id)>
-                            {{ $jnsptk->jenis_ptk }}
+                        <option value="{{ $jnsptk['id'] }}" @selected(old('id_jns_ptk', $pegawai['id_jns_ptk'] ?? '') == $jnsptk['id'])>
+                            {{ $jnsptk['jenis_ptk'] }}
                         </option>
                     @endforeach
                 </select>
@@ -49,8 +49,8 @@
                 <select class="choices form-select @error('id_pangkat') is-invalid @enderror" id="id_pangkat" name="id_pangkat">
                     <option value="">Pilih Pangkat</option>
                     @foreach ($pangkat as $pkt)
-                        <option value="{{ $pkt->id }}" @selected(old('id_pangkat', $pegawai->id_pangkat ?? '') == $pkt->id)>
-                            {{ $pkt->pangkat }}
+                        <option value="{{ $pkt['id'] }}" @selected(old('id_pangkat', $pegawai['id_pangkat'] ?? '') == $pkt['id'])>
+                            {{ $pkt['pangkat'] }}
                         </option>
                     @endforeach
                 </select>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="no_sk_cpns" class="form-control @error('no_sk_cpns') is-invalid @enderror"
-                name="no_sk_cpns" value="{{ old('no_sk_cpns', $pegawai->no_sk_cpns ?? '') }}"
+                name="no_sk_cpns" value="{{ old('no_sk_cpns', $pegawai['no_sk_cpns'] ?? '') }}"
                 placeholder="Masukkan SK CPNS">
             @error('no_sk_cpns')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -79,7 +79,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="date" id="tgl_sk_cpns" class="form-control @error('tgl_sk_cpns') is-invalid @enderror"
-                name="tgl_sk_cpns" value="{{ old('tgl_sk_cpns', $pegawai->tgl_sk_cpns ?? '') }}">
+                name="tgl_sk_cpns" value="{{ old('tgl_sk_cpns', $pegawai['tgl_sk_cpns'] ?? '') }}">
             @error('tgl_sk_cpns')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -91,7 +91,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="no_sk_pengangkatan" class="form-control @error('no_sk_pengangkatan') is-invalid @enderror"
-                name="no_sk_pengangkatan" value="{{ old('no_sk_pengangkatan', $pegawai->no_sk_pengangkatan ?? '') }}"
+                name="no_sk_pengangkatan" value="{{ old('no_sk_pengangkatan', $pegawai['no_sk_pengangkatan'] ?? '') }}"
                 placeholder="Masukkan No SK Pengangkatan">
             @error('no_sk_pengangkatan')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -104,7 +104,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="date" id="tmt_pengangkatan" class="form-control @error('tmt_pengangkatan') is-invalid @enderror"
-                name="tmt_pengangkatan" value="{{ old('tmt_pengangkatan', $pegawai->tmt_pengangkatan ?? '') }}">
+                name="tmt_pengangkatan" value="{{ old('tmt_pengangkatan', $pegawai['tmt_pengangkatan'] ?? '') }}">
             @error('tmt_pengangkatan')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -116,7 +116,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="lembaga_pengangkatan" class="form-control @error('lembaga_pengangkatan') is-invalid @enderror"
-                name="lembaga_pengangkatan" value="{{ old('lembaga_pengangkatan', $pegawai->lembaga_pengangkatan ?? '') }}"
+                name="lembaga_pengangkatan" value="{{ old('lembaga_pengangkatan', $pegawai['lembaga_pengangkatan'] ?? '') }}"
                 placeholder="Masukkan Lembaga Pengangkatan">
             @error('lembaga_pengangkatan')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -129,7 +129,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="no_karpeg" class="form-control @error('no_karpeg') is-invalid @enderror"
-                name="no_karpeg" value="{{ old('no_karpeg', $pegawai->no_karpeg ?? '') }}"
+                name="no_karpeg" value="{{ old('no_karpeg', $pegawai['no_karpeg'] ?? '') }}"
                 placeholder="Masukkan No Kartu Pegawai">
             @error('no_karpeg')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -142,7 +142,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="no_karis_karsu" class="form-control @error('no_karis_karsu') is-invalid @enderror"
-                name="no_karis_karsu" value="{{ old('no_karis_karsu', $pegawai->no_karis_karsu ?? '') }}"
+                name="no_karis_karsu" value="{{ old('no_karis_karsu', $pegawai['no_karis_karsu'] ?? '') }}"
                 placeholder="Masukkan No Karis/Karsu">
             @error('no_karis_karsu')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -158,8 +158,8 @@
                 <select class="choices form-select @error('id_tgstambahan') is-invalid @enderror" id="id_tgstambahan" name="id_tgstambahan">
                     <option value="">Pilih Tugas Tambahan</option>
                     @foreach ($tugas_tambahan as $tgs_tambahan)
-                        <option value="{{ $tgs_tambahan->id }}" @selected(old('id_tgstambahan', $pegawai->id_tgstambahan ?? '') == $tgs_tambahan->id)>
-                            {{ $tgs_tambahan->tgs_tambahan }}
+                        <option value="{{ $tgs_tambahan['id'] }}" @selected(old('id_tgstambahan', $pegawai['id_tgstambahan'] ?? '') == $tgs_tambahan['id'])>
+                            {{ $tgs_tambahan['tgs_tambahan'] }}
                         </option>
                     @endforeach
                 </select>
@@ -178,8 +178,8 @@
                 <select class="choices form-select @error('id_sumber_gaji') is-invalid @enderror" id="id_sumber_gaji" name="id_sumber_gaji">
                     <option value="">Pilih Sumber Gaji</option>
                     @foreach ($sumber_gaji as $gaji)
-                        <option value="{{ $gaji->id }}" @selected(old('id_sumber_gaji', $pegawai->id_sumber_gaji ?? '') == $gaji->id)>
-                            {{ $gaji->sumber_gaji }}
+                        <option value="{{ $gaji['id'] }}" @selected(old('id_sumber_gaji', $pegawai['id_sumber_gaji'] ?? '') == $gaji['id'])>
+                            {{ $gaji['sumber_gaji'] }}
                         </option>
                     @endforeach
                 </select>
@@ -198,8 +198,8 @@
                 <select class="choices form-select @error('id_bank') is-invalid @enderror" id="id_bank" name="id_bank">
                     <option value="">Pilih Bank</option>
                     @foreach ($bank as $bnk)
-                        <option value="{{ $bnk->id }}" @selected(old('id_bank', $pegawai->id_bank ?? '') == $bnk->id)>
-                            {{ $bnk->nama_bank }}
+                        <option value="{{ $bnk['id'] }}" @selected(old('id_bank', $pegawai['id_bank'] ?? '') == $bnk['id'])>
+                            {{ $bnk['nama_bank'] }}
                         </option>
                     @endforeach
                 </select>
@@ -215,7 +215,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="no_rek_bank" class="form-control @error('no_rek_bank') is-invalid @enderror"
-                name="no_rek_bank" value="{{ old('no_rek_bank', $pegawai->no_rek_bank ?? '') }}"
+                name="no_rek_bank" value="{{ old('no_rek_bank', $pegawai['no_rek_bank'] ?? '') }}"
                 placeholder="Masukkan No Rekening Bank">
             @error('no_rek_bank')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -228,7 +228,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="rek_atas_nama" class="form-control @error('rek_atas_nama') is-invalid @enderror"
-                name="rek_atas_nama" value="{{ old('rek_atas_nama', $pegawai->rek_atas_nama ?? '') }}"
+                name="rek_atas_nama" value="{{ old('rek_atas_nama', $pegawai['rek_atas_nama'] ?? '') }}"
                 placeholder="Masukkan Rekening Atas Nama">
             @error('rek_atas_nama')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -243,8 +243,8 @@
             <div class="form-group">
                 <select class="choices form-select @error('lisensi_kepsek') is-invalid @enderror" id="lisensi_kepsek" name="lisensi_kepsek">
                     <option value="">Pilih Lisensi</option>
-                    <option value="1" @selected(old('lisensi_kepsek', $pegawai->lisensi_kepsek ?? '') == '1')>IYA</option>
-                    <option value="0" @selected(old('lisensi_kepsek', $pegawai->lisensi_kepsek ?? '') == '0')>TIDAK</option>
+                    <option value="1" @selected(old('lisensi_kepsek', $pegawai['lisensi_kepsek'] ?? '') == '1')>IYA</option>
+                    <option value="0" @selected(old('lisensi_kepsek', $pegawai['lisensi_kepsek'] ?? '') == '0')>TIDAK</option>
                 </select>
                 @error('lisensi_kepsek')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -258,7 +258,7 @@
         </div>
         <div class="col-md-8 form-group">
             <input type="text" id="nuks" class="form-control @error('nuks') is-invalid @enderror"
-                name="nuks" value="{{ old('nuks', $pegawai->nuks ?? '') }}"
+                name="nuks" value="{{ old('nuks', $pegawai['nuks'] ?? '') }}"
                 placeholder="Masukkan NUKS">
             @error('nuks')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -273,8 +273,8 @@
             <div class="form-group">
                 <select class="choices form-select @error('diklat_pengawas') is-invalid @enderror" id="diklat_pengawas" name="diklat_pengawas">
                     <option value="">Pilih Diklat</option>
-                    <option value="1" @selected(old('diklat_pengawas', $pegawai->diklat_pengawas ?? '') == '1')>IYA</option>
-                    <option value="0" @selected(old('diklat_pengawas', $pegawai->diklat_pengawas ?? '') == '0')>TIDAK</option>
+                    <option value="1" @selected(old('diklat_pengawas', $pegawai['diklat_pengawas'] ?? '') == '1')>IYA</option>
+                    <option value="0" @selected(old('diklat_pengawas', $pegawai['diklat_pengawas'] ?? '') == '0')>TIDAK</option>
                 </select>
                 @error('diklat_pengawas')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -290,8 +290,8 @@
             <div class="form-group">
                 <select class="choices form-select @error('keahlian_braille') is-invalid @enderror" id="keahlian_braille" name="keahlian_braille">
                     <option value="">Pilih</option>
-                    <option value="1" @selected(old('keahlian_braille', $pegawai->keahlian_braille ?? '') == '1')>IYA</option>
-                    <option value="0" @selected(old('keahlian_braille', $pegawai->keahlian_braille ?? '') == '0')>TIDAK</option>
+                    <option value="1" @selected(old('keahlian_braille', $pegawai['keahlian_braille'] ?? '') == '1')>IYA</option>
+                    <option value="0" @selected(old('keahlian_braille', $pegawai['keahlian_braille'] ?? '') == '0')>TIDAK</option>
                 </select>
                 @error('keahlian_braille')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -307,8 +307,8 @@
             <div class="form-group">
                 <select class="choices form-select @error('keahlian_bahasa_isyarat') is-invalid @enderror" id="keahlian_bahasa_isyarat" name="keahlian_bahasa_isyarat">
                     <option value="">Pilih</option>
-                    <option value="1" @selected(old('keahlian_bahasa_isyarat', $pegawai->keahlian_bahasa_isyarat ?? '') == '1')>IYA</option>
-                    <option value="0" @selected(old('keahlian_bahasa_isyarat', $pegawai->keahlian_bahasa_isyarat ?? '') == '0')>TIDAK</option>
+                    <option value="1" @selected(old('keahlian_bahasa_isyarat', $pegawai['keahlian_bahasa_isyarat'] ?? '') == '1')>IYA</option>
+                    <option value="0" @selected(old('keahlian_bahasa_isyarat', $pegawai['keahlian_bahasa_isyarat'] ?? '') == '0')>TIDAK</option>
                 </select>
                 @error('keahlian_bahasa_isyarat')
                     <div class="invalid-feedback">{{ $message }}</div>

@@ -57,11 +57,11 @@ Route::get('/export-siswa', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login/action', [LoginController::class, 'store'])->name('login.action');
 
-Route::get('/dashboard', [DashboardController::class, 'coba'])->name('coba');
 Route::prefix('admin')
-   
     ->name('admin.')
+    ->middleware(['auth', 'role:admin']) 
     ->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('jenisptk/lists', [JenisPTKController::class, 'lists'])->name('jenisptk.lists');
         Route::resource('jenisptk', JenisPTKController::class);
         Route::get('jenistggl/lists', [JenisTinggalController::class, 'lists'])->name('jenistggl.lists');
@@ -119,6 +119,6 @@ Route::prefix('admin')
         Route::resource('siswa', SiswaController::class);
         Route::post('siswa-import', [SiswaController::class, 'import'])->name('siswa.import');
 
-        //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
     });
+        //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
 
