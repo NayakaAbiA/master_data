@@ -64,9 +64,9 @@
                                       </div>
                                          <!-- id dan name disesuaikan dengan field di database -->
                                       <div class="col-md-8 form-group">
-                                        <input type="email" id="Email" name="email"
-                                            class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Email User">
-                                        @error('email')
+                                        <input type="password" id="password" name="password"
+                                            class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password User">
+                                        @error('password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                       </div>

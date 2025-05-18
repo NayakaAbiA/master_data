@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +16,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::with('role')->get();
-        return view('Admin.pages.user.index', compact('user'));
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/user';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $users = $contentArray['data'];
+        return view('admin.pages.user.index', ['users' => $users]);
     }
 
     /**
@@ -33,21 +39,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'email' => ['sometimes', 'required', 'email', 'max:255', 'unique:users,email,'],
-            'password' => ['sometimes', 'required', 'max:255'],
-            'role_id' => ['sometimes', 'required', 'integer'],
-        ],[
-            'email.unique' => 'Email sudah tersedia.',
-        ]); //validasi field jika ada direquest dan agar diisi
-         $validated['password'] = Hash::make($request->input('password')); //hash jika ada password
+        $parameter = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role_id' => $request->role_id
+        ];
 
-        $created = User::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.user.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/user';
+        $response = $client->request('POST', $url, [
+            'headers' => ['Content-type' => 'application/json'],
+            'body' => json_encode($parameter)
+        ]);
+
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if (!$contentArray['status']) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
         }
-        return redirect()->route('admin.user.index')->with('error', 'Data gagal disimpan.');
+
+        return redirect()->to('admin/user')->with('success', 'Berhasil menambahkan data');
     }
 
     /**
@@ -63,11 +77,22 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $data = [
-            'user' => User::findOrFail($id),
-            'role' => Role::all()
-        ];
-        return view('Admin.pages.user.edit', $data);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/user/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if (!$contentArray['status']) {
+            echo "Data tidak ditemukan";
+        } else {
+            $user = $contentArray['data'];
+            $roles = Role::all();
+            return view('admin.pages.user.edit', [
+                'user' => $user,
+                'roles' => $roles
+            ]);
+        }
     }
 
     /**
@@ -75,30 +100,29 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $user = User::findOrFail($id);
+        $parameter = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role_id' => $request->role_id
+        ];
 
-        // Validasi data yang diterima
-        $validated = $request->validate([
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'email' => ['sometimes', 'required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'password' => ['nullable'], 
-            'role_id' => ['sometimes', 'required', 'exists:roles,id'],
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/user/$id";
+        $response = $client->request('PUT', $url, [
+            'headers' => ['Content-type' => 'application/json'],
+            'body' => json_encode($parameter)
         ]);
 
-        // Jika password diisi, lakukan hashing dan simpan
-        if ($request->filled('password')) {
-            // Hanya jika password diisi, kita akan mengubah password
-            $user->password = Hash::make($request->input('password'));
-        } else {
-            // Jika password tidak diubah, hapus password dari validated array
-            unset($validated['password']);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if (!$contentArray['status']) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
         }
 
-        $user->update($validated); //perbarui data sesuai request dari $validated
-        if ($user) {
-            return redirect()->route('admin.user.index')->with('success', 'Data berhasil disimpan.');
-        }
-        return redirect()->route('admin.user.index')->with('error', 'Data gagal disimpan.');
+        return redirect()->to('admin/user')->with('success', 'Berhasil memperbarui data');
     }
 
     /**
@@ -106,13 +130,17 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-         $user = User::findOrFail($id);
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/user/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
 
-        //kondisi untuk hapus data
-        if ($user) {
-            $user->delete(); //hapus data, jika $transportasi ada
-            return redirect()->route('admin.user.index')->with('success', 'Data berhasil di delete.');
+        if (!$contentArray['status']) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
         }
-        return redirect()->route('admin.user.index')->with('error', 'Data gagal disimpan.');
+
+        return redirect()->to('admin/user')->with('success', 'Berhasil menghapus data');
     }
 }

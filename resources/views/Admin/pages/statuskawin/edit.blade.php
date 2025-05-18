@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.statkawin.update' , ['statkawin' => $statkawin->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.statkawin.update' , $statkawin['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
@@ -31,7 +31,7 @@
                                             <label for="first-name-horizontal">Kebutuhan Khusus</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" required id="status_kawin" class="form-control" name="status_kawin" value="{{ $statkawin->status_kawin}}">
+                                            <input type="text" required id="status_kawin" class="form-control" name="status_kawin" value="{{ $statkawin['status_kawin']}}">
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end mt-1">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>

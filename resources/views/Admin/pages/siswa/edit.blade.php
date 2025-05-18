@@ -14,7 +14,7 @@
     <div class="card col-md-12">
         <div class="card-header">
             <h5 class="card-title align-items-center">
-                Edit Siswa {{ $siswa->nama }}
+                Edit Siswa {{ $siswa['nama'] }}
             </h5>
         </div>
         <div class="row match-height">
@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.siswa.update' , ['siswa' => $siswa->id] )}}" method="POST" enctype="multipart/form-data">
+                            <form class="form form-horizontal" action="{{ route('admin.siswa.update' , $siswa['id'] )}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">

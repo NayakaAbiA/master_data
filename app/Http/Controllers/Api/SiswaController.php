@@ -1,33 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Siswa;
-use App\Models\Jurusan;
-use App\Models\Rombel;
-use App\Models\Agama;
-use App\Models\Provinsi;
-use App\Models\Kabupaten;
-use App\Models\Kecamatan;
-use App\Models\Kelurahan;
-use App\Models\JenisTinggal;
-use App\Models\Transportasi;
-use App\Models\Pendidikan;
-use App\Models\Pekerjaan;
-use App\Models\Penghasilan;
-use App\Models\KrtBantuan;
-use App\Models\Bank;
-use App\Models\PrgBantuan;
-use App\Models\KebKhusus;
-
-use App\Imports\SiswaImport;
-use GuzzleHttp\Client;
-use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Validators\ValidationException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SiswaController extends Controller
 {
@@ -36,40 +14,35 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $client = new Client();
-        $url = 'http://127.0.0.1:8000/api/siswa';
-        $response = $client->request('GET', $url);
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        $siswa = $contentArray['data'];
-        return view('Admin.pages.siswa.index', ['siswa'=>$siswa]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $data = [
-            'jurusan' => Jurusan::get(),
-            'rombel' => Rombel::get(),
-            'agama' => Agama::get(),
-            'provinsi' => Provinsi::get(),
-            'kabupaten' => Kabupaten::get(),
-            'kecamatan' => Kecamatan::get(),
-            'kelurahan' => Kelurahan::get(),
-            'jns_tinggal' => JenisTinggal::get(),
-            'transport' => Transportasi::get(),
-            'pendidikan' => Pendidikan::get(),
-            'pekerjaan' => Pekerjaan::get(),
-            'penghasilan' => Penghasilan::get(),
-            'krt_bantuan' => KrtBantuan::get(),
-            'bank' => Bank::get(),
-            'prgbantuan' => PrgBantuan::get(),
-            'kebkhusus' => KebKhusus::get(),
-        ];
-
-        return view('Admin.pages.siswa.create', $data);
+        $data = Siswa::with([
+            'agama',
+            'jurusan',
+            'rombel',
+            'provinsi', 
+            'kabupaten', 
+            'kecamatan', 
+            'kelurahan', 
+            'jns_tinggal',
+            'transport',
+            'pendidikanAyah',
+            'pendidikanIbu',
+            'pendidikanWali',
+            'pekerjaanAyah',
+            'pekerjaanIbu',
+            'pekerjaanWali',
+            'penghasilanAyah',
+            'penghasilanIbu',
+            'penghasilanWali',
+            'krt_bantuan',
+            'bank',
+            'prgbantuan',
+            'kebkhusus'
+        ])->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Data di temukan',
+            'data'=>$data
+        ], 200);
     }
 
     /**
@@ -77,7 +50,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'nama' => ['sometimes', 'required', 'string', 'max:100'],
             'NIK' => ['sometimes', 'required', 'digits:16', 'unique:tb_siswa,NIK'],
             'jenis_kelamin' => ['sometimes', 'required', 'string', 'max:10'],
@@ -146,13 +119,24 @@ class SiswaController extends Controller
             'id_kebkhusus' => ['sometimes', 'nullable', 'integer'],
             'Stat_siswa' => ['sometimes', 'required', 'string', 'max:20'],
             'pindahan' => ['sometimes', 'required', 'in:0,1'],
-        ]);
-        
-        $created = Siswa::create($validated);
-        if ($created) {
-            return redirect()->route('admin.siswa.index')->with('success', 'Data berhasil disimpan.');
+        ];
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()) {
+            return response()->json([
+                'status'=>false,
+                'message'=>'Gagal memasukan data',
+                'data'=>$validator->errors()
+            ]);
         }
-        return redirect()->route('admin.siswa.index')->with('error', 'Data gagal disimpan.');
+        $siswa = new Siswa();
+        $siswa->fill($request->all());
+
+        $siswa->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'Data berhasil di tambahkan'
+        ]);
     }
 
     /**
@@ -160,44 +144,19 @@ class SiswaController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $client = new Client();
-        $url = "http://127.0.0.1:8000/api/siswa/$id";
-        $response = $client->request('GET', $url);
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        $data = [
-            'siswa' => Siswa::findOrFail($id),
-            'jurusan' => Jurusan::get(),
-            'rombel' => Rombel::get(),
-            'agama' => Agama::get(),
-            'provinsi' => Provinsi::get(),
-            'kabupaten' => Kabupaten::get(),
-            'kecamatan' => Kecamatan::get(),
-            'kelurahan' => Kelurahan::get(),
-            'jns_tinggal' => JenisTinggal::get(),
-            'transport' => Transportasi::get(),
-            'pendidikan' => Pendidikan::get(),
-            'pekerjaan' => Pekerjaan::get(),
-            'penghasilan' => Penghasilan::get(),
-            'krt_bantuan' => KrtBantuan::get(),
-            'bank' => Bank::get(),
-            'prgbantuan' => PrgBantuan::get(),
-            'kebkhusus' => KebKhusus::get(),
-        ];
-        if($contentArray['status']!=true){
-            echo "Data tidak ditemukan";
-           } else {
-            $siswa = $contentArray['data'];
-            return view('Admin.pages.siswa.edit', $data, ['siswa' => $siswa,]);
-           }
+        $data = Siswa::find($id);
+        if ($data) {
+            return response()->json([
+                'status'=>true,
+                'message'=>'Data berhasil di temukan',
+                'data'=>$data
+            ], 200);
+        } else {
+            return response()->json([
+                'status'=>false,
+                'message'=>'Data tidak di temukan'
+            ]);
+        }
     }
 
     /**
@@ -205,16 +164,14 @@ class SiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $siswa = Siswa::findOrFail($id);
-
-        $validated = $request->validate([
-           'nama' => ['sometimes', 'required', 'string', 'max:100'],
-            'NIK' => ['sometimes', 'required', 'digits:16'],
+        $rules = [
+            'nama' => ['sometimes', 'required', 'string', 'max:100'],
+            'NIK' => ['sometimes', 'required', 'digits:16', 'unique:tb_siswa,NIK'],
             'jenis_kelamin' => ['sometimes', 'required', 'string', 'max:10'],
             'no_kk' => ['sometimes', 'required', 'digits:16'],
             'no_reg_aktlhr' => ['sometimes', 'nullable', 'string', 'max:25'],
-            'nipd' => ['sometimes', 'required', 'string', 'max:10'],
-            'nisn' => ['sometimes', 'required', 'max:11'],
+            'nipd' => ['sometimes', 'required', 'string', 'max:10', 'unique:tb_siswa,nipd'],
+            'nisn' => ['sometimes', 'required', 'max:11', 'unique:tb_siswa,nisn'],
             'id_jur' => ['sometimes', 'nullable', 'integer'],
             'id_rombel' => ['sometimes', 'nullable', 'integer'],
             'tempat_lahir' => ['sometimes', 'required', 'string', 'max:30'],
@@ -222,7 +179,7 @@ class SiswaController extends Controller
             'id_agama' => ['sometimes', 'nullable', 'integer'],
             'npsn' => ['sometimes', 'nullable', 'string', 'max:12'],
             'hp' => ['sometimes', 'required', 'string', 'max:15'],
-            'email' => ['sometimes', 'required', 'email', 'max:50'],
+            'email' => ['sometimes', 'required', 'email', 'max:50', 'unique:tb_siswa,email'],
             'anak_ke' => ['sometimes', 'required', 'integer', 'min:1'],
             'jml_saudara_kandung' => ['sometimes', 'nullable', 'integer', 'min:0'],
             'berat_badan' => ['sometimes', 'required', 'numeric', 'min:1'],
@@ -276,14 +233,24 @@ class SiswaController extends Controller
             'id_kebkhusus' => ['sometimes', 'nullable', 'integer'],
             'Stat_siswa' => ['sometimes', 'required', 'string', 'max:20'],
             'pindahan' => ['sometimes', 'required', 'in:0,1'],
-        ]);
-
-        $siswa->update($validated);
-        
-        if ($siswa) {
-            return redirect()->route('admin.siswa.index')->with('success', 'Data berhasil disimpan.');
+        ];
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()) {
+            return response()->json([
+                'status'=>false,
+                'message'=>'Gagal memasukan data',
+                'data'=>$validator->errors()
+            ]);
         }
-        return redirect()->route('admin.siswa.index')->with('error', 'Data gagal disimpan.');
+        $siswa = Siswa::findOrFail($id);
+        $siswa->fill($request->all());
+
+        $siswa->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'Data berhasil di tambahkan'
+        ]);
     }
 
     /**
@@ -291,76 +258,18 @@ class SiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $client = new Client();
-        $url = "http://127.0.0.1:8000/api/siswa/$id";
-        $response = $client->request('DELETE', $url);
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        if($contentArray['status']!= true) {
-            $error = $contentArray['data'];
-            return redirect()->back()->withErrors($error)->withInput();
-        }else{
-            return redirect()->to('admin/siswa')->with('success','Berhasil menghapus data');
+        $siswa = Siswa::find($id);
+        if(empty($siswa)){
+            return response()->json([
+                'status'=>false,
+                'message'=>'Data tidak ditemukan'
+            ], 404);
         }
-    }
+        $post = $siswa->delete();
 
-    public function import(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:xls,xlsx'
+        return response()->json([
+            'status'=>true,
+            'message'=>'Data berhasil di delete'
         ]);
-
-        try {
-            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
-            Excel::import(new SiswaImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
-
-            Storage::delete($file); //hapus file jika sudah berhasil
-
-            return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diimpor');
-        } catch (ValidationException $e) {
-            // Menangkap error untuk validasi baris dari Excel
-            $failures = $e->failures();
-
-            return redirect()->back()->with([
-                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
-                'failures' => $failures,
-            ]);
-        } catch (\Throwable $e) {
-            // Menangkap error dari excel yang tidak sesuai
-            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
-        }
-    }
-
-    public function naikKelas()
-    {
-        // Ambil siswa yang masih aktif
-        $siswaAktif = Siswa::where('Stat_siswa', 'Aktif')->with('rombel')->get();
-
-        foreach ($siswaAktif as $siswa) {
-            $rombel = $siswa->rombel; // diambil dari relasi di model
-            if (!$rombel) continue; // skip jika rombel tidak ditemukan
-
-            $namaRombel = $rombel->nama_rombel;
-
-            if (Str::startsWith($namaRombel, 'XII')) {
-                $siswa->Stat_siswa = 'Lulus';
-            } elseif (Str::startsWith($namaRombel, 'XI')) {
-                $rombelBaruNama = preg_replace('/^XI/', 'XII', $namaRombel);
-                $rombelBaru = Rombel::where('nama_rombel', $rombelBaruNama)->first();
-                if ($rombelBaru) {
-                    $siswa->id_rombel = $rombelBaru->id;
-                }
-            } elseif (Str::startsWith($namaRombel, 'X')) {
-                $rombelBaruNama = preg_replace('/^X(?!I)/', 'XI', $namaRombel);
-                $rombelBaru = Rombel::where('nama_rombel', $rombelBaruNama)->first();
-                if ($rombelBaru) {
-                    $siswa->id_rombel = $rombelBaru->id;
-                }
-            }
-
-            $siswa->save();
-        }
-
-        return redirect()->back()->with('success', 'Kenaikan kelas berhasil diproses berdasarkan rombel.');
     }
 }

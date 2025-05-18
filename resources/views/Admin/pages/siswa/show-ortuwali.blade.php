@@ -3,94 +3,94 @@
         <div class="form-group">
             <label for="readonlyInput">Nama Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nama_ayah}}">
+            value="{{ $s['nama_ayah']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">NIK Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nik_ayah}}">
+            value="{{ $s['nik_ayah']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Tahun Lahir Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->thn_lahir_ayah}}">
+            value="{{ $s['thn_lahir_ayah']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Pendidikan Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pendidikanAyah->jenjang_pendidikan ?? '' }}">
+            value="{{ $s['pendidikan_ayah']['jenjang_pendidikan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Pekerjaan Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pekerjaanAyah->pekerjaan ?? '' }}">
+            value="{{ $s['pekerjaan_ayah']['pekerjaan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Penghasilan Ayah</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->penghasilanAyah->penghasilan ?? ''}}">
+            value="{{ $s['penghasilan_ayah']['penghasilan'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Nama Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nama_ibu}}">
+            value="{{ $s['nama_ibu']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">NIK Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nik_ibu}}">
+            value="{{ $s['nik_ibu']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Tahun Lahir Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->thn_lahir_ibu}}">
+            value="{{ $s['thn_lahir_ibu']}}">
         </div>
     </div>
     <div class="col-md-6">
     <div class="form-group">
             <label for="readonlyInput">Pendidikan Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pendidikanIbu->jenjang_pendidikan ?? '' }}">
+            value="{{ $s['pendidikan_ibu']['jenjang_pendidikan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Pekerjaan Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pekerjaanIbu->pekerjaan ?? '' }}">
+            value="{{ $s['pekerjaan_ibu']['pekerjaan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Penghasilan Ibu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->penghasilanIbu->penghasilan ?? ''}}">
+            value="{{ $s['penghasilan_ibu']['penghasilan'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Nama Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nama_wali}}">
+            value="{{ $s['nama_wali']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">NIK Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->nik_wali}}">
+            value="{{ $s['nik_wali']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Tahun Lahir Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->thn_lahir_wali}}">
+            value="{{ $s['thn_lahir_wali']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Pendidikan Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pendidikanWali->jenjang_pendidikan ?? '' }}">
+            value="{{ $s['pendidikan_wali']['jenjang_pendidikan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Pekerjaan Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->pekerjaanWali->pekerjaan ?? '' }}">
+            value="{{ $s['pekerjaan_wali']['pekerjaan'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Penghasilan Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s->penghasilanWali->penghasilan ?? ''}}">
+            value="{{ $s['penghasilan_wali']['penghasilan'] ?? ''}}">
         </div>
     </div>
 </div>

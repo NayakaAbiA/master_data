@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transportasi;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class TransportasiController extends Controller
 {
     public function index() {
-        $transportasi = Transportasi::all(); //ambil semua data di database melalui model
-        return view('admin.pages.transportasi.index', compact('transportasi')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/transportasi';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $transportasi = $contentArray['data'];
+        return view('admin.pages.transportasi.index', ['transportasi'=>$transportasi]);
     }
 
     //method halaman create 
@@ -20,50 +26,79 @@ class TransportasiController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'alat_transport' => ['sometimes', 'required', 'string', 'max:40', 'unique:tb_transport,alat_transport'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $transportasi = $request->alat_transport;
 
-        $created = Transportasi::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.transportasi.index')->with('success', 'Data berhasil disimpan.');
+        $parameter = [
+            'alat_transport'=>$transportasi
+        ];
+
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/transportasi';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/transportasi')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.transportasi.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $transportasi = Transportasi::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.transportasi.edit', compact('transportasi'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/transportasi/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $transportasi = $contentArray['data'];
+        return view('admin.pages.transportasi.edit', ['transportasi'=>$transportasi]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $transportasi = Transportasi::findOrFail($id);
+        $transportasi = $request->alat_transport;
 
-        $validated = $request->validate([
-            'alat_transport' => ['sometimes', 'required', 'string', 'max:40'],
+        $parameter = [
+            'alat_transport'=>$transportasi
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/transportasi/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $transportasi->update($validated); //perbarui data sesuai request dari $validated
-        if ($transportasi) {
-            return redirect()->route('admin.transportasi.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/transportasi')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.transportasi.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $transportasi = Transportasi::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($transportasi) {
-            $transportasi->delete(); //hapus data, jika $transportasi ada
-            return redirect()->route('admin.transportasi.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/transportasi/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/transportasi')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.transportasi.index')->with('error', 'Data gagal disimpan.');
     }
 }

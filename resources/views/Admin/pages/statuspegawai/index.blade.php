@@ -18,6 +18,7 @@
             <a class="btn btn-primary" href="{{ route('admin.statpeg.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
         <div class="card-body">
+            @include('pesansuccess')
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
@@ -27,20 +28,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($statpeg as $d)
+                @foreach ($statpegawai as $item)
                     <tr>
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
-                        <td>{{ $d->stat_peg}}</td>
+                        <td>{{ $item['stat_peg']}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.statpeg.edit',  ['statpeg' => $d->id ] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.statpeg.destroy',  ['statpeg' => $d->id ] )}}" method="POST" style="display:inline;">
+                                <a class="btn icon btn-primary" href="{{ route('admin.statpeg.edit',  $item['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('admin.statpeg.destroy',  $item['id'] )}}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d->statkawins}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['stat_peg']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

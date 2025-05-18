@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\StatKawin;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\RequestException;
 
 class StatusKawinController extends Controller
 {
     public function index() {
-        $statkawin = StatKawin::all(); //ambil semua data di database melalui model
-        return view('admin.pages.statuskawin.index', compact('statkawin')); //compact agar data bisa ditampilkan dihalaman
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/statkawin';
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        $statkawin = $contentArray['data'];
+        return view('admin.pages.statuskawin.index', ['statkawin'=>$statkawin]);
     }
 
     //method halaman create 
@@ -20,50 +27,80 @@ class StatusKawinController extends Controller
 
     //method fungsi tambah data
     public function store(Request $request) {
-        // dd($request->all());
-        $validated = $request->validate([
-            'status_kawin' => ['sometimes', 'required', 'string', 'max:30', 'unique:tb_statkawin,status_kawin'],
-        ]); //validasi field jika ada direquest dan agar diisi
+        $statkawin = $request->status_kawin;
 
-        $created = StatKawin::create($validated); //buat data sesuai request dari $validated
-        if ($created) {
-            return redirect()->route('admin.statkawin.index')->with('success', 'Data berhasil disimpan.');
+        $parameter = [
+            'status_kawin'=>$statkawin
+        ];
+
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/statkawin';
+        $response = $client->request('POST', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
+        ]);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/statkawin')->with('success','Berhasil memasukan data');
         }
-        return redirect()->route('admin.statkawin.index')->with('error', 'Data gagal disimpan.');
+
     }
 
     //method halaman edit
     public function edit(Request $request,$id) {
-        $statkawin = StatKawin::findOrFail($id); //ambil data berdasarkan id dari halaman edit
-
-        return view('admin.pages.statuskawin.edit', compact('statkawin'));
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/statkawin/$id";
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+       if($contentArray['status']!=true){
+        echo "Data tidak ditemukan";
+       } else {
+        $statkawin = $contentArray['data'];
+        return view('admin.pages.statuskawin.edit', ['statkawin'=>$statkawin]);
+       }
     }
 
     //method fungsi edit data
     public function update(Request $request,$id) {
-        // dd($request->all());
-        $statkawin = StatKawin::findOrFail($id);
+        $statkawin = $request->status_kawin;
 
-        $validated = $request->validate([
-            'status_kawin' => ['sometimes', 'required', 'string', 'max:30'],
+        $parameter = [
+            'status_kawin'=>$statkawin
+        ];
+
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/statkawin/$id";
+        $response = $client->request('PUT', $url, [
+            'headers'=>['Content-type'=>'application/json'],
+            'body'=>json_encode($parameter)
         ]);
-        
-        $statkawin->update($validated); //perbarui data sesuai request dari $validated
-        if ($statkawin) {
-            return redirect()->route('admin.statkawin.index')->with('success', 'Data berhasil disimpan.');
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/statkawin')->with('success','Berhasil mengupdate data');
         }
-        return redirect()->route('admin.statkawin.index')->with('error', 'Data gagal disimpan.');
     }
 
     //method fungsi hapus data
     public function destroy($id) {
-        $statkawin = StatKawin::findOrFail($id);
-
-        //kondisi untuk hapus data
-        if ($statkawin) {
-            $statkawin->delete(); //hapus data, jika $statkawin ada
-            return redirect()->route('admin.statkawin.index')->with('success', 'Data berhasil disimpan.');
+        $client = new Client();
+        $url = "http://127.0.0.1:8000/api/statkawin/$id";
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+        if($contentArray['status']!= true) {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }else{
+            return redirect()->to('admin/statkawin')->with('success','Berhasil menghapus data');
         }
-        return redirect()->route('admin.statkawin.index')->with('error', 'Data gagal disimpan.');
     }
 }

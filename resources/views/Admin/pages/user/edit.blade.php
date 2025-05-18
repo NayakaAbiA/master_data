@@ -22,51 +22,51 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" action="{{ route('admin.user.update' , ['user' => $user->id] )}}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                  <div class="form-body">
-                                    <div class="row">
-                                      <div class="col-md-4">
+                        <form class="form form-horizontal" action="{{ route('admin.user.update', $user['id']) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <label for="User">Nama user</label>
-                                      </div>
-                                         <!-- id dan name disesuaikan dengan field di database -->
-                                      <div class="col-md-8 form-group">
-                                        <input required value="{{ $user->name }}" type="text" id="User" class="form-control" name="name"
-                                        placeholder="Masukkan Nama User">
-                                      </div>
-                                      <div class="col-md-4">
-                                        <label for="Email">Email</label>
-                                      </div>
-                                         <!-- id dan name disesuaikan dengan field di database -->
-                                      <div class="col-md-8 form-group">
-                                        <input required value="{{ $user->email }}" type="email" id="Email" class="form-control" name="email"
-                                        placeholder="Masukkan Email User">
-                                      </div>
-                                      <div class="col-md-4">
-                                        <label for="password">Password (jika tidak diubah kosongkan) </label>
-                                      </div>
-                                         <!-- id dan name disesuaikan dengan field di database -->
-                                      <div class="col-md-8 form-group">
-                                        <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="Masukkan Password">
-                                      </div>
-                                       <div class="col-md-4">
-                                        <label for="role_id">Role</label>
-                                      </div>
-                                      <div class="col-md-8 form-group">
-                                        <select name="role_id" id="role_id" class="form-control">
-                                          @foreach ($role as $item)
-                                          <option value="{{ $item->id }}">{{ $item->role }}</option>
-                                          @endforeach
-                                        </select>
-                                      </div>
-                                      <div class="col-sm-12 d-flex justify-content-end mt-1">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
-                                        </div>
                                     </div>
-                                  </div>
-                            </form>
+                                    <div class="col-md-8 form-group">
+                                        <input required value="{{ old('name', $user['name']) }}" type="text" id="User" class="form-control" name="name"
+                                              placeholder="Masukkan Nama User">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="Email">Email</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input required value="{{ old('email', $user['email']) }}" type="email" id="Email" class="form-control" name="email" placeholder="Masukkan Email User">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="password">Password (jika tidak diubah kosongkan)</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input type="password" id="password" class="form-control" name="password" placeholder="Masukkan Password">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="role_id">Role</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <select name="role_id" id="role_id" class="form-control">
+                                            @foreach ($roles as $item)
+                                                <option value="{{ $item->id }}" 
+                                                  {{ old('role_id', $user['role_id']) == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->role }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 d-flex justify-content-end mt-1">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
                         </div>
                     </div>
                 </div>
