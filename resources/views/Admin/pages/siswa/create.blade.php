@@ -33,7 +33,7 @@
             <h5 style="display: inline;" class="card-title align-items-center">
                 Tambah Siswa
             </h5>
-            <button type="button" style="margin-left: 10px;" class="btn btn-primary" data-bs-toggle="modal"
+            <button type="button" style="margin-left: 10px;" class="btn btn-success" data-bs-toggle="modal"
             data-bs-target="#inlineFormSiswa"></i>Import Data</button>
             <div class="form-group">
                 <!--Modal Input File -->
@@ -59,9 +59,7 @@
                                         </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary ms-1"
-                                        data-bs-dismiss="modal">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                    <button type="submit" class="btn btn-primary ms-1">
                                         <span class="d-none d-sm-block">Import</span>
                                     </button>
                                 </div>

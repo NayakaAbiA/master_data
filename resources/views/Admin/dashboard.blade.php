@@ -1,5 +1,8 @@
 @extends('admin.layouts.main')
 @section('content')
+
+<h2>Hallo {{ auth()->user()->name }} !</h2>
+
 <div class="card">
     <div class="card-header">
         <h5 class="card-title">

@@ -22,7 +22,7 @@
                 Data Siswa
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.siswa.create')}}"><i class="bi bi-plus"></i>Tambah</a>
-            <a href="{{ url('/export-siswa') }}">export data ke Excel</a>
+            <a class="btn btn-success" href="{{ url('/export-siswa') }}">Export data ke Excel</a>
         </div>
         <div class="card-body">
             @include('pesansuccess')

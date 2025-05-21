@@ -34,7 +34,7 @@
             <h5 style="display: inline;" class="card-title align-items-center">
                 Tambah Pegawai
             </h5>
-            <button type="button" style="margin-left: 10px;" class="btn btn-primary" data-bs-toggle="modal"
+            <button type="button" style="margin-left: 10px;" class="btn btn-success" data-bs-toggle="modal"
             data-bs-target="#inlineFormPegawai"></i>Import Data</button>
             <div class="form-group">
                 <!--Modal Input File -->

@@ -33,6 +33,9 @@ class LoginController extends Controller
 
             switch ($role) {
                 case 'admin':
+                case 'superAdmin':
+                case 'adminSiswa':
+                case 'adminPegawai':
                     return redirect()->route('admin.dashboard');
                 case 'kesiswaan':
                     return response('sukses');
@@ -45,6 +48,11 @@ class LoginController extends Controller
         } else {
             return redirect()->back()->withErrors(['login' => 'Email atau password salah']);
         }
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect()->route('login');
     }
 
 

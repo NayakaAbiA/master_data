@@ -7,6 +7,10 @@ use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\KecamatanImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class KecamatanController extends Controller
 {
@@ -106,6 +110,33 @@ class KecamatanController extends Controller
             return redirect()->back()->withErrors($error)->withInput();
         }else{
             return redirect()->to('admin/kecamatan')->with('success','Berhasil menghapus data');
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        try {
+            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
+            Excel::import(new KecamatanImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+
+            Storage::delete($file); //hapus file jika sudah berhasil
+
+            return redirect()->route('admin.kecamatan.index')->with('success', 'Data kecamatan berhasil diimpor');
+        } catch (ValidationException $e) {
+            // Menangkap error untuk validasi baris dari Excel
+            $failures = $e->failures();
+
+            return redirect()->back()->with([
+                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
+                'failures' => $failures,
+            ]);
+        } catch (\Throwable $e) {
+            // Menangkap error dari excel yang tidak sesuai
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
     }
 }
