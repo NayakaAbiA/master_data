@@ -12,9 +12,9 @@ class PegawaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Pegawai::with([
+        $query = Pegawai::with([
             'statpegawai', 
             'agama',
             'statkawin', 
@@ -28,11 +28,26 @@ class PegawaiController extends Controller
             'tgstambahan', 
             'sumber_gaji', 
             'bank'
-        ])->get();
+        ]);
+    
+        // Filter berdasarkan jenis kelamin
+        if ($request->has('jenis_kelamin') && $request->jenis_kelamin != '') {
+            $query->where('jenis_kelamin', $request->jenis_kelamin);
+        }
+    
+        // Filter berdasarkan status pegawai dari relasi
+        if ($request->has('stat_peg') && $request->stat_peg != '') {
+            $query->whereHas('statpegawai', function ($q) use ($request) {
+                $q->where('stat_peg', $request->stat_peg);
+            });
+        }
+    
+        $data = $query->get(); // <-- Ambil data setelah filter
+    
         return response()->json([
-            'status'=>true,
-            'message'=>'Data di temukan',
-            'data'=>$data
+            'status' => true,
+            'message' => 'Data ditemukan',
+            'data' => $data
         ], 200);
     }
 

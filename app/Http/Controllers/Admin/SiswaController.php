@@ -34,15 +34,23 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $client = new Client();
         $url = 'http://127.0.0.1:8000/api/siswa';
-        $response = $client->request('GET', $url);
+        $response = $client->request('GET', $url, [
+            'query' => [
+                'nama_rombel' => $request->nama_rombel,
+                'nama_jur' => $request->nama_jur,
+            ]
+        ]);
+    
         $content = $response->getBody()->getContents();
         $contentArray = json_decode($content, true);
         $siswa = $contentArray['data'];
-        return view('Admin.pages.siswa.index', ['siswa'=>$siswa]);
+        $rombel = Rombel::all();
+        $jurusan = Jurusan::all();
+        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan'));
     }
 
     /**

@@ -34,7 +34,7 @@
                          <!-- iterasi untuk penomoran data di tabel -->
                         <td>{{ $loop->iteration}}</td>
                         <td>{{ $item['nama_rombel']}}</td>
-                        <td>{{ $item['walas']['nama']}}</td>
+                        <td>{{ $item['walas']['nama'] ?? '-'}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->
@@ -43,7 +43,7 @@
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['nama_rombel']}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['nama_rombel']}} ? rombel pada siswa akan hilang!')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

@@ -23,6 +23,35 @@
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.siswa.create')}}"><i class="bi bi-plus"></i>Tambah</a>
             <a class="btn btn-success" href="{{ url('/export-siswa') }}">Export data ke Excel</a>
+            <div class="mt-3">
+                <form method="GET" action="{{ route('admin.siswa.index') }}" class="row g-2">
+                    <div class="col-md-3">
+                        <select name="nama_rombel" class="form-select">
+                            <option value="">-- Filter rombel --</option>
+                            @foreach ($rombel as $q)
+                            <option value="{{ $q['nama_rombel'] }}" {{ request('nama_rombel') == $q['nama_rombel'] ? 'selected' : '' }}>
+                                {{ $q['nama_rombel'] }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select name="nama_jur" class="form-select">
+                            <option value="">-- Filter jurusan --</option>
+                            @foreach ($jurusan as $p)
+                            <option value="{{ $p['nama_jur'] }}" {{ request('nama_jur') == $p['nama_jur'] ? 'selected' : '' }}>
+                                {{ $p['nama_jur'] }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex gap-2">
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                        <a href="{{ route('admin.siswa.index') }}" class="btn btn-secondary">Reset</a>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="card-body">
             @include('pesansuccess')
@@ -44,8 +73,8 @@
                         <td>{{ $loop->iteration}}</td>
                         <td>{{ $s['nama']}}</td>
                         <td>{{ $s['nisn']}}</td>
-                        <td>{{ $s['rombel']['nama_rombel'] }}</td>
-                        <td>{{ $s['jurusan']['nama_jur'] }}</td>
+                        <td>{{ $s['rombel']['nama_rombel'] ?? '-' }}</td>
+                        <td>{{ $s['jurusan']['nama_jur'] ?? '-' }}</td>
                         <td>
                             <div class="buttons">
                                 <div class="me-1 mb-1 d-inline-block">
@@ -61,7 +90,7 @@
                                     @csrf
                                     @method('DELETE')
         
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $s['nama']}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $s['nama']}} ?')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

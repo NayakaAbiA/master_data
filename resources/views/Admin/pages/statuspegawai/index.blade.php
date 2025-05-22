@@ -41,7 +41,7 @@
                                     @csrf
                                     @method('DELETE')
     
-                                    <button class ="btn icon btn-primary" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['stat_peg']}} ?')"><i class="bi bi-trash3"></i></button>
+                                    <button class ="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $item['stat_peg']}} ? status pegawai ini akan hilang pada pegawai!')"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </div>
                         </td>

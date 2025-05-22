@@ -31,15 +31,23 @@ class PegawaiController extends Controller
       /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $client = new Client();
         $url = 'http://127.0.0.1:8000/api/pegawai';
-        $response = $client->request('GET', $url);
+    
+        $response = $client->request('GET', $url, [
+            'query' => [
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'stat_peg' => $request->stat_peg,
+            ]
+        ]);
+    
         $content = $response->getBody()->getContents();
         $contentArray = json_decode($content, true);
         $pegawai = $contentArray['data'];
-        return view('admin.pages.pegawai.index', ['pegawai'=>$pegawai]);
+        $statpeg = StatPegawai::all();
+        return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg'));
     }
 
     /**

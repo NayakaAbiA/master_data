@@ -2,6 +2,10 @@
     <hr>
 
     @if (auth()->user()->role->role === 'superAdmin')  
+    <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+    </a>    
         <li class="sidebar-item has-sub {{ request()->routeIs('admin.user.*') || request()->routeIs('admin.role.*') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>
                 <i class="bi bi-person-workspace"></i>
@@ -66,6 +70,10 @@
             </ul>
         </li>
     @elseif (auth()->user()->role->role === 'adminSiswa')
+    <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+    </a>    
         <li class="sidebar-item has-sub {{ request()->routeIs('admin.agama.*', 'admin.bank.*', 'admin.jenisptk.*', 'admin.jenistggl.*', 'admin.kebkhusus.*', 'admin.krtbantuan.*', 'admin.pangkat.*', 
             'admin.pekerjaan.*', 'admin.pendidikan.*', 'admin.penghasilan.*', 'admin.prgbantuan.*', 'admin.statkawin.*', 'admin.statpeg.*', 'admin.sumbergaji.*', 'admin.transportasi.*') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>
@@ -111,6 +119,10 @@
             </ul>
         </li>
     @else
+    <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+    </a>    
         <li class="sidebar-item has-sub {{ request()->routeIs('admin.agama.*', 'admin.bank.*', 'admin.jenisptk.*', 'admin.jenistggl.*', 'admin.kebkhusus.*', 'admin.krtbantuan.*', 'admin.pangkat.*', 
             'admin.pekerjaan.*', 'admin.pendidikan.*', 'admin.penghasilan.*', 'admin.prgbantuan.*', 'admin.statkawin.*', 'admin.statpeg.*', 'admin.sumbergaji.*', 'admin.transportasi.*') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>

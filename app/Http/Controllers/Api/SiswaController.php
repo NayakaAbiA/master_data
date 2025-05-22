@@ -12,7 +12,7 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Siswa::with([
             'agama',
@@ -37,11 +37,25 @@ class SiswaController extends Controller
             'bank',
             'prgbantuan',
             'kebkhusus'
-        ])->get();
+        ]);
+        // Filter berdasarkan rombel dari relasi 'rombel'
+        if ($request->has('nama_rombel') && $request->nama_rombel != '') {
+            $data->whereHas('rombel', function ($q) use ($request) {
+                $q->where('nama_rombel', $request->nama_rombel);
+            });
+        }
+        // Filter berdasarkan jurusan dari relasi 'jurusan'
+        if ($request->has('nama_jur') && $request->nama_jur != '') {
+            $data->whereHas('jurusan', function ($q) use ($request) {
+                $q->where('nama_jur', $request->nama_jur);
+            });
+        }
+        $data = $data->get(); // <-- Ambil data setelah filter
+    
         return response()->json([
-            'status'=>true,
-            'message'=>'Data di temukan',
-            'data'=>$data
+            'status' => true,
+            'message' => 'Data ditemukan',
+            'data' => $data
         ], 200);
     }
 
