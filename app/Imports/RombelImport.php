@@ -2,20 +2,20 @@
 
 namespace App\Imports;
 
-use App\Models\Kabupaten;
-use App\Models\Provinsi;
+use App\Models\Rombel;
+use App\Models\Pegawai;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 
-class KabupatenImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure
+class RombelImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure
 {
     use SkipsFailures;
 
     /**
-     * Lewati komentar dan baris kosong sebelum validasi dijalankan.
+     * Lewati baris komentar dan kosong sebelum divalidasi
      */
     public function prepareForValidation($data, $index)
     {
@@ -42,22 +42,18 @@ class KabupatenImport implements ToModel, WithHeadingRow, WithValidation, SkipsO
             return null;
         }
 
-        $provinsi = Provinsi::where('provinsi', $row['provinsi'] ?? '')->first();
+        $ptk_walas = Pegawai::where('nama', $row['wali_kelas'] ?? '')->first();
 
-        return new Kabupaten([
-            'kabupaten'  => $row['kabupaten'],
-            'ibu_kota'   => $row['ibu_kota'],
-            'k_bsni'     => $row['bsni'],
-            'id_provinsi'=> $provinsi?->id,
+        return new Rombel([
+            'nama_rombel' => $row['nama_rombel'],
+            'id_ptk_walas' => $ptk_walas?->id,
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'kabupaten' => ['required', 'string', 'max:255', 'unique:tb_kabupaten,kabupaten'],
-            'ibu_kota'  => ['required', 'string', 'max:255', 'unique:tb_kabupaten,ibu_kota'],
-            'bsni'      => ['required', 'string', 'max:255', 'unique:tb_kabupaten,k_bsni'],
+            'nama_rombel' => ['required', 'string', 'max:10', 'unique:tb_rombel,nama_rombel'],
         ];
     }
 }

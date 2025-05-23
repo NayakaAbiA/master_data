@@ -30,7 +30,7 @@ class KelurahanController extends Controller
         $kelurahan = new Kelurahan();
         $rules = [
             'kelurahan' => ['required', 'string', 'max:255', 'unique:tb_kelurahan,kelurahan'],
-            'kode_pos' => ['required', 'string', 'max:255', 'unique:tb_kelurahan,kode_pos'],
+            'kode_pos' => ['required', 'string', 'max:255'],
             'id_kecamatan' => ['required', 'integer'],
         ];
         $validator = Validator::make($request->all(),$rules);

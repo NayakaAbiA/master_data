@@ -116,11 +116,11 @@
         </div>
 
         <div class="col-md-4">
-            <label for="tanggal_lahir">Tanggal Lahir</label>
+            <label for="tgl_lahir">Tanggal Lahir</label>
         </div>
         <div class="col-md-8 form-group">
-            <input type="date" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa['tanggal_lahir'] ?? '') }}">
-            @error('tanggal_lahir')
+            <input type="date" id="tgl_lahir" class="form-control @error('tgl_lahir') is-invalid @enderror" name="tgl_lahir" value="{{ old('tgl_lahir', $siswa['tgl_lahir'] ?? '') }}">
+            @error('tgl_lahir')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>

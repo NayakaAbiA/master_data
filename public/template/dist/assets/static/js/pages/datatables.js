@@ -1,9 +1,15 @@
 let jquery_datatable = $("#table1").DataTable({
     responsive: true,
+    // dom: 'lrtip', //hilangkan search bawaan
     columnDefs: [
         { orderable: false, targets: 'no-sort' } // class 'no-sort' akan menandai kolom yang tidak bisa di-sort
     ]
 })
+
+// $('#customSearch').on('keyup', function () {
+//     jquery_datatable.search(this.value).draw();
+// });
+
 let customized_datatable = $("#table2").DataTable({
     responsive: true,
     pagingType: 'simple',

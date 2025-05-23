@@ -55,6 +55,9 @@ Route::get('/export-siswa', function () {
 Route::get('/export-pegawai', function () {
     return Excel::download(new PegawaiExport, 'pegawai.xlsx');
 });
+Route::get('/export-pegawai', function () {
+    return Excel::download(new PegawaiExport, 'pegawai.xlsx');
+});
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/login/action', [LoginController::class, 'store'])->name('login.action');
@@ -67,18 +70,22 @@ Route::prefix('admin')
         // Semua Role
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        Route::get('/provinsi/template', [ProvinsiController::class, 'downloadTemplate'])->name('provinsi.downloadTemplate');
         Route::get('provinsi/lists', [ProvinsiController::class, 'lists'])->name('provinsi.lists');
         Route::resource('provinsi', ProvinsiController::class);
         Route::post('provinsi-import', [ProvinsiController::class, 'import'])->name('provinsi.import');
 
+        Route::get('/kabupaten/template', [KabupatenController::class, 'downloadTemplate'])->name('kabupaten.downloadTemplate');
         Route::get('kabupaten/lists', [KabupatenController::class, 'lists'])->name('kabupaten.lists');
         Route::resource('kabupaten', KabupatenController::class);
         Route::post('kabupaten-import', [KabupatenController::class, 'import'])->name('kabupaten.import');
 
+        Route::get('/kecamatan/template', [KecamatanController::class, 'downloadTemplate'])->name('kecamatan.downloadTemplate');
         Route::get('kecamatan/lists', [KecamatanController::class, 'lists'])->name('kecamatan.lists');
         Route::resource('kecamatan', KecamatanController::class);
         Route::post('kecamatan-import', [KecamatanController::class, 'import'])->name('kecamatan.import');
 
+        Route::get('/kelurahan/template', [KelurahanController::class, 'downloadTemplate'])->name('kelurahan.downloadTemplate');
         Route::get('kelurahan/lists', [KelurahanController::class, 'lists'])->name('kelurahan.lists');
         Route::resource('kelurahan', KelurahanController::class);
         Route::post('kelurahan-import', [kelurahanController::class, 'import'])->name('kelurahan.import');
@@ -107,16 +114,18 @@ Route::prefix('admin')
         //  Super Admin & Admin Siswa 
         Route::middleware('role:superAdmin,adminSiswa')->group(function () {
             Route::get('siswa/list', [SiswaController::class, 'lists'])->name('siswa.lists');
+            Route::get('/siswa/template', [SiswaController::class, 'downloadTemplate'])->name('siswa.downloadTemplate');
             Route::resource('siswa', SiswaController::class);
-            
             Route::post('siswa-import', [SiswaController::class, 'import'])->name('siswa.import');
             Route::post('siswa-naikKelas', [SiswaController::class, 'naikKelas'])->name('siswa.naikKelas');
 
             Route::get('jurusan/list', [JurusanController::class, 'lists'])->name('jurusan.lists');
             Route::resource('jurusan', JurusanController::class);
 
+            Route::get('/rombel/template', [RombelController::class, 'downloadTemplate'])->name('rombel.downloadTemplate');
             Route::get('rombel/list', [RombelController::class, 'lists'])->name('rombel.lists');
             Route::resource('rombel', RombelController::class);
+            Route::post('rombel-import', [RombelController::class, 'import'])->name('rombel.import');
 
             Route::get('jenistggl/lists', [JenisTinggalController::class, 'lists'])->name('jenistggl.lists');
             Route::resource('jenistggl', JenisTinggalController::class);
@@ -143,11 +152,9 @@ Route::prefix('admin')
         Route::middleware('role:superAdmin,adminPegawai')->group(function () {
             // Masukkan semua route yang admin_siswa tidak boleh akses, tapi admin_pegawai boleh
 
+            Route::get('/pegawai/template', [PegawaiController::class, 'downloadTemplate'])->name('pegawai.downloadTemplate');
             Route::get('pegawai/list', [PegawaiController::class, 'lists'])->name('pegawai.lists');
             Route::resource('pegawai', PegawaiController::class);
-            Route::get('/export-pegawai', function () {
-                return Excel::download(new PegawaiExport, 'pegawai.xlsx');
-            });
             Route::post('pegawai-import', [PegawaiController::class, 'import'])->name('pegawai.import');
 
             Route::get('pangkat/lists', [PangkatController::class, 'lists'])->name('pangkat.lists');

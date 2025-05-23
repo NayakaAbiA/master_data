@@ -17,18 +17,41 @@ use App\Models\Pekerjaan;
 use App\Models\Bank;
 use App\Models\SumberGaji;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithValidation; 
-use Maatwebsite\Excel\Concerns\WithHeadingRow; 
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
 
-class PegawaiImport implements ToModel, WithValidation, WithHeadingRow
+class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnFailure
 {
-    //Method untuk ambil data
+    use SkipsFailures;
+
+    public function prepareForValidation($data, $index)
+    {
+        $firstValue = trim($data[array_key_first($data)] ?? '');
+
+        if (
+            str_starts_with($firstValue, '*') ||
+            str_starts_with($firstValue, '-')
+        ) {
+            return [];
+        }
+
+        return $data;
+    }
+
     public function model(array $row)
     {
-        // PENTING, nama yang ada pada array $row[''], harus sesuai dengan header pada file Excel-nya (Dari Excwl uppercase menjadi lowercase)
-        // Untuk setiap data (berupa foreign key) yang akan diimportkan, harus sesuai dengan data yang sudah ditambahkan pada tabel tersebut
+        $firstValue = trim($row[array_key_first($row)] ?? '');
 
-        //Cari ID berdasarkan status yang sesuai dari Excel dengan data dari tiap status tabel nya
+        if (
+            str_starts_with($firstValue, '*') ||
+            str_starts_with($firstValue, '-')
+        ) {
+            return null;
+        }
+
+        // Cari ID foreign key
         $stat_peg = StatPegawai::where('stat_peg', $row['status_kepegawaian'] ?? '')->first();
         $jenis_ptk = JenisPTK::where('jenis_ptk', $row['jenis_ptk'] ?? '')->first();
         $agama = Agama::where('nama_agama', $row['agama'] ?? '')->first();
@@ -43,7 +66,6 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow
         $bank = Bank::where('nama_bank', $row['bank'] ?? '')->first();
         $sumber_gaji = SumberGaji::where('sumber_gaji', $row['sumber_gaji'] ?? '')->first();
 
-        //Buat data baru 
         return new Pegawai([
             'nama' => $row['nama'],
             'nik' => $row['nik'],
@@ -101,46 +123,45 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow
 
     public function rules(): array
     {
-        //Validasi kolom yang wajib diisi
         return [
-        'nama' => ['sometimes', 'required', 'string', 'max:100'],
-        'nik' => ['sometimes', 'required', 'digits:16', 'unique:tb_ptk,nik'],
-        'nip' => ['sometimes', 'nullable', 'string', 'max:18'],
-        'nuptk' => ['sometimes', 'nullable', 'string', 'max:255'],
-        'email' => ['sometimes', 'required', 'email', 'max:50', 'unique:tb_ptk,email'],
-        'jk' => ['sometimes', 'required', 'string', 'max:10'],
-        'tempat_lahir' => ['sometimes', 'required', 'string', 'max:30'],
-        'tanggal_lahir' => ['sometimes', 'required', 'date'],
-        'alamat_jalan' => ['sometimes', 'required', 'string', 'max:40'],
-        'no_rumah' => ['sometimes', 'required', 'string', 'max:4'],
-        'rt' => ['sometimes', 'required', 'string', 'max:4'],
-        'rw' => ['sometimes', 'required', 'string', 'max:4'],
-        'kode_pos' => ['sometimes', 'required', 'digits:5'],
-        'telepon' => ['sometimes', 'nullable', 'string', 'max:15'],
-        'hp' => ['sometimes', 'required', 'string', 'max:15'],
-        'lintang' => ['sometimes', 'nullable', 'string', 'max:50'],
-        'bujur' => ['sometimes', 'nullable', 'string', 'max:50'],
-        'sk_cpns' => ['sometimes', 'nullable', 'string', 'max:100'],
-        'tanggal_cpns' => ['sometimes', 'nullable', 'date'],
-        'sk_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:100'],
-        'tmt_pengangkatan' => ['sometimes', 'nullable', 'date'],
-        'lembaga_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:20'],
-        'nama_ibu_kandung' => ['sometimes', 'required', 'string', 'max:50'],
-        'nama_pasangan' => ['sometimes', 'nullable', 'string', 'max:50'],
-        'nip_pasangan' => ['sometimes', 'nullable', 'string', 'max:18'],
-        'sudah_lisensi_kepala_sekolah' => ['sometimes', 'required', 'in:Ya,Tidak'],
-        'pernah_diklat_kepengawasan' => ['sometimes', 'required', 'in:Ya,Tidak'],
-        'keahlian_braille' => ['sometimes', 'required', 'in:Ya,Tidak'],
-        'keahlian_bahasa_isyarat' => ['sometimes', 'required', 'in:Ya,Tidak'],
-        'npwp' => ['sometimes', 'nullable', 'string', 'max:25'],
-        'nama_wajib_pajak' => ['sometimes', 'required', 'string', 'max:50'],
-        'kewarganegaraan' => ['sometimes', 'required', 'string', 'max:25'],
-        'nomor_rekening_bank' => ['sometimes', 'required', 'string', 'max:50'],
-        'rekening_atas_nama' => ['sometimes', 'required', 'string', 'max:100'],
-        'no_kk' => ['sometimes', 'required', 'digits:16'],
-        'karpeg' => ['sometimes', 'nullable', 'string', 'max:8'],
-        'karis_atau_karsu' => ['sometimes', 'nullable', 'string', 'max:11'],
-        'nuks' => ['sometimes', 'nullable', 'string', 'max:15'],
+            'nama' => ['sometimes', 'required', 'string', 'max:100'],
+            'nik' => ['sometimes', 'required', 'digits:16', 'unique:tb_ptk,nik'],
+            'nip' => ['sometimes', 'nullable', 'string', 'max:18'],
+            'nuptk' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'email' => ['sometimes', 'required', 'email', 'max:50', 'unique:tb_ptk,email'],
+            'jk' => ['sometimes', 'required', 'string', 'max:10'],
+            'tempat_lahir' => ['sometimes', 'required', 'string', 'max:30'],
+            'tanggal_lahir' => ['sometimes', 'required', 'date'],
+            'alamat_jalan' => ['sometimes', 'required', 'string', 'max:40'],
+            'no_rumah' => ['sometimes', 'required', 'string', 'max:4'],
+            'rt' => ['sometimes', 'required', 'string', 'max:4'],
+            'rw' => ['sometimes', 'required', 'string', 'max:4'],
+            'kode_pos' => ['sometimes', 'required', 'digits:5'],
+            'telepon' => ['sometimes', 'nullable', 'string', 'max:15'],
+            'hp' => ['sometimes', 'required', 'string', 'max:15'],
+            'lintang' => ['sometimes', 'nullable', 'string', 'max:50'],
+            'bujur' => ['sometimes', 'nullable', 'string', 'max:50'],
+            'sk_cpns' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'tanggal_cpns' => ['sometimes', 'nullable', 'date'],
+            'sk_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'tmt_pengangkatan' => ['sometimes', 'nullable', 'date'],
+            'lembaga_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:20'],
+            'nama_ibu_kandung' => ['sometimes', 'required', 'string', 'max:50'],
+            'nama_pasangan' => ['sometimes', 'nullable', 'string', 'max:50'],
+            'nip_pasangan' => ['sometimes', 'nullable', 'string', 'max:18'],
+            'sudah_lisensi_kepala_sekolah' => ['sometimes', 'required', 'in:Ya,Tidak'],
+            'pernah_diklat_kepengawasan' => ['sometimes', 'required', 'in:Ya,Tidak'],
+            'keahlian_braille' => ['sometimes', 'required', 'in:Ya,Tidak'],
+            'keahlian_bahasa_isyarat' => ['sometimes', 'required', 'in:Ya,Tidak'],
+            'npwp' => ['sometimes', 'nullable', 'string', 'max:25'],
+            'nama_wajib_pajak' => ['sometimes', 'required', 'string', 'max:50'],
+            'kewarganegaraan' => ['sometimes', 'required', 'string', 'max:25'],
+            'nomor_rekening_bank' => ['sometimes', 'required', 'string', 'max:50'],
+            'rekening_atas_nama' => ['sometimes', 'required', 'string', 'max:100'],
+            'no_kk' => ['sometimes', 'required', 'digits:16'],
+            'karpeg' => ['sometimes', 'nullable', 'string', 'max:8'],
+            'karis_atau_karsu' => ['sometimes', 'nullable', 'string', 'max:11'],
+            'nuks' => ['sometimes', 'nullable', 'string', 'max:15'],
         ];
     }
 }
