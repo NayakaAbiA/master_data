@@ -118,7 +118,7 @@
                 <li class="submenu-item {{ request()->routeIs('admin.siswa.index') ? 'active' : '' }}"><a href="{{ route('admin.rombel.index') }}" class="submenu-link">Rombel</a> </li>
             </ul>
         </li>
-    @else
+    @elseif (auth()->user()->role->role === 'adminPegawai')
     <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
@@ -164,6 +164,27 @@
                 <li class="submenu-item {{ request()->routeIs('admin.pegawai.index') ? 'active' : '' }}"><a href="{{ route('admin.pegawai.index') }}" class="submenu-link">Pegawai</a></li>
             </ul>
         </li>
+        @else
+        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="{{ url('admin/pegawai') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-person-badge"></i>
+            <span>Data pribadi</span>
+        </a>
+        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Pengajuan</span>
+        </a>
+        @if ($rombels->isNotEmpty())
+        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Data Kelas</span>
+        </a>
+        @else
+        
+        @endif
     @endif
 
     <hr>

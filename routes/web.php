@@ -60,11 +60,10 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/login/action', [LoginController::class, 'store'])->name('login.action');
 
 Route::prefix('admin')
+    ->middleware(['auth'])   // hanya middleware auth tanpa pengecualian role
     ->name('admin.')
-    ->middleware(['auth'])
     ->group(function () {
-
-        // Semua Role
+        // Semua route admin yang bisa diakses semua user yang login
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('provinsi/lists', [ProvinsiController::class, 'lists'])->name('provinsi.lists');
@@ -140,7 +139,7 @@ Route::prefix('admin')
             Route::resource('kebkhusus', KebKhususController::class);
         });
         //  Super Admin & Admin Pegawai 
-        Route::middleware('role:superAdmin,adminPegawai')->group(function () {
+        Route::middleware('role:superAdmin,adminPegawai,pegawai')->group(function () {
             // Masukkan semua route yang admin_siswa tidak boleh akses, tapi admin_pegawai boleh
 
             Route::get('pegawai/list', [PegawaiController::class, 'lists'])->name('pegawai.lists');
@@ -167,6 +166,11 @@ Route::prefix('admin')
 
             Route::get('tgstambahan/lists', [TgsTambahanController::class, 'lists'])->name('tgstambahan.lists');
             Route::resource('tgstambahan', TgsTambahanController::class);
+        });
+
+        Route::middleware('role:pegawai')->group(function () {
+        Route::get('petugas/detail', [App\Http\Controllers\Admin\PegawaiController::class, 'detail']);
+
         });
 });
 

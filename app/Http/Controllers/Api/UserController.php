@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::with('role')->get();
+        $data = User::with('role','ptk')->get();
         return response()->json([
             'status' => true,
             'message' => 'Data berhasil ditemukan',
@@ -33,7 +33,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'min:6'],
-            'role_id' => ['required', 'exists:roles,id']
+            'role_id' => ['required', 'exists:roles,id'],
+            'ptk_id' => ['exists:tb_ptk,id']
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -50,6 +51,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role_id = $request->role_id;
+        $user->ptk_id = $request->ptk_id;
         $user->save();
 
         return response()->json([
@@ -95,7 +97,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'min:6'],
-            'role_id' => ['required', 'exists:roles,id']
+            'role_id' => ['required', 'exists:roles,id'],
+            'ptk_id' => ['exists:tb_ptk,id']
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -113,6 +116,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->role_id = $request->role_id;
+        $user->ptk_id = $request->ptk_id;
         $user->save();
 
         return response()->json([

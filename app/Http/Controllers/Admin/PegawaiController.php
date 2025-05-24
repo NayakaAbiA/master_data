@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use App\Exports\pegawaiExport;
 use App\Imports\PegawaiImport;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -33,19 +34,24 @@ class PegawaiController extends Controller
      */
     public function index(Request $request)
     {
-        $client = new Client();
-        $url = 'http://127.0.0.1:8000/api/pegawai';
-    
-        $response = $client->request('GET', $url, [
-            'query' => [
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'stat_peg' => $request->stat_peg,
-            ]
-        ]);
-    
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        $pegawai = $contentArray['data'];
+        $query = Pegawai::query();
+        $role = Auth::user()->role->role;
+    if (in_array($role, ['superAdmin', 'adminPegawai'])) {
+        // Admin bisa lihat semua data, tanpa filter ptk_id
+    } else {
+        // User biasa hanya lihat data sendiri
+        $query->where('id', Auth::user()->ptk_id);
+    }
+
+    // Tambahkan filter jika ada input dari request
+    if ($request->filled('jenis_kelamin')) {
+        $query->where('jenis_kelamin', $request->jenis_kelamin);
+    }
+    if ($request->filled('stat_peg')) {
+        $query->where('stat_peg', $request->stat_peg);
+    }
+
+    $pegawai = $query->get();
         $statpeg = StatPegawai::all();
         return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg'));
     }
@@ -143,9 +149,9 @@ class PegawaiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function detail(string $id)
     {
-        //
+        
     }
 
     /**

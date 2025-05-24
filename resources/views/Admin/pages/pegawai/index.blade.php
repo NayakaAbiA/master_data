@@ -18,6 +18,8 @@
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">Data Pegawai</h5>
+           
+            @if(Auth::user()->role->role !== 'pegawai')
             <div class="d-flex flex-wrap gap-2">
                 <a class="btn btn-primary" href="{{ route('admin.pegawai.create') }}">
                     <i class="bi bi-plus"></i> Tambah
@@ -56,6 +58,10 @@
                 </form>
             </div>
         </div>
+            @else
+                
+            @endif
+            
 
         <div class="card-body">
             @include('pesansuccess')
@@ -82,12 +88,21 @@
                             <td>
                                 <div class="buttons d-flex gap-1">
                                     {{-- Lihat Detail --}}
+                                    @if(Auth::user()->role->role !== 'pegawai')
                                     <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                     @include('admin.pages.pegawai.show-detil')
+                                    @else
+                                    <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
+                                        Lihat detail data
+                                    </button>
+                                    @include('admin.pages.pegawai.show-detil')
+                                    @endif
+
 
                                     {{-- Edit --}}
+                                    @if(Auth::user()->role->role !== 'pegawai')
                                     <a class="btn icon btn-primary" href="{{ route('admin.pegawai.edit', $p['id']) }}">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
@@ -100,6 +115,8 @@
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </form>
+                                    @else
+                                    @endif
                                 </div>
                             </td>
                         </tr>

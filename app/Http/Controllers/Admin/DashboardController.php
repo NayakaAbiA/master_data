@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Pegawai;
+use App\Models\User;
 use App\Models\Siswa;
+use App\Models\Rombel;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -15,6 +18,10 @@ class DashboardController extends Controller
         $jumlahSiswa = Siswa::count();
         $jumlahRombel = Siswa::count();
         $jumlahJurusan = Siswa::count();
-        return view('Admin.dashboard', compact('jumlahGuru','jumlahSiswa','jumlahRombel','jumlahJurusan'));
+        $user = Auth::user();
+        $ptk = $user->ptk;
+        $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+
+        return view('Admin.dashboard', compact('jumlahGuru','jumlahSiswa','jumlahRombel','jumlahJurusan','rombels'));
     }
 }

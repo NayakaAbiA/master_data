@@ -32,15 +32,17 @@ class LoginController extends Controller
             $role = $user->role->role ?? null; 
 
             switch ($role) {
-                case 'admin':
                 case 'superAdmin':
                 case 'adminSiswa':
                 case 'adminPegawai':
+                case 'pegawai':
                     return redirect()->route('admin.dashboard');
                 case 'kesiswaan':
                     return response('sukses');
                 case 'kepegawaian':
                     return response('berhasil');
+                case 'pegawai':
+                    return response('pegawai');
                 default:
                     Auth::logout(); 
                     return redirect()->back()->withErrors(['login' => 'Role tidak dikenali']);

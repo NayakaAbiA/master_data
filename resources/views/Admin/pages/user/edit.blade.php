@@ -50,7 +50,7 @@
                                         <label for="role_id">Role</label>
                                     </div>
                                     <div class="col-md-8 form-group">
-                                        <select name="role_id" id="role_id" class="form-control">
+                                        <select name="role_id" id="role_id" class="form-control" onchange="checkRole(this.value)">
                                             @foreach ($roles as $item)
                                                 <option value="{{ $item->id }}" 
                                                   {{ old('role_id', $user['role_id']) == $item->id ? 'selected' : '' }}>
@@ -58,6 +58,22 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <!-- Perulangan Tambahan: Daftar PTK -->
+                                    <div class="col-md-4">
+                                        <label for="role_id">Pilih ptk</label>
+                                    </div>
+                                    <div id="ptk-container" class="col-md-8 form-group">
+                                        <select name="ptk_id" id="ptk_id" class="form-control @error('ptk_id') is-invalid @enderror">
+                                            @foreach ($ptk as $item)
+                                                <option value="{{ $item->id }}" {{ old('ptk_id', $user['ptk_id']) == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('ptk_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-sm-12 d-flex justify-content-end mt-1">
                                         <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
@@ -76,4 +92,23 @@
             
         </section> --}}
     </div>
+    <script>
+        function checkRole(roleId) {
+            // Misalnya id role 'pegawai' = 1 (kamu sesuaikan)
+            var pegawaiRoleId = {{ $roles->where('role', 'pegawai')->first()->id ?? 'null' }};
+            var ptkContainer = document.getElementById('ptk-container');
+    
+            if (parseInt(roleId) === pegawaiRoleId) {
+                ptkContainer.style.display = 'block';
+            } else {
+                ptkContainer.style.display = 'none';
+            }
+        }
+    
+        // Saat halaman dimuat (untuk edit/form yang sudah ada)
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectedRole = document.getElementById('role_id').value;
+            checkRole(selectedRole);
+        });
+    </script>
 @endsection

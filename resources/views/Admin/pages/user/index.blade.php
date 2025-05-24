@@ -26,6 +26,7 @@
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Pegawai</th>
                         <th class="no-sort">Aksi</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
                         <td>{{ $item['name']}}</td>
                         <td>{{ $item['email']}}</td>
                         <td>{{ $item['role']['role'] ?? 'Tidak ada Role'}}</td>
+                        <td>{{ $item['ptk']['nama'] ?? '-'}}</td>
                         <td>
                             <div class="buttons">
                                 <!-- parameter diambil berdasarkan route yang ada di web.php -->

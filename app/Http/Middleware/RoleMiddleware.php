@@ -10,18 +10,20 @@ class RoleMiddleware
 {
     public function handle(Request $request, Closure $next,  ...$roles)
     {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
-
-        // Ambil role user yang sedang login
         $userRole = Auth::user()->role->role ?? null;
 
-        // Cek apakah role user termasuk dalam daftar role yang diizinkan
+    // Deteksi mode: jika parameter diawali "except:", artinya pengecualian
+    if (count($roles) === 1 && str_starts_with($roles[0], 'except:')) {
+        $excludedRoles = explode(',', substr($roles[0], strlen('except:')));
+        if (in_array($userRole, $excludedRoles)) {
+            abort(403, 'Unauthorized');
+        }
+    } else {
         if (!in_array($userRole, $roles)) {
             abort(403, 'Unauthorized');
         }
+    }
 
-        return $next($request);
+    return $next($request);
     }
 }

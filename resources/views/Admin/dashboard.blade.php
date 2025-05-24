@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-    @else
+    @elseif (auth()->user()->role->role === 'adminPegawai')
     <div class="col-md-3">
         <div class="card shadow">
             <div class="card-body">
@@ -78,6 +78,19 @@
                 <p class="fs-3">{{ $jumlahGuru }}</p>
                 <a href="{{ route('admin.pegawai.index') }}" class="btn btn-sm btn-outline-primary">Selengkapnya</a>
             </div>
+        </div>
+    </div>
+    @else
+    <div class="col-md-3">
+        <div class="card shadow">
+            {{-- @if ($rombels->where('id_ptk_walas', Auth::user()->id_ptk)->isNotEmpty())
+        
+        @else
+        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Pengajuan</span>
+        </a>
+        @endif --}}
         </div>
     </div>
     @endif

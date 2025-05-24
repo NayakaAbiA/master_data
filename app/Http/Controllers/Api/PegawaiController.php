@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PegawaiController extends Controller
@@ -30,25 +31,29 @@ class PegawaiController extends Controller
             'bank'
         ]);
     
-        // Filter berdasarkan jenis kelamin
-        if ($request->has('jenis_kelamin') && $request->jenis_kelamin != '') {
+        $query = Pegawai::query();
+
+        // Filter berdasarkan role pegawai
+        if (Auth::check() && Auth::user()->role === 'pegawai') {
+            $query->where('ptk_id', Auth::user()->ptk_id);
+        }
+
+        // Filter tambahan dari query params
+        if ($request->filled('jenis_kelamin')) {
             $query->where('jenis_kelamin', $request->jenis_kelamin);
         }
-    
-        // Filter berdasarkan status pegawai dari relasi
-        if ($request->has('stat_peg') && $request->stat_peg != '') {
-            $query->whereHas('statpegawai', function ($q) use ($request) {
-                $q->where('stat_peg', $request->stat_peg);
-            });
+
+        if ($request->filled('stat_peg')) {
+            $query->where('stat_peg', $request->stat_peg);
         }
-    
-        $data = $query->get(); // <-- Ambil data setelah filter
-    
+
+        $pegawai = $query->get();
+
+        // Kirim response JSON
         return response()->json([
-            'status' => true,
-            'message' => 'Data ditemukan',
-            'data' => $data
-        ], 200);
+            'success' => true,
+            'data' => $pegawai
+        ]);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pegawai;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -31,7 +32,8 @@ class UserController extends Controller
     public function create()
     {
         $role = Role::all();
-        return view('Admin.pages.user.create', compact('role'));
+        $ptk = Pegawai::all();
+        return view('Admin.pages.user.create', compact('role','ptk'));
     }
 
     /**
@@ -39,11 +41,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $parameter = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => $request->role_id
+            'role_id' => $request->role_id,
+            'ptk_id' => $request->ptk_id
         ];
 
         $client = new Client();
@@ -88,9 +92,11 @@ class UserController extends Controller
         } else {
             $user = $contentArray['data'];
             $roles = Role::all();
+            $ptk = Pegawai::all();
             return view('admin.pages.user.edit', [
                 'user' => $user,
-                'roles' => $roles
+                'roles' => $roles,
+                'ptk' => $ptk
             ]);
         }
     }
@@ -104,7 +110,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => $request->role_id
+            'role_id' => $request->role_id,
+            'ptk_id' => $request->ptk_id
         ];
 
         $client = new Client();
