@@ -173,18 +173,18 @@
             <i class="bi bi-person-badge"></i>
             <span>Data pribadi</span>
         </a>
-        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-            <i class="bi bi-pencil-square"></i>
-            <span>Pengajuan</span>
-        </a>
         @if ($rombels->isNotEmpty())
-        <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-            <i class="bi bi-pencil-square"></i>
+        <a href="{{ url('admin/siswa') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-journal-bookmark-fill"></i></i>
             <span>Data Kelas</span>
         </a>
         @else
         
         @endif
+        <a href="{{ url('admin/perbaikan') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Pengajuan</span>
+        </a>
     @endif
 
     <hr>

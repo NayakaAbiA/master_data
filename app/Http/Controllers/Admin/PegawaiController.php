@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Bank;
 use App\Models\Agama;
+use App\Models\Rombel;
 use GuzzleHttp\Client;
 use App\Models\Pangkat;
 use App\Models\Pegawai;
@@ -17,8 +18,8 @@ use App\Models\StatKawin;
 use App\Models\SumberGaji;
 use App\Models\StatPegawai;
 use App\Models\TgsTambahan;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Exports\pegawaiExport;
 use App\Imports\PegawaiImport;
 use App\Http\Controllers\Controller;
@@ -53,7 +54,14 @@ class PegawaiController extends Controller
 
     $pegawai = $query->get();
         $statpeg = StatPegawai::all();
-        return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg'));
+        $user = Auth::user();
+        $ptk = $user->ptk;
+        if ($ptk) {
+            $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+        } else {
+            $rombels = collect(); // koleksi kosong
+        }
+        return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg','rombels'));
     }
 
     /**
@@ -285,24 +293,32 @@ class PegawaiController extends Controller
             'file' => 'required|mimes:xls,xlsx'
         ]);
 
+        // Buat instance dari PegawaiImport agar bisa akses failures
+        $import = new PegawaiImport;
+
         try {
-            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
-            Excel::import(new PegawaiImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+            $file = $request->file('file')->store('temp');  // Simpan sementara
+            Excel::import($import, storage_path('app/' . $file)); // Jalankan import
+            Storage::delete($file); // Hapus file setelah diproses
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
 
-            Storage::delete($file); //hapus file jika sudah berhasil
+        // Ambil data baris gagal jika ada
+        $failures = $import->failures();
 
-            return redirect()->route('admin.pegawai.index')->with('success', 'Data pegawai berhasil diimpor');
-        } catch (ValidationException $e) {
-            // Menangkap error untuk validasi baris dari Excel
-            $failures = $e->failures();
-
+        if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
                 'failures' => $failures,
             ]);
-        } catch (\Throwable $e) {
-            // Menangkap error dari excel yang tidak sesuai
-            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
+
+        return redirect()->route('admin.pegawai.index')->with('success', 'Data pegawai berhasil diimpor');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\PegawaiTemplateExport, 'Template_Pegawai.xlsx');
     }
 }

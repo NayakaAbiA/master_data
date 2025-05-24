@@ -4,22 +4,20 @@
 @endsection
 @section('content')
     <!-- session untuk menampilkan error, jika import gagal -->
-    @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        @if(session('failures'))
-            <div class="alert alert-warning">
-                <p>Beberapa baris gagal diimpor:</p>
-                <ul>
-                    @foreach (session('failures') as $failure)
-                        <li>
-                            Baris {{ $failure->row() }} - Kolom: {{ $failure->attribute() }} - 
-                            Pesan: {{ implode(', ', $failure->errors()) }}
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+    @if (session('failures'))
+        <div class="alert alert-danger">
+            <strong>{{ session('error') }}</strong>
+            <ul>
+                @foreach (session('failures') as $failure)
+                    <li>
+                        Baris {{ $failure->row() }}:
+                        @foreach ($failure->errors() as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     @endif
     <div style="display: inline;" class="card-body">
     <nav aria-label="breadcrumb" class="d-flex justify-content-end">
@@ -30,43 +28,43 @@
     </nav>
     </div>
     <div class="card col-md-12">
-        <div class="card-header">
-            <h5 style="display: inline;" class="card-title align-items-center">
-                Tambah Kecamatan
-            </h5>
-            <button type="button" style="margin-left: 10px;" class="btn btn-success" data-bs-toggle="modal"
-            data-bs-target="#inlineFormPegawai"></i>Import Data</button>
-            <div class="form-group">
-                <!--Modal Input File -->
-                <div class="modal fade text-left" id="inlineFormPegawai" tabindex="-1" role="dialog"
-                    aria-labelledby="myModalLabel33" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                        role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel33">Input Import Data</h4>
-                                <button type="button" class="close" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <i data-feather="x"></i>
-                                </button>
-                            </div>
-                            <form action="{{ route('admin.pegawai.import') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal-body">
-                                    <label for="file">File : </label>
-                                        <div class="form-group">
-                                            <input id="file" type="file" name="file" class="form-control" required>
-                                            <p><small class="text-muted">Masukkan file dengan format xls, xlsx.</small></p>
-                                        </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="d-none d-sm-block">Import</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+        <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="d-flex align-items-center flex-wrap gap-2">
+                <h5 class="card-title mb-0">Tambah Kecamatan</h5>
+
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#inlineFormPegawai">Import Data</button>
+
+                <a href="{{ route('admin.kecamatan.downloadTemplate') }}" class="btn btn-success">Unduh Template Excel</a>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade text-left" id="inlineFormPegawai" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel33" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Input Import Data</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
                     </div>
+                    <form action="{{ route('admin.kecamatan.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <label for="file">File : </label>
+                            <div class="form-group">
+                                <input id="file" type="file" name="file" class="form-control" required>
+                                <p><small class="text-muted">Masukkan file dengan format xls, xlsx.</small></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="d-none d-sm-block">Import</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

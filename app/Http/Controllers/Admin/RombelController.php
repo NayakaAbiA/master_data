@@ -7,6 +7,11 @@ use GuzzleHttp\Client;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\RombelImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RombelController extends Controller
 {
@@ -138,4 +143,40 @@ class RombelController extends Controller
             return redirect()->to('admin/rombel')->with('success','Berhasil menghapus data');
         }
     }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        // Gunakan instance RombelImport agar bisa ambil failures-nya
+        $import = new RombelImport;
+
+        try {
+            $file = $request->file('file')->store('temp');  // Simpan file sementara
+            Excel::import($import, storage_path('app/' . $file)); // Import file
+            Storage::delete($file); // Hapus file setelah selesai
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
+
+        // Ambil dan tampilkan kegagalan validasi jika ada
+        $failures = $import->failures();
+
+        if ($failures->isNotEmpty()) {
+            return redirect()->back()->with([
+                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
+                'failures' => $failures,
+            ]);
+        }
+
+        return redirect()->route('admin.rombel.index')->with('success', 'Data rombel berhasil diimpor');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\RombelTemplateExport, 'Template_Rombel.xlsx');
+    }
+
 }

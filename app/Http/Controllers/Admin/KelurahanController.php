@@ -123,24 +123,30 @@ class KelurahanController extends Controller
             'file' => 'required|mimes:xls,xlsx'
         ]);
 
+        $import = new KelurahanImport;
+
         try {
-            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
-            Excel::import(new KelurahanImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+            $file = $request->file('file')->store('temp');  // Simpan sementara
+            Excel::import($import, storage_path('app/' . $file)); // Jalankan import
+            Storage::delete($file); // Hapus file setelah diproses
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
 
-            Storage::delete($file); //hapus file jika sudah berhasil
+        $failures = $import->failures();
 
-            return redirect()->route('admin.kelurahan.index')->with('success', 'Data kelurahan berhasil diimpor');
-        } catch (ValidationException $e) {
-            // Menangkap error untuk validasi baris dari Excel
-            $failures = $e->failures();
-
+        if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
                 'failures' => $failures,
             ]);
-        } catch (\Throwable $e) {
-            // Menangkap error dari excel yang tidak sesuai
-            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
+
+        return redirect()->route('admin.kelurahan.index')->with('success', 'Data kelurahan berhasil diimpor');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\KelurahanTemplateExport, 'Template_Kelurahan.xlsx');
     }
 }

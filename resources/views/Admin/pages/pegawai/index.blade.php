@@ -73,8 +73,8 @@
                         <th>NIP</th>
                         <th>Nama</th>
                         <th>Jenis Kelamin</th>
-                        <th>Jenis PTK</th>
-                        <th class="no-sort">Aksi</th>
+                        <th>Status Kepegawaian</th>
+                        <th  class="no-sort">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

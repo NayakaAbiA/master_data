@@ -120,24 +120,31 @@ class ProvinsiController extends Controller
             'file' => 'required|mimes:xls,xlsx'
         ]);
 
+        $import = new ProvinsiImport;
+
         try {
-            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
-            Excel::import(new ProvinsiImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+            $file = $request->file('file')->store('temp');
+            Excel::import($import, storage_path('app/' . $file));
+            Storage::delete($file);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
 
-            Storage::delete($file); //hapus file jika sudah berhasil
+        // Ambil error yang dikumpulkan oleh SkipsFailures
+        $failures = $import->failures();
 
-            return redirect()->route('admin.provinsi.index')->with('success', 'Data provinsi berhasil diimpor');
-        } catch (ValidationException $e) {
-            // Menangkap error untuk validasi baris dari Excel
-            $failures = $e->failures();
-
+        if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
                 'failures' => $failures,
             ]);
-        } catch (\Throwable $e) {
-            // Menangkap error dari excel yang tidak sesuai
-            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
+
+        return redirect()->route('admin.provinsi.index')->with('success', 'Data provinsi berhasil diimpor');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\ProvinsiTemplateExport, 'Template_Provinsi.xlsx');
     }
 }

@@ -28,6 +28,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
@@ -50,7 +51,14 @@ class SiswaController extends Controller
         $siswa = $contentArray['data'];
         $rombel = Rombel::all();
         $jurusan = Jurusan::all();
-        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan'));
+        $user = Auth::user();
+        $ptk = $user->ptk;
+        if ($ptk) {
+            $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+        } else {
+            $rombels = collect(); // koleksi kosong
+        }
+        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan','rombels'));
     }
 
     /**
@@ -318,25 +326,28 @@ class SiswaController extends Controller
             'file' => 'required|mimes:xls,xlsx'
         ]);
 
+        // Gunakan instance, bukan langsung new di dalam Excel::import
+        $import = new SiswaImport;
+
         try {
-            $file = $request->file('file')->store('temp');  //Ambil dari form, simpan sementara
-            Excel::import(new SiswaImport(), storage_path('app/' . $file)); //Import dari path yang ada di temp
+            $file = $request->file('file')->store('temp');  // Simpan file sementara
+            Excel::import($import, storage_path('app/' . $file)); // Import file
+            Storage::delete($file); // Hapus file setelah diproses
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
 
-            Storage::delete($file); //hapus file jika sudah berhasil
+        // Ambil kesalahan validasi (jika ada)
+        $failures = $import->failures();
 
-            return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diimpor');
-        } catch (ValidationException $e) {
-            // Menangkap error untuk validasi baris dari Excel
-            $failures = $e->failures();
-
+        if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
                 'failures' => $failures,
             ]);
-        } catch (\Throwable $e) {
-            // Menangkap error dari excel yang tidak sesuai
-            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
+
+        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diimpor');
     }
 
     public function naikKelas()
@@ -370,5 +381,10 @@ class SiswaController extends Controller
         }
 
         return redirect()->back()->with('success', 'Kenaikan kelas berhasil diproses berdasarkan rombel.');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\SiswaTemplateExport, 'Template_Siswa.xlsx');
     }
 }
