@@ -33,7 +33,7 @@ use App\Http\Controllers\Admin\TgsTambahanController;
 use App\Http\Controllers\Admin\JenisTinggalController;
 use App\Http\Controllers\Admin\TransportasiController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
-use App\Http\Controllers\PerbaikanController;
+use App\Http\Controllers\Admin\PerbaikanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +98,10 @@ Route::prefix('admin')
 
         Route::get('pekerjaan/lists', [PekerjaanController::class, 'lists'])->name('pekerjaan.lists');
         Route::resource('pekerjaan', PekerjaanController::class);
+
+        // Menampilkan daftar perbaikan untuk pegawai dan admin (dibedakan di view berdasarkan role)
+        Route::get('/perbaikan', [PerbaikanController::class, 'index'])->name('perbaikan.index');
+
         //  Hanya untuk Super Admin 
         Route::middleware('role:superAdmin')->group(function () {
 
@@ -183,11 +187,14 @@ Route::prefix('admin')
         });
         //  Pegawai
         Route::middleware('role:pegawai')->group(function () {
-            Route::get('perbaikan/lists', [PerbaikanController::class, 'lists'])->name('perbaikan.lists');
-            Route::resource('perbaikan', PerbaikanController::class);
-
+            Route::get('/perbaikan/create', [PerbaikanController::class, 'create'])->name('perbaikan.create');
+            Route::post('/perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
         });
-});
+        Route::middleware('role:superAdmin,adminSiswa,adminPegawai')->group(function () {
+            Route::get('/perbaikan/{perbaikan}/edit', [PerbaikanController::class, 'edit'])->name('perbaikan.edit');
+            Route::put('/perbaikan/{perbaikan}', [PerbaikanController::class, 'update'])->name('perbaikan.update');
+        });
+    });
 
 //Route resource sudah memuat segala bentuk method fungsi di web.php, cnth (edit,store,destroy,dll.)
 

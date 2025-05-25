@@ -53,12 +53,20 @@ class SiswaController extends Controller
         $jurusan = Jurusan::all();
         $user = Auth::user();
         $ptk = $user->ptk;
+
+        $siswas = [];
+
         if ($ptk) {
+            // Dapatkan rombel yang diampu oleh pegawai
             $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+
+            // Ambil semua siswa yang ada di rombel tersebut
+            $rombelIds = $rombels->pluck('id')->toArray();
+            $siswas = Siswa::whereIn('id_rombel', $rombelIds)->get();
         } else {
             $rombels = collect(); // koleksi kosong
         }
-        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan','rombels'));
+        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan','rombels','siswas'));
     }
 
     /**

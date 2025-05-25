@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $jumlahGuru = Pegawai::count();
         $jumlahSiswa = Siswa::count();
-        $jumlahRombel = Siswa::count();
+        $jumlahRombel = Rombel::count();
         $jumlahJurusan = Jurusan::count();
         $user = Auth::user();
         $ptk = $user->ptk;

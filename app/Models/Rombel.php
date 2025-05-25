@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rombel extends Model
 {
-     use HasFactory;
+    use HasFactory;
 
     protected $table = 'tb_rombel';
 

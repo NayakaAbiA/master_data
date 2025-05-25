@@ -65,64 +65,65 @@
 
         <div class="card-body">
             @include('pesansuccess')
-
-            <table class="table table-striped" id="table1">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>NIP</th>
-                        <th>Nama</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Status Kepegawaian</th>
-                        <th  class="no-sort">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pegawai as $p)
+            <div class="table-responsive">
+                <table class="table table-striped" id="table1">
+                    <thead>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p['NIP'] }}</td>
-                            <td>{{ $p['nama'] }}</td>
-                            <td>{{ $p['jenis_kelamin'] ?? '-' }}</td>
-                            <td>{{ $p['statpegawai']['stat_peg'] ?? '-' }}</td>
-                            <td>
-                                <div class="buttons d-flex gap-1">
-                                    {{-- Lihat Detail --}}
-                                    @if(Auth::user()->role->role !== 'pegawai')
-                                    <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </button>
-                                    @include('admin.pages.pegawai.show-detil')
-                                    @else
-                                    <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
-                                        Lihat detail data
-                                    </button>
-                                    @include('admin.pages.pegawai.show-detil')
-                                    @endif
-
-
-                                    {{-- Edit --}}
-                                    @if(Auth::user()->role->role !== 'pegawai')
-                                    <a class="btn icon btn-primary" href="{{ route('admin.pegawai.edit', $p['id']) }}">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-
-                                    {{-- Hapus --}}
-                                    <form action="{{ route('admin.pegawai.destroy', $p['id']) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $p['nama'] }} ?')">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
-                                    @else
-                                    @endif
-                                </div>
-                            </td>
+                            <th>No</th>
+                            <th>NIP</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Status Kepegawaian</th>
+                            <th  class="no-sort">Aksi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($pegawai as $p)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $p['NIP'] }}</td>
+                                <td>{{ $p['nama'] }}</td>
+                                <td>{{ $p['jenis_kelamin'] ?? '-' }}</td>
+                                <td>{{ $p['statpegawai']['stat_peg'] ?? '-' }}</td>
+                                <td>
+                                    <div class="buttons d-flex gap-1">
+                                        {{-- Lihat Detail --}}
+                                        @if(Auth::user()->role->role !== 'pegawai')
+                                        <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </button>
+                                        @include('admin.pages.pegawai.show-detil')
+                                        @else
+                                        <button type="button" class="btn icon btn-primary" data-bs-toggle="modal" data-bs-target="#modalPegawai{{ $p['id'] }}">
+                                            Lihat detail data
+                                        </button>
+                                        @include('admin.pages.pegawai.show-detil')
+                                        @endif
+
+
+                                        {{-- Edit --}}
+                                        @if(Auth::user()->role->role !== 'pegawai')
+                                        <a class="btn icon btn-primary" href="{{ route('admin.pegawai.edit', $p['id']) }}">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                        {{-- Hapus --}}
+                                        <form action="{{ route('admin.pegawai.destroy', $p['id']) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $p['nama'] }} ?')">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                        @else
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection

@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\StatusPegawaiController;
 use App\Http\Controllers\Api\StatusKawinController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SiswaController;
+use App\Http\Controllers\Api\PerbaikanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -71,3 +72,4 @@ Route::apiResource('statpegawai', StatusPegawaiController::class);
 Route::apiResource('statkawin', StatusKawinController::class);
 Route::apiResource('user', UserController::class);
 Route::apiResource('siswa', SiswaController::class);
+Route::apiResource('perbaikan', PerbaikanController::class);

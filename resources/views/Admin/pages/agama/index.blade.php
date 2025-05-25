@@ -20,7 +20,7 @@
             </div>
             <div class="card-body">
                 @include('pesansuccess')
-                <div class="table-responsive datatable-minimal">
+                <div class="table-responsive">
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>

@@ -19,40 +19,42 @@
         </div>
         <div class="card-body">
             @include('pesansuccess')
-            <table class="table table-striped" id="table1">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>No Kartu Bantuan</th>
-                        <th>Nama Kartu Bantuan</th>
-                        <th>Nama Pendiri Kartu Bantuan</th>
-                        <th  class="no-sort">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach ($krtbantuan as $d)
-                    <tr>
-                         <!-- iterasi untuk penomoran data di tabel -->
-                        <td>{{ $loop->iteration}}</td>
-                        <td>{{ $d['no_krtbantuan']}}</td>
-                        <td>{{ $d['nama_krtbantuan']}}</td>
-                        <td>{{ $d['nama_pdkrt']}}</td>
-                        <td>
-                            <div class="buttons">
-                                <!-- parameter diambil berdasarkan route yang ada di web.php -->
-                                <a class="btn icon btn-primary" href="{{ route('admin.krtbantuan.edit', $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
-                                <form action="{{ route('admin.krtbantuan.destroy', $d['id'] )}}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-    
-                                    <button class ="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d['nama_krtbantuan']}} ?')"><i class="bi bi-trash3"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+            <div  class="table-responsive">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No Kartu Bantuan</th>
+                            <th>Nama Kartu Bantuan</th>
+                            <th>Nama Pendiri Kartu Bantuan</th>
+                            <th  class="no-sort">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($krtbantuan as $d)
+                        <tr>
+                             <!-- iterasi untuk penomoran data di tabel -->
+                            <td>{{ $loop->iteration}}</td>
+                            <td>{{ $d['no_krtbantuan']}}</td>
+                            <td>{{ $d['nama_krtbantuan']}}</td>
+                            <td>{{ $d['nama_pdkrt']}}</td>
+                            <td>
+                                <div class="buttons">
+                                    <!-- parameter diambil berdasarkan route yang ada di web.php -->
+                                    <a class="btn icon btn-primary" href="{{ route('admin.krtbantuan.edit', $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
+                                    <form action="{{ route('admin.krtbantuan.destroy', $d['id'] )}}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+        
+                                        <button class ="btn icon btn-danger" type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus {{ $d['nama_krtbantuan']}} ?')"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
