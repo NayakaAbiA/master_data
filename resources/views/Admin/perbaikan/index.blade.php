@@ -26,8 +26,18 @@
         <div class="card-body">
             @include('pesansuccess')
 
-            @if ($perbaikan->isEmpty())
-                <div class="alert alert-primary text-center">Belum ada pengajuan perbaikan.</div>
+            @php
+                $filteredPerbaikan = $perbaikan->filter(function ($item) {
+                    $role = auth()->user()->role->role;
+                    $jenis = strtolower($item['jenis'] ?? '');
+                    return ($jenis === 'pribadi' && in_array($role, ['superAdmin', 'adminPegawai'])) ||
+                        ($jenis === 'kelas' && in_array($role, ['superAdmin', 'adminSiswa']));
+                });
+            @endphp
+
+
+            @if ($filteredPerbaikan->isEmpty())
+                <div class="alert alert-primary text-center">Belum ada pengajuan perbaikan yang dapat ditampilkan.</div>
             @else
                 <div class="table-responsive">
                     <table class="table table-striped" id="table1">
@@ -39,13 +49,13 @@
                                 <th class="no-sort">Deskripsi</th>
                                 <th class="no-sort">Lampiran</th>
                                 <th>Status</th>
-                                @if(auth()->user()->role->role === 'adminPegawai' || auth()->user()->role->role === 'adminSiswa' || auth()->user()->role->role === 'superAdmin')
+                                @if(in_array(auth()->user()->role->role, ['adminPegawai', 'adminSiswa', 'superAdmin']))
                                     <th class="no-sort">Aksi</th>
                                 @endif
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($perbaikan as $item)
+                            @forelse ($perbaikan as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item['user']['name'] ?? '-' }}</td>
@@ -54,22 +64,20 @@
                                     <td>
                                         @if ($item['lampiran'])
                                             <button type="button" data-bs-toggle="modal" data-bs-target="#modalPerbaikan{{ $item['id'] }}" class="btn btn-sm btn-primary">Lihat</button>
-
                                             <div class="modal fade text-left" id="modalPerbaikan{{ $item['id'] }}" tabindex="-1" role="dialog" aria-labelledby="modalPerbaikan{{ $item['id'] }}" aria-hidden="true">
-                                              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
-                                                  <div class="modal-content">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title" id="myModalLabel17">Lampiran Perbaikan</h4>
-                                                            <button type="button" class="close" data-bs-dismiss="modal"
-                                                                aria-label="Close">
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                                 <i data-feather="x"></i>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                           <img src="{{ asset('storage/' . $item['lampiran']) }}" alt="">
+                                                            <img src="{{ asset('storage/' . $item['lampiran']) }}" alt="" class="img-fluid">
                                                         </div>
-                                                  </div>
-                                              </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         @else
                                             Tidak ada
@@ -82,19 +90,17 @@
                                             {{ $item['status'] }}
                                         </span>
                                     </td>
-                                    @if(auth()->user()->role->role === 'adminPegawai' || auth()->user()->role->role === 'adminSiswa' || auth()->user()->role->role === 'superAdmin')
-                                      <td>
-                                          @if(
-                                            (auth()->user()->role->role === 'adminPegawai' && $item['jenis'] == 'Pribadi') ||
-                                            (auth()->user()->role->role === 'adminSiswa' && $item['jenis'] == 'Kelas') ||
-                                            auth()->user()->role->role === 'superAdmin'
-                                          )
-                                              <a href="{{ route('admin.perbaikan.edit', $item['id']) }}" class="btn btn-sm btn-primary">Validasi</a>
-                                          @endif
-                                      </td>
+                                    @if(in_array(auth()->user()->role->role, ['adminPegawai', 'adminSiswa', 'superAdmin']))
+                                        <td>
+                                            <a href="{{ route('admin.perbaikan.edit', $item['id']) }}" class="btn btn-sm btn-primary">Validasi</a>
+                                        </td>
                                     @endif
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Belum ada pengajuan perbaikan yang dapat ditampilkan.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\KebKhususController;
 use App\Http\Controllers\Admin\KecamatanController;
 use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\PekerjaanController;
+use App\Http\Controllers\Admin\PerbaikanController;
 use App\Http\Controllers\Admin\KrtBantuanController;
 use App\Http\Controllers\Admin\PendidikanController;
 use App\Http\Controllers\Admin\PrgbantuanController;
@@ -33,7 +34,6 @@ use App\Http\Controllers\Admin\TgsTambahanController;
 use App\Http\Controllers\Admin\JenisTinggalController;
 use App\Http\Controllers\Admin\TransportasiController;
 use App\Http\Controllers\Admin\StatusPegawaiController;
-use App\Http\Controllers\Admin\PerbaikanController;
 
 /*
 |--------------------------------------------------------------------------

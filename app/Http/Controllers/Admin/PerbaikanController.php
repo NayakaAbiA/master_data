@@ -25,9 +25,9 @@ class PerbaikanController extends Controller
         if ($user->role->role === 'pegawai') {
             $perbaikan = $perbaikan->where('user_id', $user->id)->values();
         } elseif ($user->role->role === 'adminSiswa') {
-            $perbaikan = $perbaikan->where('jenis', 'Kelas')->values();
+            $perbaikan = $perbaikan->where('jenis', 'kelas')->values();
         } elseif ($user->role->role === 'adminPegawai') {
-            $perbaikan = $perbaikan->where('jenis', 'Pribadi')->values();
+            $perbaikan = $perbaikan->where('jenis', 'pribadi')->values();
         }
 
         return view('admin.perbaikan.index', compact('perbaikan', 'rombels'));
