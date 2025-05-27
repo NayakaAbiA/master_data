@@ -29,7 +29,7 @@ class JurusanController extends Controller
     {
         $jurusan = new Jurusan();
         $rules = [
-            'nama_jur' => ['required', 'string', 'max:40', 'unique:tb_jurusan,nama_jur'],
+            'nama_jur' => ['required', 'string', 'max:100', 'unique:tb_jurusan,nama_jur'],
             'id_ptk_kakom' => ['required', 'integer'],
         ];
         $validator = Validator::make($request->all(),$rules);

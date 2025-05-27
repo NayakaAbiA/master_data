@@ -49,7 +49,7 @@ class PegawaiController extends Controller
         $query->where('jenis_kelamin', $request->jenis_kelamin);
     }
     if ($request->filled('stat_peg')) {
-        $query->where('stat_peg', $request->stat_peg);
+        $query->where('id_stat_peg', $request->stat_peg);
     }
 
     $pegawai = $query->get();

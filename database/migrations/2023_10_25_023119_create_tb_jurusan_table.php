@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_jurusan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_jur',40);
+            $table->string('nama_jur',100);
 
             $table->foreignId('id_ptk_kakom')
             ->index()

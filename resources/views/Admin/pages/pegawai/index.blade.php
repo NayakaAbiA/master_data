@@ -45,7 +45,7 @@
                         <select name="stat_peg" class="form-select">
                             <option value="">-- Filter Status Pegawai --</option>
                             @foreach ($statpeg as $status)
-                            <option value="{{ $status['stat_peg'] }}" {{ request('stat_peg') == $status['stat_peg'] ? 'selected' : '' }}>
+                            <option value="{{ $status['id'] }}" {{ request('stat_peg') == $status['stat_peg'] ? 'selected' : '' }}>
                                 {{ $status['stat_peg'] }}
                             </option>
                             @endforeach
