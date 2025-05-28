@@ -37,11 +37,19 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
             return [];
         }
 
+        // Cast angka ke string agar tidak gagal validasi
+        $data['nuptk'] = (string) ($data['nuptk'] ?? '');
+        $data['no_rumah'] = (string) ($data['no_rumah'] ?? '');
+        $data['rt'] = (string) ($data['rt'] ?? '');
+        $data['rw'] = (string) ($data['rw'] ?? '');
+
         return $data;
     }
+    
 
     public function model(array $row)
     {
+        // dd($row);
         $firstValue = trim($row[array_key_first($row)] ?? '');
 
         if (
@@ -72,7 +80,7 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
             'nip' => $row['nip'],
             'nuptk' => $row['nuptk'],
             'email' => $row['email'],
-            'jenis_kelamin' => $row['jk'],
+            'jenis_kelamin' => $row['jenis_kelamin'],
             'tempat_lahir' => $row['tempat_lahir'],
             'tgl_lahir' => $row['tanggal_lahir'],
             'id_stat_peg' => $stat_peg?->id,
@@ -124,44 +132,44 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
     public function rules(): array
     {
         return [
-            'nama' => ['sometimes', 'required', 'string', 'max:100'],
-            'nik' => ['sometimes', 'required', 'digits:16', 'unique:tb_ptk,nik'],
-            'nip' => ['sometimes', 'nullable', 'string', 'max:18'],
-            'nuptk' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'email' => ['sometimes', 'required', 'email', 'max:50', 'unique:tb_ptk,email'],
-            'jk' => ['sometimes', 'required', 'string', 'max:10'],
-            'tempat_lahir' => ['sometimes', 'required', 'string', 'max:30'],
-            'tanggal_lahir' => ['sometimes', 'required', 'date'],
-            'alamat_jalan' => ['sometimes', 'required', 'string', 'max:40'],
-            'no_rumah' => ['sometimes', 'required', 'string', 'max:4'],
-            'rt' => ['sometimes', 'required', 'string', 'max:4'],
-            'rw' => ['sometimes', 'required', 'string', 'max:4'],
-            'kode_pos' => ['sometimes', 'required', 'digits:5'],
-            'telepon' => ['sometimes', 'nullable', 'string', 'max:15'],
-            'hp' => ['sometimes', 'required', 'string', 'max:15'],
-            'lintang' => ['sometimes', 'nullable', 'string', 'max:50'],
-            'bujur' => ['sometimes', 'nullable', 'string', 'max:50'],
-            'sk_cpns' => ['sometimes', 'nullable', 'string', 'max:100'],
-            'tanggal_cpns' => ['sometimes', 'nullable', 'date'],
-            'sk_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:100'],
-            'tmt_pengangkatan' => ['sometimes', 'nullable', 'date'],
-            'lembaga_pengangkatan' => ['sometimes', 'nullable', 'string', 'max:20'],
-            'nama_ibu_kandung' => ['sometimes', 'required', 'string', 'max:50'],
-            'nama_pasangan' => ['sometimes', 'nullable', 'string', 'max:50'],
-            'nip_pasangan' => ['sometimes', 'nullable', 'string', 'max:18'],
-            'sudah_lisensi_kepala_sekolah' => ['sometimes', 'required', 'in:Ya,Tidak'],
-            'pernah_diklat_kepengawasan' => ['sometimes', 'required', 'in:Ya,Tidak'],
-            'keahlian_braille' => ['sometimes', 'required', 'in:Ya,Tidak'],
-            'keahlian_bahasa_isyarat' => ['sometimes', 'required', 'in:Ya,Tidak'],
-            'npwp' => ['sometimes', 'nullable', 'string', 'max:25'],
-            'nama_wajib_pajak' => ['sometimes', 'required', 'string', 'max:50'],
-            'kewarganegaraan' => ['sometimes', 'required', 'string', 'max:25'],
-            'nomor_rekening_bank' => ['sometimes', 'required', 'string', 'max:50'],
-            'rekening_atas_nama' => ['sometimes', 'required', 'string', 'max:100'],
-            'no_kk' => ['sometimes', 'required', 'digits:16'],
-            'karpeg' => ['sometimes', 'nullable', 'string', 'max:8'],
-            'karis_atau_karsu' => ['sometimes', 'nullable', 'string', 'max:11'],
-            'nuks' => ['sometimes', 'nullable', 'string', 'max:15'],
+            'nama' => ['required', 'string', 'max:100'],
+            'nik' => ['required', 'digits:16', 'unique:tb_ptk,nik'],
+            'nip' => ['nullable', 'string', 'max:18'],
+            'nuptk' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:50', 'unique:tb_ptk,email'],
+            'jenis_kelamin' => ['required', 'string', 'max:10'],
+            'tempat_lahir' => ['required', 'string', 'max:30'],
+            'tanggal_lahir' => ['required', 'date'],
+            'alamat_jalan' => ['required', 'string', 'max:40'],
+            'no_rumah' => ['nullable', 'string', 'max:4'],
+            'rt' => ['required', 'string', 'max:4'],
+            'rw' => ['required', 'string', 'max:4'],
+            'kode_pos' => ['required', 'digits:5'],
+            'telepon' => ['nullable', 'string', 'max:15'],
+            'hp' => ['required', 'string', 'max:15'],
+            'lintang' => ['nullable', 'string', 'max:50'],
+            'bujur' => ['nullable', 'string', 'max:50'],
+            'sk_cpns' => ['nullable', 'string', 'max:100'],
+            'tanggal_cpns' => ['nullable', 'date'],
+            'sk_pengangkatan' => ['nullable', 'string', 'max:100'],
+            'tmt_pengangkatan' => ['nullable', 'date'],
+            'lembaga_pengangkatan' => ['nullable', 'string', 'max:20'],
+            'nama_ibu_kandung' => ['required', 'string', 'max:50'],
+            'nama_pasangan' => ['nullable', 'string', 'max:50'],
+            'nip_pasangan' => ['nullable', 'string', 'max:18'],
+            'sudah_lisensi_kepala_sekolah' => ['required', 'in:Ya,Tidak'],
+            'pernah_diklat_kepengawasan' => ['required', 'in:Ya,Tidak'],
+            'keahlian_braille' => ['required', 'in:Ya,Tidak'],
+            'keahlian_bahasa_isyarat' => ['required', 'in:Ya,Tidak'],
+            'npwp' => ['nullable', 'string', 'max:25'],
+            'nama_wajib_pajak' => ['nullable', 'string', 'max:50'],
+            'kewarganegaraan' => ['required', 'string', 'max:25'],
+            'nomor_rekening_bank' => ['nullable', 'string', 'max:50'],
+            'rekening_atas_nama' => ['nullable', 'string', 'max:100'],
+            'no_kk' => ['nullable', 'digits:16'],
+            'karpeg' => ['nullable', 'string', 'max:8'],
+            'karis_atau_karsu' => ['nullable', 'string', 'max:11'],
+            'nuks' => ['nullable', 'string', 'max:15'],
         ];
     }
 }

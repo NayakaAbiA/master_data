@@ -29,7 +29,7 @@ class KelurahanImport implements ToModel, WithHeadingRow, WithValidation, SkipsO
             // Kosongkan agar tidak divalidasi
             return [];
         }
-
+        $data['kode_pos'] = (string) ($data['kode_pos'] ?? '');
         return $data;
     }
 

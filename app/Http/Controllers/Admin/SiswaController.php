@@ -338,16 +338,14 @@ class SiswaController extends Controller
         $import = new SiswaImport;
 
         try {
-            $file = $request->file('file')->store('temp');  // Simpan file sementara
-            Excel::import($import, storage_path('app/' . $file)); // Import file
-            Storage::delete($file); // Hapus file setelah diproses
+            // Import langsung dari file upload, tidak perlu disimpan ke storage
+            Excel::import($import, $request->file('file'));
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
-
-        // Ambil kesalahan validasi (jika ada)
+    
         $failures = $import->failures();
-
+    
         if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',

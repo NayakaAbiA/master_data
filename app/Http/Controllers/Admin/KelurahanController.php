@@ -126,15 +126,14 @@ class KelurahanController extends Controller
         $import = new KelurahanImport;
 
         try {
-            $file = $request->file('file')->store('temp');  // Simpan sementara
-            Excel::import($import, storage_path('app/' . $file)); // Jalankan import
-            Storage::delete($file); // Hapus file setelah diproses
+            // Import langsung dari file upload, tidak perlu disimpan ke storage
+            Excel::import($import, $request->file('file'));
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
-
+    
         $failures = $import->failures();
-
+    
         if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',

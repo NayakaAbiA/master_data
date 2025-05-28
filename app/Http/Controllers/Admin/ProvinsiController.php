@@ -123,16 +123,14 @@ class ProvinsiController extends Controller
         $import = new ProvinsiImport;
 
         try {
-            $file = $request->file('file')->store('temp');
-            Excel::import($import, storage_path('app/' . $file));
-            Storage::delete($file);
+            // Import langsung dari file upload, tidak perlu disimpan ke storage
+            Excel::import($import, $request->file('file'));
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
-
-        // Ambil error yang dikumpulkan oleh SkipsFailures
+    
         $failures = $import->failures();
-
+    
         if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',

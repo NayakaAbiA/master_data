@@ -149,28 +149,25 @@ class RombelController extends Controller
         $request->validate([
             'file' => 'required|mimes:xls,xlsx'
         ]);
-
-        // Gunakan instance RombelImport agar bisa ambil failures-nya
+    
         $import = new RombelImport;
-
+    
         try {
-            $file = $request->file('file')->store('temp');  // Simpan file sementara
-            Excel::import($import, storage_path('app/' . $file)); // Import file
-            Storage::delete($file); // Hapus file setelah selesai
+            // Import langsung dari file upload, tidak perlu disimpan ke storage
+            Excel::import($import, $request->file('file'));
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
         }
-
-        // Ambil dan tampilkan kegagalan validasi jika ada
+    
         $failures = $import->failures();
-
+    
         if ($failures->isNotEmpty()) {
             return redirect()->back()->with([
                 'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
                 'failures' => $failures,
             ]);
         }
-
+    
         return redirect()->route('admin.rombel.index')->with('success', 'Data rombel berhasil diimpor');
     }
 

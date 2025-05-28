@@ -30,7 +30,11 @@
         <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div class="d-flex align-items-center flex-wrap gap-2">
                 <h5 class="card-title mb-0">Tambah Rombel</h5>
-
+                @if(session('error') && !session('failures'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                     data-bs-target="#inlineFormPegawai">Import Data</button>
 
