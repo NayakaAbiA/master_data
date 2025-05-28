@@ -2,27 +2,45 @@
 
 namespace App\Exports;
 
-use App\Models\Rombel;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class RombelTemplateExport implements FromArray
+class RombelTemplateExport implements WithMultipleSheets
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function array(): array
+    public function sheets(): array
     {
         return [
-            // Header
-            ['Nama Rombel','Wali Kelas'],
-            
-            // Baris kosong untuk pemisah
-            [''],
-            
-            // Keterangan
-            ['* Isi nama rombel sesuai dengan referensi yang berlaku'],
-            ['* Kolom yang memiliki relasi ke tabel referensi:'],
-            ['- Wali Kelas (tabel: pegawai)']
+            new class implements FromArray, WithTitle {
+                public function array(): array
+                {
+                    return [
+                        ['Nama Rombel', 'Wali Kelas'],
+                    ];
+                }
+
+                public function title(): string
+                {
+                    return 'Template';
+                }
+            },
+
+            new class implements FromArray, WithTitle {
+                public function array(): array
+                {
+                    return [
+                        ['Keterangan'],
+                        ['* Isi nama rombel sesuai dengan referensi yang berlaku'],
+                        ['* Kolom yang memiliki relasi ke tabel referensi:'],
+                        ['- Wali Kelas (tabel: pegawai)'],
+                    ];
+                }
+
+                public function title(): string
+                {
+                    return 'Keterangan';
+                }
+            }
         ];
     }
 }

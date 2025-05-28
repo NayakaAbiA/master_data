@@ -2,28 +2,45 @@
 
 namespace App\Exports;
 
-use App\Models\Kabupaten;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class KabupatenTemplateExport implements FromArray
+class KabupatenTemplateExport implements WithMultipleSheets
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function array(): array
+    public function sheets(): array
     {
         return [
-            // Header
-            ['Kabupaten', 'Ibu Kota', 'BSNI', 'Provinsi'],
+            new class implements FromArray, WithTitle {
+                public function array(): array
+                {
+                    return [
+                        ['Kabupaten', 'Ibu Kota', 'BSNI', 'Provinsi'], // Sheet 1: hanya header
+                    ];
+                }
 
-            // Baris kosong untuk pemisah
-            [''],
+                public function title(): string
+                {
+                    return 'Template';
+                }
+            },
 
-            // Keterangan
-            ['* Isi nama kolom sesuai dengan referensi yang berlaku'],
-            ['* Kolom yang memiliki relasi ke tabel referensi:'],
-            ['- Provinsi (tabel: provinsi)']
+            new class implements FromArray, WithTitle {
+                public function array(): array
+                {
+                    return [
+                        ['Keterangan'],
+                        ['* Isi nama kolom sesuai dengan referensi yang berlaku'],
+                        ['* Kolom yang memiliki relasi ke tabel referensi:'],
+                        ['- Provinsi (tabel: provinsi)'],
+                    ];
+                }
+
+                public function title(): string
+                {
+                    return 'Keterangan';
+                }
+            }
         ];
     }
-
 }

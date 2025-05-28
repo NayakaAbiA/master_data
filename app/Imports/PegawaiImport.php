@@ -21,44 +21,21 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnFailure
+class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnFailure, WithMultipleSheets
 {
     use SkipsFailures;
 
-    public function prepareForValidation($data, $index)
+    public function sheets(): array
     {
-        $firstValue = trim($data[array_key_first($data)] ?? '');
-
-        if (
-            str_starts_with($firstValue, '*') ||
-            str_starts_with($firstValue, '-')
-        ) {
-            return [];
-        }
-
-        // Cast angka ke string agar tidak gagal validasi
-        $data['nuptk'] = (string) ($data['nuptk'] ?? '');
-        $data['no_rumah'] = (string) ($data['no_rumah'] ?? '');
-        $data['rt'] = (string) ($data['rt'] ?? '');
-        $data['rw'] = (string) ($data['rw'] ?? '');
-
-        return $data;
+        return [
+            0 => $this, // hanya proses sheet ke-0 (pertama)
+        ];
     }
-    
 
     public function model(array $row)
     {
-        // dd($row);
-        $firstValue = trim($row[array_key_first($row)] ?? '');
-
-        if (
-            str_starts_with($firstValue, '*') ||
-            str_starts_with($firstValue, '-')
-        ) {
-            return null;
-        }
-
         // Cari ID foreign key
         $stat_peg = StatPegawai::where('stat_peg', $row['status_kepegawaian'] ?? '')->first();
         $jenis_ptk = JenisPTK::where('jenis_ptk', $row['jenis_ptk'] ?? '')->first();

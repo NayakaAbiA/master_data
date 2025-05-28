@@ -17,15 +17,6 @@
             </h5>
             <a class="btn btn-primary" href="{{ route('admin.user.create')}}"><i class="bi bi-plus"></i>Tambah</a>
         </div>
-        <!-- <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="card-title mb-0">Data User</h5>
-                <a class="btn btn-primary mt-2" href="{{ route('admin.user.create') }}">
-                    <i class="bi bi-plus"></i> Tambah
-                </a>
-            </div>
-            <input type="search" id="customSearch" class="form-control form-control-sm w-auto" placeholder="Search...">
-        </div> -->
         <div class="card-body">
             @include('pesansuccess')
             <div class="table-responsive">
@@ -43,7 +34,7 @@
                     <tbody>
                     @foreach ($users as $key => $item)
                         <tr>
-                             <!-- iterasi untuk penomoran data di tabel -->
+                            <!-- iterasi untuk penomoran data di tabel -->
                             <td>{{ $loop->iteration}}</td>
                             <td>{{ $item['name']}}</td>
                             <td>{{ $item['email']}}</td>
