@@ -105,8 +105,10 @@ Route::prefix('admin')
         //  Hanya untuk Super Admin 
         Route::middleware('role:superAdmin')->group(function () {
 
+            Route::get('/sekolah/template', [SekolahController::class, 'downloadTemplate'])->name('sekolah.downloadTemplate');
             Route::get('sekolah/list', [SekolahController::class, 'lists'])->name('sekolah.lists');
             Route::resource('sekolah', SekolahController::class);
+            Route::post('sekolah-import', [SekolahController::class, 'import'])->name('sekolah.import');
 
             Route::get('user/list', [UserController::class, 'lists'])->name('user.lists');
             Route::resource('user', UserController::class);
@@ -176,8 +178,10 @@ Route::prefix('admin')
             Route::get('penghasilan/lists', [PenghasilanController::class, 'lists'])->name('penghasilan.lists');
             Route::resource('penghasilan', PenghasilanController::class);
 
+            Route::get('/krtbantuan/template', [KrtBantuanController::class, 'downloadTemplate'])->name('krtbantuan.downloadTemplate');
             Route::get('krtbantuan/list', [KrtBantuanController::class, 'lists'])->name('krtbantuan.lists');
             Route::resource('krtbantuan', KrtBantuanController::class);
+            Route::post('krtbantuan-import', [KrtBantuanController::class, 'import'])->name('krtbantuan.import');
 
             Route::get('prgbantuan/lists', [PrgbantuanController::class, 'lists'])->name('prgbantuan.lists');
             Route::resource('prgbantuan', PrgbantuanController::class);

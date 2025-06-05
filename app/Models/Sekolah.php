@@ -16,4 +16,10 @@ class Sekolah extends Model
         'nama_sekolah',
         'jenjang',
     ];
+
+    //fungsi one to many ke model Siswa
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'id_sekolah_asal', 'id');
+    }
 }

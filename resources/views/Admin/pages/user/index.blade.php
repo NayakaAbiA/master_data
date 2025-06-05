@@ -23,6 +23,13 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
+                            <th>
+                            <div class="form-check">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-danger form-check-glow" checked name="customCheck" id="checkboxGlow4">
+                                </div>
+                            </div>
+                            </th>
                             <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
@@ -34,6 +41,14 @@
                     <tbody>
                     @foreach ($users as $key => $item)
                         <tr>
+                            <td>
+                            <div class="form-check">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-danger form-check-glow" checked name="customCheck" id="checkboxGlow4">
+                                </div>
+                            </div>
+                            </td>
+
                             <!-- iterasi untuk penomoran data di tabel -->
                             <td>{{ $loop->iteration}}</td>
                             <td>{{ $item['name']}}</td>

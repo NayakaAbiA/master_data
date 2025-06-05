@@ -19,6 +19,7 @@ use App\Models\KrtBantuan;
 use App\Models\Bank;
 use App\Models\PrgBantuan;
 use App\Models\KebKhusus;
+use App\Models\Sekolah;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -39,6 +40,7 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
 
     public function model(array $row)
     {
+        //dd($row);
         
         $id_jur = Jurusan::where('nama_jur', $row['jurusan'] ?? '')->first();
         $id_rombel = Rombel::where('nama_rombel', $row['rombel'] ?? '')->first();
@@ -59,9 +61,13 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
         $id_kerja_wali = Pekerjaan::where('pekerjaan', $row['pekerjaan_wali'] ?? '')->first();
         $id_penghasilan_wali = Penghasilan::where('penghasilan', $row['penghasilan_wali'] ?? '')->first();
         $id_krt_bantuan = KrtBantuan::where('nama_krtbantuan', $row['kartu_bantuan'] ?? '')->first();
+        $id_krt_bantuan_kip = KrtBantuan::where('no_krtbantuan', $row['no_kip'] ?? '')->first();
+        $id_krt_bantuan_kps = KrtBantuan::where('no_krtbantuan', $row['no_kps'] ?? '')->first();
+        $id_krt_bantuan_kks = KrtBantuan::where('no_krtbantuan', $row['no_kks'] ?? '')->first();
         $id_bank = Bank::where('nama_bank', $row['bank'] ?? '')->first();
         $id_prgbantuan = PrgBantuan::where('prgbantuan', $row['program_bantuan'] ?? '')->first();
         $id_kebkhusus = KebKhusus::where('kebkhusus', $row['kebutuhan_khusus'] ?? '')->first();
+        $id_sekolah_asal = Sekolah::where('nama_sekolah', $row['sekolah_asal'] ?? '')->first();
     
         return new Siswa([
             //dd($row)
@@ -90,6 +96,7 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
             'no_rumah' => $row['no_rumah'],
             'RT' => $row['rt'],
             'RW' => $row['rw'],
+            'dusun' => $row['dusun'],
             'id_provinsi' => $id_provinsi?->id,
             'id_kabupaten' => $id_kabupaten?->id,
             'id_kecamatan' => $id_kecamatan?->id,
@@ -123,16 +130,20 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
             'nopes_un' => $row['nopes_un'],
             'no_seri_ijazah' => $row['no_seri_ijazah'],
             'id_krt_bantuan' => $id_krt_bantuan?->id,
+            'id_krt_bantuan_kip' => $id_krt_bantuan_kip?->id,
+            'id_krt_bantuan_kps' => $id_krt_bantuan_kps?->id,
+            'id_krt_bantuan_kks' => $id_krt_bantuan_kks?->id,
             'nama_pada_kartu' => $row['nama_pada_kartu'],
             'id_bank' => $id_bank?->id,
             'no_rek_bank' => $row['no_rekening_bank'],
             'rek_atas_nama' => $row['rekening_atas_nama'],
-            'layak_bantuan' => strtolower((string)$row['layak_bantuan']) === 'iya' ? 1 : 0,
+            'layak_bantuan' => strtolower((string)$row['layak_bantuan']) === 'ya' ? 1 : 0,
             'id_prgbantuan' => $id_prgbantuan?->id,
             'alasan_layak' => $row['alasan_layak'],
             'id_kebkhusus' => $id_kebkhusus?->id,
+            'id_sekolah_asal' => $id_sekolah_asal?->id,
             'Stat_siswa' => $row['status_siswa'],
-            'pindahan' => strtolower((string)$row['pindahan']) === 'iya' ? 1 : 0,
+            'pindahan' => strtolower((string)$row['pindahan']) === 'ya' ? 1 : 0,
         ]);
     }
 
@@ -149,6 +160,7 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
         'tempat_lahir' => ['sometimes', 'required', 'string', 'max:30'],
         'tanggal_lahir' => ['sometimes', 'required', 'date'],
         'npsn' => ['sometimes', 'nullable', 'string', 'max:12'],
+        'rombel' => ['sometimes', 'required', 'string', 'exists:tb_rombel,nama_rombel'],
         'hp' => ['sometimes', 'required', 'string', 'max:15'],
         'email' => ['sometimes', 'required', 'email', 'max:50', 'unique:tb_siswa,email'],
         'anak_ke' => ['sometimes', 'required', 'integer', 'min:1'],
@@ -161,6 +173,7 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
         'no_rumah' => ['sometimes', 'required', 'string', 'max:4'],
         'rt' => ['sometimes', 'required', 'string', 'max:4'],
         'rw' => ['sometimes', 'required', 'string', 'max:4'],
+        'dusun' => ['sometimes', 'required', 'string'],
         'kode_pos' => ['sometimes', 'required', 'digits:5'],
         'lintang' => ['sometimes', 'nullable', 'string', 'max:50'],
         'bujur' => ['sometimes', 'nullable', 'string', 'max:50'],

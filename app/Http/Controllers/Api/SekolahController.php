@@ -31,7 +31,7 @@ class SekolahController extends Controller
         $rules = [
             'npsn' => ['required', 'string', 'max:12', 'unique:tb_sekolah,npsn'],
             'nama_sekolah' => ['required', 'string', 'max:50', 'unique:tb_sekolah,nama_sekolah'],
-            'jenjang' => ['required', 'string', 'max:30', 'unique:tb_sekolah,jenjang'],
+            'jenjang' => ['required', 'string', 'max:30'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {

@@ -30,8 +30,8 @@
                 $filteredPerbaikan = $perbaikan->filter(function ($item) {
                     $role = auth()->user()->role->role;
                     $jenis = strtolower($item['jenis'] ?? '');
-                    return ($jenis === 'pribadi' && in_array($role, ['superAdmin', 'adminPegawai'])) ||
-                        ($jenis === 'kelas' && in_array($role, ['superAdmin', 'adminSiswa']));
+                    return ($jenis === 'pribadi' && in_array($role, ['superAdmin', 'adminPegawai', 'pegawai'])) ||
+                        ($jenis === 'kelas' && in_array($role, ['superAdmin', 'adminSiswa', 'pegawai']));
                 });
             @endphp
 

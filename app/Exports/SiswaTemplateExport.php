@@ -17,14 +17,14 @@ class SiswaTemplateExport implements WithMultipleSheets
                     return [[
                         'Nama', 'Jenis Kelamin', 'NIK', 'No KK', 'No Reg Akta Lahir', 'NIPD', 'NISN', 'Jurusan', 'Rombel',
                         'Tempat Lahir', 'Tanggal Lahir', 'Agama', 'NPSN', 'HP', 'Email', 'Anak Ke', 'Jumlah Saudara Kandung',
-                        'Berat Badan', 'Tinggi Badan', 'Lingkar Kepala', 'Kewarganegaraan', 'Jalan', 'No Rumah', 'RT', 'RW',
-                        'Provinsi', 'Kabupaten', 'Kecamatan', 'Kelurahan', 'Kode Pos', 'Lintang', 'Bujur', 'No Telepon',
+                        'Berat Badan', 'Tinggi Badan', 'Lingkar Kepala', 'Kewarganegaraan', 'Jalan', 'No Rumah', 'RT', 'RW', 
+                        'Provinsi', 'Kabupaten', 'Kecamatan', 'Kelurahan', 'Dusun', 'Kode Pos', 'Lintang', 'Bujur', 'No Telepon',
                         'Jenis Tinggal', 'Transportasi', 'Jarak Rumah Sekolah', 'Nama Ayah', 'NIK Ayah', 'Tahun Lahir Ayah',
                         'Pendidikan Ayah', 'Pekerjaan Ayah', 'Penghasilan Ayah', 'Nama Ibu', 'NIK Ibu', 'Tahun Lahir Ibu',
                         'Pendidikan Ibu', 'Pekerjaan Ibu', 'Penghasilan Ibu', 'Nama Wali', 'NIK Wali', 'Tahun Lahir Wali',
                         'Pendidikan Wali', 'Pekerjaan Wali', 'Penghasilan Wali', 'No SKHUN', 'Nopes UN', 'No Seri Ijazah',
-                        'Kartu Bantuan', 'Nama Pada Kartu', 'Bank', 'No Rekening Bank', 'Rekening Atas Nama', 'Layak Bantuan',
-                        'Program Bantuan', 'Alasan Layak', 'Kebutuhan Khusus', 'Status Siswa', 'Pindahan'
+                        'Kartu Bantuan', 'No KIP', 'No KPS', 'No KKS', 'Nama Pada Kartu', 'Bank', 'No Rekening Bank', 'Rekening Atas Nama', 'Layak Bantuan',
+                        'Program Bantuan', 'Alasan Layak', 'Kebutuhan Khusus', 'Sekolah Asal', 'Status Siswa', 'Pindahan'
                     ]];
                 }
 

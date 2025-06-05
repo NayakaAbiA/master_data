@@ -6,6 +6,10 @@ use GuzzleHttp\Client;
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\SekolahImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class SekolahController extends Controller
 {
@@ -108,6 +112,38 @@ class SekolahController extends Controller
         }else{
             return redirect()->to('admin/sekolah')->with('success','Berhasil menghapus data');
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        $import = new SekolahImport;
+
+        try {
+            // Import langsung dari file upload, tidak perlu disimpan ke storage
+            Excel::import($import, $request->file('file'));
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal impor: ' . $e->getMessage());
+        }
+    
+        $failures = $import->failures();
+    
+        if ($failures->isNotEmpty()) {
+            return redirect()->back()->with([
+                'error' => 'Terdapat kesalahan pada beberapa baris Excel.',
+                'failures' => $failures,
+            ]);
+        }
+
+        return redirect()->route('admin.sekolah.index')->with('success', 'Data Sekolah berhasil diimpor');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\SekolahTemplateExport, 'Template_Sekolah.xlsx');
     }
 }
 

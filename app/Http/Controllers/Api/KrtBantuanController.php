@@ -30,8 +30,8 @@ class KrtBantuanController extends Controller
         $krtbantuan = new KrtBantuan();
         $rules = [
             'no_krtbantuan' => ['required', 'string', 'max:15', 'unique:tb_krtbantuan,no_krtbantuan'],
-            'nama_krtbantuan' => ['required', 'string', 'max:15', 'unique:tb_krtbantuan,nama_krtbantuan'],
-            'nama_pdkrt' => ['required', 'string', 'max:40', 'unique:tb_krtbantuan,nama_pdkrt'],
+            'nama_krtbantuan' => ['required', 'string', 'max:15'],
+            'nama_pdkrt' => ['required', 'string', 'max:40'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {

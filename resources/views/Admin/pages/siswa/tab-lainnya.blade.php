@@ -38,6 +38,48 @@
             </select>
             @error('id_krt_bantuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
+        <div class="col-md-4">
+            <label for="id_krt_bantuan_kip">No KIP</label>
+        </div>
+        <div class="col-md-8 form-group">
+            <select class="choices form-select @error('id_krt_bantuan_kip') is-invalid @enderror" id="id_krt_bantuan_kip" name="id_krt_bantuan_kip">
+                <option value="">Pilih No KIP</option>
+                @foreach ($krt_bantuan as $krtbtnkip)
+                    <option value="{{ $krtbtnkip->id }}" @selected(old('id_krt_bantuan_kip', $siswa['id_krt_bantuan_kip'] ?? '') == $krtbtnkip->id)>
+                        {{ $krtbtnkip->no_krtbantuan }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_krt_bantuan_kip') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+        <div class="col-md-4">
+            <label for="id_krt_bantuan_kps">No KPS</label>
+        </div>
+        <div class="col-md-8 form-group">
+            <select class="choices form-select @error('id_krt_bantuan_kps') is-invalid @enderror" id="id_krt_bantuan_kps" name="id_krt_bantuan_kps">
+                <option value="">Pilih No KPS</option>
+                @foreach ($krt_bantuan as $krtbtnkps)
+                    <option value="{{ $krtbtnkps->id }}" @selected(old('id_krt_bantuan_kps', $siswa['id_krt_bantuan_kps'] ?? '') == $krtbtnkps->id)>
+                        {{ $krtbtnkps->no_krtbantuan }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_krt_bantuan_kps') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+        <div class="col-md-4">
+            <label for="id_krt_bantuan_kks">No KKS</label>
+        </div>
+        <div class="col-md-8 form-group">
+            <select class="choices form-select @error('id_krt_bantuan_kks') is-invalid @enderror" id="id_krt_bantuan_kks" name="id_krt_bantuan_kks">
+                <option value="">Pilih No KKS</option>
+                @foreach ($krt_bantuan as $krtbtnkks)
+                    <option value="{{ $krtbtnkks->id }}" @selected(old('id_krt_bantuan_kks', $siswa['id_krt_bantuan_kks'] ?? '') == $krtbtnkks->id)>
+                        {{ $krtbtnkks->no_krtbantuan }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_krt_bantuan_kks') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
 
         <div class="col-md-4">
             <label for="nama_pada_kartu">Nama Pada Kartu</label>
@@ -125,6 +167,21 @@
                 @endforeach
             </select>
             @error('id_kebkhusus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+
+        <div class="col-md-4">
+            <label for="id_sekolah_asal">Sekolah Asal</label>
+        </div>
+        <div class="col-md-8 form-group">
+            <select class="choices form-select @error('id_sekolah_asal') is-invalid @enderror" id="id_sekolah_asal" name="id_sekolah_asal">
+                <option value="">Pilih Sekolah Asal</option>
+                @foreach ($sklasal as $asal)
+                    <option value="{{ $asal->id }}" @selected(old('id_sekolah_asal', $siswa['id_sekolah_asal'] ?? '') == $asal->id)>
+                        {{ $asal->nama_sekolah }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_sekolah_asal') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
         <div class="col-md-4">
