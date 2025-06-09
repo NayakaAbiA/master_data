@@ -39,10 +39,10 @@ return new class extends Migration
             ->constrained('tb_agama')
             ->onDelete('set null')->onUpdate('cascade');
 
-            $table->string('Jalan', 40);
-            $table->string('No_rumah',4);
-            $table->string('RT',4);
-            $table->string('RW',4);
+            $table->string('Jalan', 100);
+            $table->string('No_rumah',4)->nullable();
+            $table->string('RT',4)->nullable();
+            $table->string('RW',4)->nullable();
 
             $table->foreignId('id_provinsi')
             ->index()
@@ -60,7 +60,7 @@ return new class extends Migration
             ->index()
             ->nullable();
 
-            $table->string('kode_pos',5);
+            $table->string('kode_pos',5)->nullable();
             $table->string('no_telepon',15)->nullable();
             $table->string('hp',15);
             $table->string('email',50);
@@ -114,7 +114,7 @@ return new class extends Migration
             $table->boolean('keahlian_bahasa_isyarat');
 
             $table->string('no_npwp',25)->nullable();
-            $table->string('nama_wajib_pajak',50);
+            $table->string('nama_wajib_pajak',50)->nullable();;
             $table->string('kewarganegaraan',25);
 
             $table->foreignId('id_bank')
@@ -123,10 +123,10 @@ return new class extends Migration
             ->constrained('tb_bank')
             ->onDelete('set null')->onUpdate('cascade');
 
-            $table->string('no_rek_bank',50);
-            $table->string('rek_atas_nama',100);
-            $table->string('no_kk',17);
-            $table->string('no_karpeg',8)->unique()->nullable();
+            $table->string('no_rek_bank',50)->nullable();;
+            $table->string('rek_atas_nama',100)->nullable();;
+            $table->string('no_kk',17)->nullable();;
+            $table->string('no_karpeg',15)->unique()->nullable();
             $table->string('no_karis_karsu',11)->nullable();
             $table->string('nuks',15)->unique()->nullable();
 

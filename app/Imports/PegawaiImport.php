@@ -42,6 +42,9 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
         $data['no_rumah'] = (string) ($data['no_rumah'] ?? '');
         $data['rt'] = (string) ($data['rt'] ?? '');
         $data['rw'] = (string) ($data['rw'] ?? '');
+        $data['lintang'] = (string) ($data['lintang'] ?? '');
+        $data['bujur'] = (string) ($data['bujur'] ?? '');
+        $data['telepon'] = (string) ($data['telepon'] ?? '');
 
         return $data;
     }
@@ -135,16 +138,16 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
             'nama' => ['required', 'string', 'max:100'],
             'nik' => ['required', 'digits:16', 'unique:tb_ptk,nik'],
             'nip' => ['nullable', 'string', 'max:18'],
-            'nuptk' => ['nullable', 'string', 'max:255'],
+            'nuptk' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:50', 'unique:tb_ptk,email'],
             'jenis_kelamin' => ['required', 'string', 'max:10'],
             'tempat_lahir' => ['required', 'string', 'max:30'],
             'tanggal_lahir' => ['required', 'date'],
-            'alamat_jalan' => ['required', 'string', 'max:40'],
+            'alamat_jalan' => ['required', 'string', 'max:100'],
             'no_rumah' => ['nullable', 'string', 'max:4'],
-            'rt' => ['required', 'string', 'max:4'],
-            'rw' => ['required', 'string', 'max:4'],
-            'kode_pos' => ['required', 'digits:5'],
+            'rt' => ['nullable', 'string', 'max:4'],
+            'rw' => ['nullable', 'string', 'max:4'],
+            'kode_pos' => ['nullable', 'digits:5'],
             'telepon' => ['nullable', 'string', 'max:15'],
             'hp' => ['required', 'string', 'max:15'],
             'lintang' => ['nullable', 'string', 'max:50'],
@@ -167,7 +170,7 @@ class PegawaiImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnF
             'nomor_rekening_bank' => ['nullable', 'string', 'max:50'],
             'rekening_atas_nama' => ['nullable', 'string', 'max:100'],
             'no_kk' => ['nullable', 'digits:16'],
-            'karpeg' => ['nullable', 'string', 'max:8'],
+            'karpeg' => ['nullable', 'string', 'max:15'],
             'karis_atau_karsu' => ['nullable', 'string', 'max:11'],
             'nuks' => ['nullable', 'string', 'max:15'],
         ];
