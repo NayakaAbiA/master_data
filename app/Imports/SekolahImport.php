@@ -2,8 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Kelurahan;
-use App\Models\Kecamatan;
+use App\Models\Sekolah;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -12,8 +11,13 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class KelurahanImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure, WithMultipleSheets
+class SekolahImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure, WithMultipleSheets
 {
+    /**
+    * @param array $row
+    *
+    * @return \Illuminate\Database\Eloquent\Model|null
+    */
     use SkipsFailures;
 
     public function sheets(): array
@@ -25,20 +29,19 @@ class KelurahanImport implements ToModel, WithHeadingRow, WithValidation, SkipsO
 
     public function model(array $row)
     {
-        $kecamatan = Kecamatan::where('kecamatan', $row['kecamatan'] ?? '')->first();
-
-        return new Kelurahan([
-            'kelurahan' => $row['kelurahan'],
-            'kode_pos' => $row['kode_pos'],
-            'id_kecamatan' => $kecamatan?->id,
+        return new Sekolah([
+       'npsn' => $row['npsn'],
+       'nama_sekolah' => $row['nama_sekolah'],
+       'jenjang' => $row['jenjang'],
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'kelurahan' => ['required', 'string', 'max:255', 'unique:tb_kelurahan,kelurahan'],
-            'kode_pos' => ['required', 'string', 'max:255'],
+            'npsn' => ['required', 'string', 'max:12', 'unique:tb_sekolah,npsn'],
+            'nama_sekolah' => ['required', 'string', 'max:50', 'unique:tb_sekolah,nama_sekolah'],
+            'jenjang' => ['required', 'string', 'max:30'],
         ];
     }
 }

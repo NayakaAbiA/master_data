@@ -21,6 +21,21 @@
             value="{{ $s['krt_bantuan']['nama_krtbantuan'] ?? ''}}">
         </div>
         <div class="form-group">
+            <label for="readonlyInput">No KIP</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s['nokip']['no_krtbantuan'] ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">No KPS</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s['nokps']['no_krtbantuan'] ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">No KKS</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s['nokks']['no_krtbantuan'] ?? ''}}">
+        </div>
+        <div class="form-group">
             <label for="readonlyInput">Nama Pada Kartu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['nama_pada_kartu']}}">
@@ -30,13 +45,13 @@
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['bank']['nama_bank'] ?? ''}}">
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <label for="readonlyInput">No Rekening Bank</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['no_rek_bank']}}">
         </div>
-    </div>
-    <div class="col-md-6">
     <div class="form-group">
             <label for="readonlyInput">Rekening Atas Nama</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
@@ -66,6 +81,11 @@
             <label for="readonlyInput">Kebutuhan Khusus</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['kebkhusus']['kebkhusus'] ?? ''}}">
+        </div>
+        <div class="form-group">
+            <label for="readonlyInput">Sekolah Asal</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s['sklasal']['nama_sekolah'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Status Siswa</label>

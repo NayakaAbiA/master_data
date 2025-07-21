@@ -16,7 +16,26 @@ class DashboardController extends Controller
     public function index()
     {
         $jumlahGuru = Pegawai::count();
+        $jumlahLaki_peg = Pegawai::where('jenis_kelamin', 'L')->count();
+        $jumlahPerempuan_peg = Pegawai::where('jenis_kelamin', 'P')->count();
+        $jumlahPNS = Pegawai::where('id_stat_peg', 1)->count();
+        $jumlahPPPK = Pegawai::where('id_stat_peg', 2)->count();
+        $jumlahHonorer = Pegawai::where('id_stat_peg', 3)->count();
+
         $jumlahSiswa = Siswa::count();
+        $jumlahLaki_sis = Siswa::where('jenis_kelamin', 'L')->count();
+        $jumlahPerempuan_sis = Siswa::where('jenis_kelamin', 'P')->count();
+        $jumlahKelasX = Siswa::whereHas('rombel', function ($query) {
+            $query->where('nama', 'like', 'X%');
+        })->count();
+        $jumlahKelasXI = Siswa::whereHas('rombel', function ($query) {
+            $query->where('nama', 'like', 'XI%');
+        })->count();
+        $jumlahKelasXII = Siswa::whereHas('rombel', function ($query) {
+            $query->where('nama', 'like', 'XII%');
+        })->count();
+        
+
         $jumlahRombel = Rombel::count();
         $jumlahJurusan = Jurusan::count();
         $user = Auth::user();
@@ -27,6 +46,11 @@ class DashboardController extends Controller
             $rombels = collect(); // koleksi kosong
         }
 
-        return view('Admin.dashboard', compact('jumlahGuru','jumlahSiswa','jumlahRombel','jumlahJurusan','rombels'));
+        return view('Admin.dashboard', 
+        compact('jumlahGuru','jumlahSiswa','jumlahRombel',
+        'jumlahJurusan','rombels','jumlahLaki_peg','jumlahPerempuan_peg',
+        'jumlahPNS', 'jumlahPPPK', 'jumlahHonorer','jumlahLaki_sis','jumlahPerempuan_sis',
+        'jumlahKelasX','jumlahKelasXI','jumlahKelasXII'
+    ));
     }
 }

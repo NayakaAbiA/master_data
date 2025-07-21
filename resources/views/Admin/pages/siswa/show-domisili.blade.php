@@ -21,14 +21,14 @@
             value="{{ $s['RW']}}">
         </div>
         <div class="form-group">
-            <label for="readonlyInput">Provinsi</label>
+            <label for="readonlyInput">Dusun</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['provinsi']['provinsi']  ?? ''}}">
+            value="{{ $s['dusun']}}">
         </div>
         <div class="form-group">
-            <label for="readonlyInput">Kabupaten/Kota</label>
+            <label for="readonlyInput">Kelurahan</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['kabupaten']['kabupaten']  ?? ''}}">
+            value="{{ $s['kelurahan']['kelurahan']  ?? '' }}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Kecamatan</label>
@@ -36,12 +36,17 @@
             value="{{ $s['kecamatan']['kecamatan'] ?? '' }}">
         </div>
         <div class="form-group">
-            <label for="readonlyInput">Kelurahan</label>
+            <label for="readonlyInput">Kabupaten/Kota</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['kelurahan']['kelurahan']  ?? '' }}">
+            value="{{ $s['kabupaten']['kabupaten']  ?? ''}}">
         </div>
     </div>
     <div class="col-md-6">
+        <div class="form-group">
+            <label for="readonlyInput">Provinsi</label>
+            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+            value="{{ $s['provinsi']['provinsi']  ?? ''}}">
+        </div>
         <div class="form-group">
             <label for="readonlyInput">Kode Pos</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"

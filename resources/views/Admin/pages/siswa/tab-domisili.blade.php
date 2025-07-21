@@ -32,58 +32,67 @@
             @enderror
         </div>
 
+        
         <div class="col-md-4"><label for="id_provinsi">Provinsi</label></div>
         <div class="col-md-8 form-group">
             <select class="choices form-select @error('id_provinsi') is-invalid @enderror" id="id_provinsi" name="id_provinsi">
                 <option value="">Pilih Provinsi</option>
                 @foreach ($provinsi as $prov)
-                    <option value="{{ $prov->id }}" @selected(old('id_provinsi', $siswa['id_provinsi'] ?? '') == $prov['id'])>{{ $prov['provinsi'] }}</option>
+                <option value="{{ $prov->id }}" @selected(old('id_provinsi', $siswa['id_provinsi'] ?? '') == $prov['id'])>{{ $prov['provinsi'] }}</option>
                 @endforeach
             </select>
             @error('id_provinsi') 
-                <div class="invalid-feedback">{{ $message }}</div> 
+            <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
-
+        
         <div class="col-md-4"><label for="id_kabupaten">Kabupaten/Kota</label></div>
         <div class="col-md-8 form-group">
             <select class="choices form-select @error('id_kabupaten') is-invalid @enderror" id="id_kabupaten" name="id_kabupaten">
                 <option value="">Pilih Kabupaten</option>
                 @foreach ($kabupaten as $kab)
-                    <option value="{{ $kab->id }}" @selected(old('id_kabupaten', $siswa['id_kabupaten'] ?? '') == $kab['id'])>{{ $kab['kabupaten'] }}</option>
+                <option value="{{ $kab->id }}" @selected(old('id_kabupaten', $siswa['id_kabupaten'] ?? '') == $kab['id'])>{{ $kab['kabupaten'] }}</option>
                 @endforeach
             </select>
             @error('id_kabupaten') 
-                <div class="invalid-feedback">{{ $message }}</div> 
+            <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
-
+        
         <div class="col-md-4"><label for="id_kecamatan">Kecamatan</label></div>
         <div class="col-md-8 form-group">
             <select class="choices form-select @error('id_kecamatan') is-invalid @enderror" id="id_kecamatan" name="id_kecamatan">
                 <option value="">Pilih Kecamatan</option>
                 @foreach ($kecamatan as $kec)
-                    <option value="{{ $kec->id }}" @selected(old('id_kecamatan', $siswa['id_kecamatan'] ?? '') == $kec['id'])>{{ $kec['kecamatan'] }}</option>
+                <option value="{{ $kec->id }}" @selected(old('id_kecamatan', $siswa['id_kecamatan'] ?? '') == $kec['id'])>{{ $kec['kecamatan'] }}</option>
                 @endforeach
             </select>
             @error('id_kecamatan') 
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
+        
         <div class="col-md-4"><label for="id_kelurahan">Kelurahan</label></div>
         <div class="col-md-8 form-group">
             <select class="choices form-select @error('id_kelurahan') is-invalid @enderror" id="id_kelurahan" name="id_kelurahan">
                 <option value="">Pilih Kelurahan</option>
                 @foreach ($kelurahan as $kel)
-                    <option value="{{ $kel->id }}" @selected(old('id_kelurahan', $siswa['id_kelurahan'] ?? '') == $kel['id'])>{{ $kel['kelurahan'] }}</option>
+                <option value="{{ $kel->id }}" @selected(old('id_kelurahan', $siswa['id_kelurahan'] ?? '') == $kel['id'])>{{ $kel['kelurahan'] }}</option>
                 @endforeach
             </select>
             @error('id_kelurahan') 
-                <div class="invalid-feedback">{{ $message }}</div> 
+            <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
-
+        
+        <div class="col-md-4"><label for="dusun">Dusun</label></div>
+        <div class="col-md-8 form-group">
+            <input type="text" id="dusun" class="form-control @error('dusun') is-invalid @enderror" name="dusun" value="{{ old('dusun', $siswa['dusun'] ?? '') }}" placeholder="Masukkan Dusun">
+            @error('dusun') 
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        
         <div class="col-md-4"><label for="kode_pos">Kode Pos</label></div>
         <div class="col-md-8 form-group">
             <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ old('kode_pos', $siswa['kode_pos'] ?? '') }}" placeholder="Masukkan Kode Pos">
@@ -142,7 +151,7 @@
             @enderror
         </div>
 
-        <div class="col-md-4"><label for="jrk_rumah_sekolah">Jarak ke sekolah (m)</label></div>
+        <div class="col-md-4"><label for="jrk_rumah_sekolah">Jarak ke sekolah (km)</label></div>
         <div class="col-md-8 form-group">
             <input type="text" id="jrk_rumah_sekolah" class="form-control @error('jrk_rumah_sekolah') is-invalid @enderror" name="jrk_rumah_sekolah" value="{{ old('jrk_rumah_sekolah', $siswa['jrk_rumah_sekolah'] ?? '') }}" placeholder="Masukkan Jarak dari rumah ke sekolah">
             @error('jrk_rumah_sekolah') 

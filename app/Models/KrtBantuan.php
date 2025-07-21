@@ -21,4 +21,13 @@ class KrtBantuan extends Model
     public function siswa() {
         return $this->hasMany(KrtBantuan::class, 'id_krt_bantuan', 'id');
     }
+    public function siswa_nokip() {
+        return $this->hasMany(KrtBantuan::class, 'id_krt_bantuan_kip', 'id');
+    }
+    public function siswa_nokps() {
+        return $this->hasMany(KrtBantuan::class, 'id_krt_bantuan_kps', 'id');
+    }
+    public function siswa_nokks() {
+        return $this->hasMany(KrtBantuan::class, 'id_krt_bantuan_kks', 'id');
+    }
 }

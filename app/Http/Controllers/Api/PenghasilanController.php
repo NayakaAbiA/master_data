@@ -29,7 +29,7 @@ class PenghasilanController extends Controller
     {
         $penghasilan = new Penghasilan();
         $rules = [
-            'penghasilan' => ['required', 'string', 'max:20', 'unique:tb_penghasilan,penghasilan'],
+            'penghasilan' => ['required', 'string', 'max:30', 'unique:tb_penghasilan,penghasilan'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -84,7 +84,7 @@ class PenghasilanController extends Controller
         }
 
         $rules = [
-            'penghasilan' => ['required', 'string', 'max:20', 'unique:tb_penghasilan,penghasilan'],
+            'penghasilan' => ['required', 'string', 'max:30', 'unique:tb_penghasilan,penghasilan'],
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {

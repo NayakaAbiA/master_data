@@ -23,7 +23,7 @@ class SiswaExport implements FromArray, WithHeadings, WithStyles, WithEvents
             $this->dataArray = Siswa::with(
                 'agama', 'jurusan', 'rombel', 'provinsi', 'kabupaten', 'kecamatan', 'kelurahan', 'jns_tinggal',
                 'transport', 'pendidikanAyah', 'pendidikanIbu', 'pendidikanWali', 'pekerjaanAyah', 'pekerjaanIbu', 'pekerjaanWali',
-                'penghasilanAyah', 'penghasilanIbu', 'penghasilanWali', 'krt_bantuan', 'bank', 'prgbantuan', 'kebkhusus'
+                'penghasilanAyah', 'penghasilanIbu', 'penghasilanWali', 'krt_bantuan', 'nokip', 'nokps', 'nokks', 'bank', 'prgbantuan', 'kebkhusus', 'sklasal'
             )->get()->map(function ($siswa) {
                 return [
                     $siswa->nama ?? '-', $siswa->nipd ?? '-', $siswa->nisn ?? '-', $siswa->jurusan->nama_jur ?? '-',
@@ -31,7 +31,7 @@ class SiswaExport implements FromArray, WithHeadings, WithStyles, WithEvents
                     $siswa->no_kk ?? '-', $siswa->no_reg_aktlhr ?? '-', $siswa->agama->nama_agama ?? '-', $siswa->npsn ?? '-',
                     $siswa->anak_ke ?? '-', $siswa->jml_saudara_kandung ?? '-', $siswa->jrk_rumah_sekolah ?? '-', $siswa->berat_badan ?? '-',
                     $siswa->tinggi_badan ?? '-', $siswa->lingkar_kepala ?? '-', $siswa->Jalan ?? '-', $siswa->no_rumah ?? '-',
-                    $siswa->RT ?? '-', $siswa->RW ?? '-', $siswa->provinsi->provinsi ?? '-', $siswa->kabupaten->kabupaten ?? '-',
+                    $siswa->RT ?? '-', $siswa->RW ?? '-', $siswa->dusun ?? '-',$siswa->provinsi->provinsi ?? '-', $siswa->kabupaten->kabupaten ?? '-',
                     $siswa->kecamatan->kecamatan ?? '-', $siswa->kelurahan->kelurahan ?? '-', $siswa->kode_pos ?? '-',
                     $siswa->jns_tinggal->jnstinggal ?? '-', $siswa->transport->alat_transport ?? '-', $siswa->no_telepon ?? '-',
                     $siswa->hp ?? '-', $siswa->lintang ?? '-', $siswa->bujur ?? '-', $siswa->email ?? '-', $siswa->no_skhun ?? '-',
@@ -41,11 +41,11 @@ class SiswaExport implements FromArray, WithHeadings, WithStyles, WithEvents
                     $siswa->pekerjaanIbu->pekerjaan ?? '-', $siswa->penghasilanIbu->penghasilan ?? '-', $siswa->nama_wali ?? '-',
                     $siswa->nik_wali ?? '-', $siswa->thn_lahir_wali ?? '-', $siswa->pendidikanWali->jenjang_pendidikan ?? '-',
                     $siswa->pekerjaanWali->pekerjaan ?? '-', $siswa->penghasilanWali->penghasilan ?? '-', $siswa->nopes_un ?? '-',
-                    $siswa->no_seri_ijazah ?? '-', $siswa->krt_bantuan->nama_krtbantuan ?? '-', $siswa->nama_pada_kartu ?? '-',
+                    $siswa->no_seri_ijazah ?? '-', $siswa->krt_bantuan->nama_krtbantuan ?? '-', $siswa->nokip->no_krtbantuan ?? '-', 
+                    $siswa->nokps->no_krtbantuan ?? '-', $siswa->nokks->no_krtbantuan ?? '-', $siswa->nama_pada_kartu ?? '-', $siswa->sklasal->nama_sekolah ?? '-',
                     $siswa->bank->nama_bank ?? '-', $siswa->no_rek_bank ?? '-', $siswa->rek_atas_nama ?? '-',
-                    $siswa->layak_bantuan == 1 ? 'Yes' : 'No',
-                    $siswa->prgbantuan->prgbantuan ?? '-', $siswa->alasan_layak ?? '-', $siswa->kebkhusus->kebkhusus ?? '-',
-                    $siswa->Stat_siswa ?? '-', $siswa->pindahan == 1 ? 'Yes' : 'No', $siswa->kewarganegaraan ?? '-',
+                    $siswa->layak_bantuan == 1 ? 'Yes' : 'No', $siswa->prgbantuan->prgbantuan ?? '-', $siswa->alasan_layak ?? '-', 
+                    $siswa->kebkhusus->kebkhusus ?? '-', $siswa->Stat_siswa ?? '-', $siswa->pindahan == 1 ? 'Yes' : 'No', $siswa->kewarganegaraan ?? '-',
                 ];
             })->toArray();
         }
@@ -57,14 +57,14 @@ class SiswaExport implements FromArray, WithHeadings, WithStyles, WithEvents
     {
         return ['Nama', 'NIPD', 'NISN', 'Jurusan', 'Rombel', 'Tempat lahir', 'Tanggal lahir', 'NIK', 'No KK',
             'No Reg Akte lahir', 'Agama', 'NPSN', 'Anak ke-', 'Jumlah saudara kandung', 'Jarak Rumah ke Sekolah',
-            'Berat Badan', 'Tinggi badan', 'Lingkar kepala', 'Jalan', 'No Rumah', 'RT', 'RW', 'Provinsi', 'Kabupaten',
+            'Berat Badan', 'Tinggi badan', 'Lingkar kepala', 'Jalan', 'No Rumah', 'RT', 'RW', 'Dusun', 'Provinsi', 'Kabupaten',
             'Kecamatan', 'Kelurahan', 'Kode pos', 'Jenis tinggal', 'Transportasi', 'No Telepon', 'HP', 'Lintang',
             'Bujur', 'Email', 'No Skhun', 'Nama Ayah', 'Nik Ayah', 'Tahun Lahir Ayah', 'Pendidikan Ayah',
             'Pekerjaan Ayah', 'Penghasilan Ayah', 'Nama Ibu', 'Nik Ibu', 'Tahun Lahir Ibu', 'Pendidikan Ibu',
             'Pekerjaan Ibu', 'Penghasilan Ibu', 'Nama Wali', 'Nik Wali', 'Tahun Lahir Wali', 'Pendidikan Wali',
-            'Pekerjaan Wali', 'Penghasilan Wali', 'Nopes un', 'No seri Ijazah', 'Kartu bantuan', 'Nama pada kartu',
-            'Bank', 'No Rekening Bank', 'Rekening Atas Nama', 'Layak Bantuan', 'Program bantuan', 'Alasan layak',
-            'Kebutuhan khusus', 'Status Siswa', 'Pindah', 'Kewarganegaraan'];
+            'Pekerjaan Wali', 'Penghasilan Wali', 'Nopes un', 'No seri Ijazah', 'Kartu bantuan', 'No KIP', 'No KPS', 'No KKS', 
+            'Nama pada kartu', 'Bank', 'No Rekening Bank', 'Rekening Atas Nama', 'Layak Bantuan', 'Program bantuan', 
+            'Alasan layak', 'Kebutuhan khusus', 'Sekolah Asal','Status Siswa', 'Pindah', 'Kewarganegaraan'];
     }
 
     public function styles(Worksheet $sheet)

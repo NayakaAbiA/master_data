@@ -12,10 +12,49 @@
     </nav>
     </div>
     <div class="card col-md-12">
-        <div class="card-header">
-            <h5 class="card-title align-items-center">
-                Tambah Kartu Bantuan
-            </h5>
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+                <h5 class="card-title mb-0">Tambah Kartu Bantuan</h5>
+                @if(session('error') && !session('failures'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#inlineFormPegawai">Import Data</button>
+
+            <a href="{{ route('admin.krtbantuan.downloadTemplate') }}" class="btn btn-success">Unduh Template Excel</a>
+        </div>
+    </div>
+
+        <!-- Modal -->
+        <div class="modal fade text-left" id="inlineFormPegawai" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel33" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Input Import Data</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.krtbantuan.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <label for="file">File : </label>
+                            <div class="form-group">
+                                <input id="file" type="file" name="file" class="form-control" required>
+                                <p><small class="text-muted">Masukkan file dengan format xls, xlsx.</small></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="d-none d-sm-block">Import</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="row match-height">
             <div class="col-md-12 col-12">

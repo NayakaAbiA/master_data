@@ -110,6 +110,18 @@ class Siswa extends Model
     {
         return $this->belongsTo(KrtBantuan::class, 'id_krt_bantuan', 'id');
     }
+    public function nokip()
+    {
+        return $this->belongsTo(KrtBantuan::class, 'id_krt_bantuan_kip', 'id');
+    }
+    public function nokps()
+    {
+        return $this->belongsTo(KrtBantuan::class, 'id_krt_bantuan_kps', 'id');
+    }
+    public function nokks()
+    {
+        return $this->belongsTo(KrtBantuan::class, 'id_krt_bantuan_kks', 'id');
+    }
     //fungsi one to one ke model Bank
     public function bank()
     {
@@ -124,6 +136,10 @@ class Siswa extends Model
     public function kebkhusus()
     {
         return $this->belongsTo(KebKhusus::class, 'id_kebkhusus', 'id');
+    }
+    public function sklasal()
+    {
+        return $this->belongsTo(Sekolah::class, 'id_sekolah_asal', 'id');
     }
 
 }

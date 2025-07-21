@@ -9,38 +9,21 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class KabupatenImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure
+class KabupatenImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure, WithMultipleSheets
 {
     use SkipsFailures;
-
-    /**
-     * Lewati komentar dan baris kosong sebelum validasi dijalankan.
-     */
-    public function prepareForValidation($data, $index)
+    
+    public function sheets(): array
     {
-        $firstValue = trim($data[array_key_first($data)] ?? '');
-
-        if (
-            str_starts_with($firstValue, '*') ||
-            str_starts_with($firstValue, '-')
-        ) {
-            return [];
-        }
-
-        return $data;
+        return [
+            0 => $this, // hanya proses sheet ke-0 (pertama)
+        ];
     }
 
     public function model(array $row)
     {
-        $firstValue = trim($row[array_key_first($row)] ?? '');
-
-        if (
-            str_starts_with($firstValue, '*') ||
-            str_starts_with($firstValue, '-')
-        ) {
-            return null;
-        }
 
         $provinsi = Provinsi::where('provinsi', $row['provinsi'] ?? '')->first();
 
