@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\Siswa;
 use App\Models\Rombel;
-use App\Models\Pegawai;
 use App\Models\Jurusan;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,13 @@ class DashboardController extends Controller
 
         $jumlahRombel = Rombel::count();
         $jumlahJurusan = Jurusan::count();
+       $konsentrasiKeahlian = DB::table('tb_rombel')
+    ->select(DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(nama_rombel, ' ', 2), ' ', -1) as jurusan"))
+    ->get()
+    ->pluck('jurusan')
+    ->unique()
+    ->count();
+
         $user = Auth::user();
         $ptk = $user->ptk;
         if ($ptk) {
@@ -50,7 +58,7 @@ class DashboardController extends Controller
         compact('jumlahGuru','jumlahSiswa','jumlahRombel',
         'jumlahJurusan','rombels','jumlahLaki_peg','jumlahPerempuan_peg',
         'jumlahPNS', 'jumlahPPPK', 'jumlahHonorer','jumlahLaki_sis','jumlahPerempuan_sis',
-        'jumlahKelasX','jumlahKelasXI','jumlahKelasXII'
+        'jumlahKelasX','jumlahKelasXI','jumlahKelasXII', 'konsentrasiKeahlian'
     ));
     }
 }

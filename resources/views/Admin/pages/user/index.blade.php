@@ -54,7 +54,7 @@
                             <td>{{ $item['name']}}</td>
                             <td>{{ $item['email']}}</td>
                             <td>{{ $item['role']['role'] ?? 'Tidak ada Role'}}</td>
-                            <td>{{ $item['ptk']['nama'] ?? '-'}}</td>
+                            <td>{{ $item['ptk']['nama'] ?? $item['siswa']['nama'] ?? '-'}}</td>
                             <td>
                                 <div class="buttons">
                                     <!-- parameter diambil berdasarkan route yang ada di web.php -->

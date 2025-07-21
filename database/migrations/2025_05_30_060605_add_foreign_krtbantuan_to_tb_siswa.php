@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('tb_siswa', function (Blueprint $table) {
             $table->foreignId('id_krt_bantuan_kip')
-             ->after('no_seri_jazah')
+             ->after('no_seri_ijazah')
              ->index()
              ->nullable()
              ->constrained('tb_krtbantuan')

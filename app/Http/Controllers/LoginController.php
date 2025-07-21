@@ -36,6 +36,7 @@ class LoginController extends Controller
                 case 'adminSiswa':
                 case 'adminPegawai':
                 case 'pegawai':
+                case 'siswa':
                     return redirect()->route('admin.dashboard');
                 case 'kesiswaan':
                     return response('sukses');
@@ -43,6 +44,8 @@ class LoginController extends Controller
                     return response('berhasil');
                 case 'pegawai':
                     return response('pegawai');
+                case 'siswa':
+                    return response('siswa');
                 default:
                     Auth::logout(); 
                     return redirect()->back()->withErrors(['login' => 'Role tidak dikenali']);

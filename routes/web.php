@@ -118,7 +118,7 @@ Route::prefix('admin')
 
         });
         //  Super Admin, Admin Siswa &pegawai
-        Route::middleware('role:superAdmin,adminSiswa,pegawai')->group(function () {
+        Route::middleware('role:superAdmin,adminSiswa,pegawai,siswa')->group(function () {
             Route::get('siswa/list', [SiswaController::class, 'lists'])->name('siswa.lists');
             Route::get('/siswa/template', [SiswaController::class, 'downloadTemplate'])->name('siswa.downloadTemplate');
             Route::resource('siswa', SiswaController::class);

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SiswaController extends Controller
@@ -12,56 +13,63 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $data = Siswa::with([
-            'agama',
-            'jurusan',
-            'rombel',
-            'provinsi', 
-            'kabupaten', 
-            'kecamatan', 
-            'kelurahan', 
-            'jns_tinggal',
-            'transport',
-            'pendidikanAyah',
-            'pendidikanIbu',
-            'pendidikanWali',
-            'pekerjaanAyah',
-            'pekerjaanIbu',
-            'pekerjaanWali',
-            'penghasilanAyah',
-            'penghasilanIbu',
-            'penghasilanWali',
-            'krt_bantuan',
-            'nokip',
-            'nokps',
-            'nokks',
-            'bank',
-            'prgbantuan',
-            'kebkhusus',
-            'sklasal'
-        ]);
-        // Filter berdasarkan rombel dari relasi 'rombel'
+public function index(Request $request)
+{
+    $user = Auth::user();
+
+    $data = Siswa::with([
+        'agama',
+        'jurusan',
+        'rombel',
+        'provinsi',
+        'kabupaten',
+        'kecamatan',
+        'kelurahan',
+        'jns_tinggal',
+        'transport',
+        'pendidikanAyah',
+        'pendidikanIbu',
+        'pendidikanWali',
+        'pekerjaanAyah',
+        'pekerjaanIbu',
+        'pekerjaanWali',
+        'penghasilanAyah',
+        'penghasilanIbu',
+        'penghasilanWali',
+        'krt_bantuan',
+        'nokip',
+        'nokps',
+        'nokks',
+        'bank',
+        'prgbantuan',
+        'kebkhusus',
+        'sklasal'
+    ]);
+
+    // Jika user yang login adalah siswa
+    if ($user->role->role === 'siswa') {
+        $data = $data->where('id', $user->siswa_id)->get();
+    } else {
+        // Jika bukan siswa, gunakan filter rombel dan jurusan
         if ($request->has('nama_rombel') && $request->nama_rombel != '') {
             $data->whereHas('rombel', function ($q) use ($request) {
                 $q->where('nama_rombel', $request->nama_rombel);
             });
         }
-        // Filter berdasarkan jurusan dari relasi 'jurusan'
         if ($request->has('nama_jur') && $request->nama_jur != '') {
             $data->whereHas('jurusan', function ($q) use ($request) {
                 $q->where('nama_jur', $request->nama_jur);
             });
         }
-        $data = $data->get(); // <-- Ambil data setelah filter
-    
-        return response()->json([
-            'status' => true,
-            'message' => 'Data ditemukan',
-            'data' => $data
-        ], 200);
+        $data = $data->get();
     }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Data ditemukan',
+        'data' => $data
+    ], 200);
+}
 
     /**
      * Store a newly created resource in storage.

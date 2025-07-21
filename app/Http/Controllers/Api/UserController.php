@@ -28,38 +28,59 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'min:6'],
-            'role_id' => ['required', 'exists:roles,id'],
-            'ptk_id' => ['exists:tb_ptk,id']
-        ];
+{
+    $pegawaiRoleId = 1; // sesuaikan dengan ID role pegawai
+    $siswaRoleId = 5;   // sesuaikan dengan ID role siswa
 
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Gagal menyimpan data',
-                'data' => $validator->errors()
-            ]);
-        }
+    // Validasi dasar
+    $rules = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+        'password' => ['required', 'min:6'],
+        'role_id' => ['required', 'exists:roles,id'],
+    ];
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role_id = $request->role_id;
-        $user->ptk_id = $request->ptk_id;
-        $user->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Data berhasil ditambahkan',
-            'data' => $user
-        ], 201);
+    // Tambahkan validasi berdasarkan role
+    if ($request->role_id == $pegawaiRoleId) {
+        $rules['ptk_id'] = ['required', 'exists:tb_ptk,id'];
+    } elseif ($request->role_id == $siswaRoleId) {
+        $rules['siswa_id'] = ['required', 'exists:tb_siswa,id'];
     }
+
+    // Jalankan validasi
+    $validator = Validator::make($request->all(), $rules);
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Gagal menyimpan data',
+            'data' => $validator->errors()
+        ], 422);
+    }
+
+    // Simpan data
+    $user = new User();
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->role_id = $request->role_id;
+
+    // Set relasi siswa/ptk berdasarkan role
+    if ($request->role_id == $pegawaiRoleId) {
+        $user->ptk_id = $request->ptk_id;
+        $user->siswa_id = null;
+    } elseif ($request->role_id == $siswaRoleId) {
+        $user->siswa_id = $request->siswa_id;
+        $user->ptk_id = null;
+    }
+
+    $user->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Data berhasil ditambahkan',
+        'data' => $user
+    ], 201);
+}
 
     /**
      * Display the specified resource.

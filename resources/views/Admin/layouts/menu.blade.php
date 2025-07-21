@@ -176,7 +176,7 @@
                 <li class="submenu-item {{ request()->routeIs('admin.pegawai.index') ? 'active' : '' }}"><a href="{{ route('admin.pegawai.index') }}" class="submenu-link">Pegawai</a></li>
             </ul>
         </li>
-        @else
+        @elseif (auth()->user()->role->role === 'pegawai')
         <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid"></i>
             <span>Dashboard</span>
@@ -196,6 +196,11 @@
         <a href="{{ url('admin/perbaikan') }}" class="sidebar-link {{ request()->is('admin/perbaikan') ? 'active' : '' }}">
             <i class="bi bi-pencil-square"></i>
             <span>Pengajuan</span>
+        </a>
+        @else
+        <a href="{{ route('admin.siswa.index') }}" class="sidebar-link {{ request()->is('admin.siswa.index') ? 'active' : '' }}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Data Pribadi</span>
         </a>
     @endif
 

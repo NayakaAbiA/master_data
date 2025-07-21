@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="readonlyInput">Dusun</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['dusun']}}">
+            value="{{ $s['dusun'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Kelurahan</label>

@@ -38,37 +38,64 @@ class SiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $client = new Client();
-        $url = 'http://127.0.0.1:8000/api/siswa';
-        $response = $client->request('GET', $url, [
-            'query' => [
-                'nama_rombel' => $request->nama_rombel,
-                'nama_jur' => $request->nama_jur,
-            ]
-        ]);
-    
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        $siswa = $contentArray['data'];
+        $user = Auth::user();
+
         $rombel = Rombel::all();
         $jurusan = Jurusan::all();
-        $user = Auth::user();
-        $ptk = $user->ptk;
+        $rombels = Rombel::all(); 
 
-        $siswas = [];
+        // Jika user adalah siswa
+        if ($user->role->role === 'siswa') {
+            $s = Siswa::with(['rombel', 'jurusan'])->findOrFail($user->siswa_id);
 
-        if ($ptk) {
-            // Dapatkan rombel yang diampu oleh pegawai
-            $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
-
-            // Ambil semua siswa yang ada di rombel tersebut
-            $rombelIds = $rombels->pluck('id')->toArray();
-            $siswas = Siswa::whereIn('id_rombel', $rombelIds)->get();
-        } else {
-            $rombels = collect(); // koleksi kosong
+            return view('Admin.pages.siswa.index', [
+                'siswa' => null,
+                'rombel' => $rombel,
+                'jurusan' => $jurusan,
+                'rombels' => $rombels,
+                's' => $s,
+                'siswas' => null,
+            ]);
         }
-        return view('Admin.pages.siswa.index',compact('siswa', 'rombel', 'jurusan','rombels','siswas'));
+
+        // Jika user adalah pegawai
+        if ($user->role->role === 'pegawai') {
+            $rombels = Rombel::where('id_jur', $user->ptk->id_jur)->get();
+            $rombelIds = $rombels->pluck('id')->toArray();
+            $siswas = Siswa::whereIn('id_rombel', $rombelIds)->with(['rombel', 'jurusan'])->get();
+
+            return view('Admin.pages.siswa.index', [
+                'siswa' => null,
+                'rombel' => $rombel,
+                'jurusan' => $jurusan,
+                'rombels' => $rombels,
+                'siswas' => $siswas,
+            ]);
+        }
+
+        // Jika adminSiswa atau lainnya (tanpa API)
+        $siswa = Siswa::with(['rombel', 'jurusan'])
+            ->when($request->nama_rombel, function ($query) use ($request) {
+                $query->whereHas('rombel', function ($q) use ($request) {
+                    $q->where('nama_rombel', $request->nama_rombel);
+                });
+            })
+            ->when($request->nama_jur, function ($query) use ($request) {
+                $query->whereHas('jurusan', function ($q) use ($request) {
+                    $q->where('nama_jur', $request->nama_jur);
+                });
+            })->get();
+
+        return view('Admin.pages.siswa.index', [
+            'siswa' => $siswa,
+            'rombel' => $rombel,
+            'jurusan' => $jurusan,
+            'rombels' => $rombels,
+            'siswas' => null,
+        ]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.

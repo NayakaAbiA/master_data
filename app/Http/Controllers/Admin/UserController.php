@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pegawai;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -33,7 +34,8 @@ class UserController extends Controller
     {
         $role = Role::all();
         $ptk = Pegawai::all();
-        return view('Admin.pages.user.create', compact('role','ptk'));
+        $siswa = Siswa::all();
+        return view('Admin.pages.user.create', compact('role','ptk','siswa'));
     }
 
     /**
@@ -41,31 +43,57 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        // Ambil ID role pegawai & siswa dari database atau hardcoded
+        $pegawaiRoleId = 1; // sesuaikan
+        $siswaRoleId = 5;   // sesuaikan
+
+        // Validasi lokal (opsional tapi disarankan)
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role_id' => 'required|exists:roles,id',
+            'ptk_id' => 'required_if:role_id,' . $pegawaiRoleId,
+            'siswa_id' => 'required_if:role_id,' . $siswaRoleId,
+        ]);
+
+        // Buat parameter dinamis tergantung role
         $parameter = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'role_id' => $request->role_id,
-            'ptk_id' => $request->ptk_id
         ];
 
-        $client = new Client();
-        $url = 'http://127.0.0.1:8000/api/user';
-        $response = $client->request('POST', $url, [
-            'headers' => ['Content-type' => 'application/json'],
-            'body' => json_encode($parameter)
-        ]);
-
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-
-        if (!$contentArray['status']) {
-            $error = $contentArray['data'];
-            return redirect()->back()->withErrors($error)->withInput();
+        if ($request->role_id == $pegawaiRoleId) {
+            $parameter['ptk_id'] = $request->ptk_id;
+        } elseif ($request->role_id == $siswaRoleId) {
+            $parameter['siswa_id'] = $request->siswa_id;
         }
 
-        return redirect()->to('admin/user')->with('success', 'Berhasil menambahkan data');
+        // Kirim ke API
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/user';
+
+        try {
+            $response = $client->request('POST', $url, [
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => json_encode($parameter),
+            ]);
+
+            $content = $response->getBody()->getContents();
+            $contentArray = json_decode($content, true);
+
+            if (!$contentArray['status']) {
+                $error = $contentArray['data'];
+                return redirect()->back()->withErrors($error)->withInput();
+            }
+
+            return redirect()->route('admin.user.index')->with('success', 'Berhasil menambahkan data');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghubungi API.'])->withInput();
+        }
     }
 
     /**
@@ -93,10 +121,12 @@ class UserController extends Controller
             $user = $contentArray['data'];
             $roles = Role::all();
             $ptk = Pegawai::all();
+            $siswa = Siswa::all();
             return view('admin.pages.user.edit', [
                 'user' => $user,
                 'roles' => $roles,
-                'ptk' => $ptk
+                'ptk' => $ptk,
+                'siswa' => $siswa
             ]);
         }
     }
