@@ -1,11 +1,6 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label for="readonlyInput">No SKHUN</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['no_skhun']}}">
-        </div>
-        <div class="form-group">
             <label for="readonlyInput">No Peserta UN</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['nopes_un']}}">
@@ -20,21 +15,24 @@
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['krt_bantuan']['nama_krtbantuan'] ?? ''}}">
         </div>
-        <div class="form-group">
-            <label for="readonlyInput">No KIP</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['nokip']['no_krtbantuan'] ?? ''}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">No KPS</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['nokps']['no_krtbantuan'] ?? ''}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">No KKS</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['nokks']['no_krtbantuan'] ?? ''}}">
-        </div>
+        @foreach ($dokLainnya as $kode => $info)
+            @php
+                $uploaded = $dokumenSiswa->firstWhere('jenis_file', $kode);
+            @endphp
+            <div class="form-group">
+                <label>{{ $info['label'] }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly value="{{ $info['value'] }}">
+                    @if($uploaded)
+                    <button type="button" class="btn-sm">
+                        <a href="{{ asset('storage/' . $uploaded->path) }}" target="_blank">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
         <div class="form-group">
             <label for="readonlyInput">Nama Pada Kartu</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"

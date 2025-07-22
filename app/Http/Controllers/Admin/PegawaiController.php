@@ -18,6 +18,7 @@ use App\Models\StatKawin;
 use App\Models\SumberGaji;
 use App\Models\StatPegawai;
 use App\Models\TgsTambahan;
+use App\Models\DokumenPTK;
 
 use Illuminate\Http\Request;
 use App\Exports\pegawaiExport;
@@ -37,31 +38,33 @@ class PegawaiController extends Controller
     {
         $query = Pegawai::query();
         $role = Auth::user()->role->role;
-    if (in_array($role, ['superAdmin', 'adminPegawai'])) {
-        // Admin bisa lihat semua data, tanpa filter ptk_id
-    } else {
-        // User biasa hanya lihat data sendiri
-        $query->where('id', Auth::user()->ptk_id);
-    }
-
-    // Tambahkan filter jika ada input dari request
-    if ($request->filled('jenis_kelamin')) {
-        $query->where('jenis_kelamin', $request->jenis_kelamin);
-    }
-    if ($request->filled('stat_peg')) {
-        $query->where('id_stat_peg', $request->stat_peg);
-    }
-
-    $pegawai = $query->get();
-        $statpeg = StatPegawai::all();
-        $user = Auth::user();
-        $ptk = $user->ptk;
-        if ($ptk) {
-            $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+        if (in_array($role, ['superAdmin', 'adminPegawai'])) {
+            // Admin bisa lihat semua data, tanpa filter ptk_id
         } else {
-            $rombels = collect(); // koleksi kosong
+            // User biasa hanya lihat data sendiri
+            $query->where('id', Auth::user()->ptk_id);
         }
-        return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg','rombels'));
+
+        // Tambahkan filter jika ada input dari request
+        if ($request->filled('jenis_kelamin')) {
+            $query->where('jenis_kelamin', $request->jenis_kelamin);
+        }
+        if ($request->filled('stat_peg')) {
+            $query->where('id_stat_peg', $request->stat_peg);
+        }
+
+            $pegawai = $query->get();
+            $statpeg = StatPegawai::all();
+            $user = Auth::user();
+            $ptk = $user->ptk;
+            if ($ptk) {
+                $rombels = Rombel::where('id_ptk_walas', $ptk->id)->get();
+            } else {
+                $rombels = collect(); // koleksi kosong
+            }
+            $dokumenList = DokumenPTK::whereIn('id_ptk', $pegawai->pluck('id'))->get()
+            ->groupBy('id_ptk');
+        return view('admin.pages.pegawai.index', compact('pegawai', 'statpeg','rombels', 'dokumenList'));
     }
 
     /**
@@ -319,4 +322,48 @@ class PegawaiController extends Controller
     {
         return Excel::download(new \App\Exports\PegawaiTemplateExport, 'Template_Pegawai.xlsx');
     }
+
+    public function uploadDocument(Request $request)
+    {
+        $request->validate([
+            'jenis_file' => 'required|string',
+            'file' => 'required|mimes:pdf|max:2048', // Hanya PDF max 2MB
+        ]);
+
+        $user = auth()->user();
+        $ptkId = $user->ptk_id;
+
+        // Pastikan siswa ID tersedia
+        if (!$ptkId) {
+            abort(403, 'Unauthorized. Siswa ID not found.');
+        }
+
+        $file = $request->file('file');
+
+        // Cari dokumen lama berdasarkan jenis_file & id_ptk
+        $dokumenLama = DokumenPTK::where('id_ptk', $ptkId)
+            ->where('jenis_file', $request->jenis_file)
+            ->first();
+
+        // Hapus file lama jika ada
+        if ($dokumenLama && Storage::disk('public')->exists($dokumenLama->path)) {
+            Storage::disk('public')->delete($dokumenLama->path);
+        }
+
+        // Simpan file baru
+        $path = $file->store("dokumen/ptk/$ptkId", 'public');
+
+        // Simpan ke database (replace atau insert)
+        DokumenPTK::updateOrCreate(
+            ['id_ptk' => $ptkId, 'jenis_file' => $request->jenis_file],
+            [
+                'nama_file' => $file->hashName(),
+                'nama_asli_file' => $file->getClientOriginalName(),
+                'path' => $path,
+            ]
+        );
+
+        return back()->with('success', 'File berhasil diupload.');
+    }
+
 }

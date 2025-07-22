@@ -193,6 +193,10 @@ Route::prefix('admin')
         Route::middleware('role:pegawai')->group(function () {
             Route::get('/perbaikan/create', [PerbaikanController::class, 'create'])->name('perbaikan.create');
             Route::post('/perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
+            Route::post('/upload-dokumen-pegawai', [PegawaiController::class, 'uploadDocument'])->name('dokumen.upload.pegawai');
+        });
+        Route::middleware('role:siswa')->group(function () {
+            Route::post('/upload-dokumen-siswa', [SiswaController::class, 'uploadDocument'])->name('dokumen.upload.siswa');
         });
         Route::middleware('role:superAdmin,adminSiswa,adminPegawai')->group(function () {
             Route::get('/perbaikan/{perbaikan}/edit', [PerbaikanController::class, 'edit'])->name('perbaikan.edit');

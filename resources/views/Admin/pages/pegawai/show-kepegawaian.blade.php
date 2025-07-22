@@ -1,25 +1,26 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label for="readonlyInput">Status Kepegawaian</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['statpegawai']['stat_peg']  ?? ''}}">
-        </div>
-        <div class="form-group">
             <label for="readonlyInput">Jenis PTK</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $p['jns_ptk']['jenis_ptk']  ?? ''}}">
         </div>
-        <div class="form-group">
-            <label for="readonlyInput">Pangkat</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['pangkat']['pangkat']  ?? ''}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">SK CPNS</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['no_sk_cpns']}}">
-        </div>
+        @foreach ($dokKepegawaian as $kode => $info)
+            @php
+                $uploaded = $dokumenPegawai->firstWhere('jenis_file', $kode);
+            @endphp
+            <div class="form-group">
+                <label>{{ $info['label'] }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly value="{{ $info['value'] }}">
+                    @if($uploaded)
+                        <a href="{{ asset('storage/' . $uploaded->path) }}" target="_blank" class="btn-sm btn-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    @endif
+                </div>
+            </div>
+        @endforeach
         <div class="form-group">
             <label for="readonlyInput">Tanggal CPNS</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"

@@ -57,6 +57,9 @@ class SiswaTemplateExport implements WithMultipleSheets
                         ['- Bank (tabel: bank)'],
                         ['- Program Bantuan (tabel: prgbantuan)'],
                         ['- Kebutuhan Khusus (tabel: kebkhusus)'],
+                        ['* Kolom-kolom berikut harus diisi dan tidak boleh kosong, yaitu:'],
+                        ['- Nama', 'Jenis Kelamin', 'NIK', 'No KK', 'NIPD', 'NISN', 'Rombel', 'Tempat Lahir', 'Tanggal Lahir', 'HP', 'Email', 'Anak Ke', 'Berat Badan', 'Tinggi Badan', 'Lingkar Kepala', 'Kewarganegaraan', 'Jalan', 'No Rumah', 'RT', 'RW', 'Dusun', 'Kode Pos', 'Jarak Rumah Sekolah', 'Nama Ayah', 'NIK Ayah', 'Tahun Lahir Ayah', 'Nama Ibu', 'NIK Ibu'],
+                        ['- Tahun Lahir Ibu', 'Nopes UN', 'Nama Pada Kartu', 'Layak Bantuan', 'Alasan Layak', 'Status Siswa', 'Pindahan'],
                         ['* Gunakan format teks persis seperti di database (case sensitive jika dibutuhkan).'],
                         ['* Untuk kolom seperti "Layak Bantuan" dan "Pindahan", isikan "Iya" atau "Tidak".']
                     ];

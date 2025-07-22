@@ -22,6 +22,7 @@ use App\Models\Bank;
 use App\Models\PrgBantuan;
 use App\Models\KebKhusus;
 use App\Models\Sekolah;
+use App\Models\DokumenSiswa;
 
 use App\Imports\SiswaImport;
 use GuzzleHttp\Client;
@@ -47,7 +48,7 @@ class SiswaController extends Controller
         // Jika user adalah siswa
         if ($user->role->role === 'siswa') {
             $s = Siswa::with(['rombel', 'jurusan'])->findOrFail($user->siswa_id);
-
+            $dokumenList = DokumenSiswa::whereIn('id_siswa', $s->pluck('id'))->get()->groupBy('id_siswa');
             return view('Admin.pages.siswa.index', [
                 'siswa' => null,
                 'rombel' => $rombel,
@@ -55,14 +56,15 @@ class SiswaController extends Controller
                 'rombels' => $rombels,
                 's' => $s,
                 'siswas' => null,
+                'dokumenList' => $dokumenList,
             ]);
         }
-
         // Jika user adalah pegawai
         if ($user->role->role === 'pegawai') {
-            $rombels = Rombel::where('id_jur', $user->ptk->id_jur)->get();
+            $rombels = Rombel::where('id_ptk_walas', $user->ptk->id)->get();
             $rombelIds = $rombels->pluck('id')->toArray();
             $siswas = Siswa::whereIn('id_rombel', $rombelIds)->with(['rombel', 'jurusan'])->get();
+            $dokumenList = DokumenSiswa::whereIn('id_siswa', $siswas->pluck('id'))->get()->groupBy('id_siswa');
 
             return view('Admin.pages.siswa.index', [
                 'siswa' => null,
@@ -70,6 +72,7 @@ class SiswaController extends Controller
                 'jurusan' => $jurusan,
                 'rombels' => $rombels,
                 'siswas' => $siswas,
+                'dokumenList' => $dokumenList,
             ]);
         }
 
@@ -85,6 +88,7 @@ class SiswaController extends Controller
                     $q->where('nama_jur', $request->nama_jur);
                 });
             })->get();
+            $dokumenList = DokumenSiswa::whereIn('id_siswa', $siswa->pluck('id'))->get()->groupBy('id_siswa');
 
         return view('Admin.pages.siswa.index', [
             'siswa' => $siswa,
@@ -92,6 +96,7 @@ class SiswaController extends Controller
             'jurusan' => $jurusan,
             'rombels' => $rombels,
             'siswas' => null,
+            'dokumenList' => $dokumenList,
         ]);
     }
 
@@ -432,5 +437,48 @@ class SiswaController extends Controller
     public function downloadTemplate()
     {
         return Excel::download(new \App\Exports\SiswaTemplateExport, 'Template_Siswa.xlsx');
+    }
+
+    public function uploadDocument(Request $request)
+    {
+        $request->validate([
+            'jenis_file' => 'required|string',
+            'file' => 'required|mimes:pdf|max:2048', // Hanya PDF max 2MB
+        ]);
+
+        $user = auth()->user();
+        $siswaId = $user->siswa_id;
+
+        // Pastikan siswa ID tersedia
+        if (!$siswaId) {
+            abort(403, 'Unauthorized. Siswa ID not found.');
+        }
+
+        $file = $request->file('file');
+
+        // Cari dokumen lama berdasarkan jenis_file & id_siswa
+        $dokumenLama = DokumenSiswa::where('id_siswa', $siswaId)
+            ->where('jenis_file', $request->jenis_file)
+            ->first();
+
+        // Hapus file lama jika ada
+        if ($dokumenLama && Storage::disk('public')->exists($dokumenLama->path)) {
+            Storage::disk('public')->delete($dokumenLama->path);
+        }
+
+        // Simpan file baru
+        $path = $file->store("dokumen/siswa/$siswaId", 'public');
+
+        // Simpan ke database (replace atau insert)
+        DokumenSiswa::updateOrCreate(
+            ['id_siswa' => $siswaId, 'jenis_file' => $request->jenis_file],
+            [
+                'nama_file' => $file->hashName(),
+                'nama_asli_file' => $file->getClientOriginalName(),
+                'path' => $path,
+            ]
+        );
+
+        return back()->with('success', 'File berhasil diupload.');
     }
 }

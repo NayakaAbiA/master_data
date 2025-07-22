@@ -55,7 +55,10 @@ class PegawaiTemplateExport implements WithMultipleSheets
                         ['- Sudah Lisensi Kepala Sekolah'],
                         ['- Pernah Diklat Kepengawasan'],
                         ['- Keahlian Braille'],
-                        ['- Keahlian Bahasa Isyarat']
+                        ['- Keahlian Bahasa Isyarat'],
+                        ['* Kolom-kolom berikut harus diisi dan tidak boleh kosong, yaitu:'],
+                        ['- Nama', 'NIK', 'Email', 'Jenis Kelamin', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat Jalan', 'RT', 'RW', 'Kode Pos', 'HP'],
+                        ['- Keahlian Braille', 'Nama Ibu Kandung', 'Sudah Lisensi Kepala Sekolah', 'Pernah Diklat Kepengawasan', 'Keahlian Bahasa Isyarat', 'Kewarganegaraan'],
                     ];
                 }
 

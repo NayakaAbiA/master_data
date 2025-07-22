@@ -141,5 +141,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Sekolah::class, 'id_sekolah_asal', 'id');
     }
+    public function user()
+    {
+        return $this->hasOne(User::class, 'siswa_id');
+    }
 
 }

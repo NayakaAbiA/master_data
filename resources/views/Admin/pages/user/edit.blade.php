@@ -25,6 +25,15 @@
                             @csrf
                             @method('PUT')
                             <div class="form-body">
+                            @if($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                                 <div class="row">
                                     <!-- Name -->
                                     <div class="col-md-4">
@@ -84,7 +93,6 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
                                     <!-- PTK Dropdown -->
                                     <div class="col-md-4">
                                         <label for="ptk_id">Pilih PTK</label>
@@ -119,7 +127,6 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
                                     <!-- Submit -->
                                     <div class="col-sm-12 d-flex justify-content-end mt-1">
                                         <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

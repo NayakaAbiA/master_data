@@ -67,11 +67,22 @@
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $s['nama_wali']}}">
         </div>
-        <div class="form-group">
-            <label for="readonlyInput">NIK Wali</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['nik_wali']}}">
-        </div>
+            @php
+                $uploaded = $dokumenSiswa->firstWhere('jenis_file', 'NIK Wali');
+            @endphp
+            <div class="form-group">
+                <label>NIK Wali</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly value="{{ $s['nik_wali']}}">
+                    @if($uploaded)
+                    <button type="button" class="btn-sm">
+                        <a href="{{ asset('storage/' . $uploaded->path) }}" target="_blank">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </button>
+                    @endif
+                </div>
+            </div>
         <div class="form-group">
             <label for="readonlyInput">Tahun Lahir Wali</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"

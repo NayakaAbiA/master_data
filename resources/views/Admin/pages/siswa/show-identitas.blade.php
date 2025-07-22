@@ -17,24 +17,27 @@
         </div>
         <div class="form-group">
             <label for="readonlyInput">NIK</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['NIK']}}">
+                <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+                value="{{ $s['NIK']}}">
         </div>
-        <div class="form-group">
-            <label for="readonlyInput">No Kartu Keluarga</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['no_kk']}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">No Registrasi Akta Lahir</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['no_reg_aktlhr']}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">NIPD</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $s['nipd']}}">
-        </div>
+        @foreach ($dokIdentitas as $kode => $info)
+            @php
+                $uploaded = $dokumenSiswa->firstWhere('jenis_file', $kode);
+            @endphp
+            <div class="form-group">
+                <label>{{ $info['label'] }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly value="{{ $info['value'] }}">
+                    @if($uploaded)
+                    <button type="button" class="btn-sm btn-primary">
+                        <a href="{{ asset('storage/' . $uploaded->path) }}" target="_blank">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
         <div class="form-group">
             <label for="readonlyInput">NISN</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"

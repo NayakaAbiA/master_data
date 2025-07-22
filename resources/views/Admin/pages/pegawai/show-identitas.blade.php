@@ -2,8 +2,8 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="readonlyInput">Nama</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['nama']}}">
+                <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+                value="{{ $p['nama']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Jenis Kelamin</label>
@@ -15,26 +15,24 @@
             value="Perempuan">
             @endif
         </div>
-        <div class="form-group">
-            <label for="readonlyInput">NIP</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['NIP']}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">NIK</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['NIK']}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">NUPTK</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['NUPTK']}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">No Kartu Keluarga</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['no_kk']}}">
-        </div>
+        @foreach ($dokIdentitas as $kode => $info)
+            @php
+                $uploaded = $dokumenPegawai->firstWhere('jenis_file', $kode);
+            @endphp
+            <div class="form-group">
+                <label>{{ $info['label'] }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly value="{{ $info['value'] }}">
+                    @if($uploaded)
+                    <button type="button" class="btn-sm">
+                        <a href="{{ asset('storage/' . $uploaded->path) }}" target="_blank">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
         <div class="form-group">
             <label for="readonlyInput">Tempat Lahir</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
@@ -50,13 +48,13 @@
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
         value="{{ $p['nama_ibu_kandung']}}">
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <label for="readonlyInput">Agama</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $p['agama']['nama_agama']  ?? ''}}">
         </div>
-    </div>
-    <div class="col-md-6">
         <div class="form-group">
             <label for="readonlyInput">Nomor HP</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
@@ -86,11 +84,6 @@
             <label for="readonlyInput">Pekerjaan Suami/Istri</label>
             <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
             value="{{ $p['pekerjaan_pasangan']['pekerjaan'] ?? ''}}">
-        </div>
-        <div class="form-group">
-            <label for="readonlyInput">NPWP</label>
-            <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
-            value="{{ $p['no_npwp']}}">
         </div>
         <div class="form-group">
             <label for="readonlyInput">Nama Wajib Pajak</label>

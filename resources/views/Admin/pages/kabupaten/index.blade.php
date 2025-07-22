@@ -41,7 +41,7 @@
                             <td>{{ $d['k_bsni']}}</td>
                             <td>{{ $d['provinsi']['provinsi'] ?? 'Tidak ada Provinsi'}}</td>
                             <td>
-                                <div class="buttons">
+                                <div class="buttons d-flex gap-1">
                                     <!-- parameter diambil berdasarkan route yang ada di web.php -->
                                     <a class="btn icon btn-primary" href="{{ route('admin.kabupaten.edit',  $d['id'] )}}"><i class="bi bi-pencil-square"></i></a>
                                     <form action="{{ route('admin.kabupaten.destroy',  $d['id'] )}}" method="POST" style="display:inline;">

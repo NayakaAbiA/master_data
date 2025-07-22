@@ -27,16 +27,15 @@ class DashboardController extends Controller
         $jumlahLaki_sis = Siswa::where('jenis_kelamin', 'L')->count();
         $jumlahPerempuan_sis = Siswa::where('jenis_kelamin', 'P')->count();
         $jumlahKelasX = Siswa::whereHas('rombel', function ($query) {
-            $query->where('nama', 'like', 'X%');
+            $query->whereRaw("SUBSTRING_INDEX(nama_rombel, ' ', 1) = 'X'");
         })->count();
         $jumlahKelasXI = Siswa::whereHas('rombel', function ($query) {
-            $query->where('nama', 'like', 'XI%');
+            $query->whereRaw("SUBSTRING_INDEX(nama_rombel, ' ', 1) = 'XI'");
         })->count();
         $jumlahKelasXII = Siswa::whereHas('rombel', function ($query) {
-            $query->where('nama', 'like', 'XII%');
+            $query->whereRaw("SUBSTRING_INDEX(nama_rombel, ' ', 1) = 'XII'");
         })->count();
         
-
         $jumlahRombel = Rombel::count();
         $jumlahJurusan = Jurusan::count();
        $konsentrasiKeahlian = DB::table('tb_rombel')

@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::with('role','ptk')->get();
+        $data = User::with('role','ptk','siswa')->get();
         return response()->json([
             'status' => true,
             'message' => 'Data berhasil ditemukan',
@@ -29,9 +29,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
 {
-    $pegawaiRoleId = 1; // sesuaikan dengan ID role pegawai
-    $siswaRoleId = 5;   // sesuaikan dengan ID role siswa
-
+    $pegawaiRoleId = 5; // sesuaikan dengan ID role pegawai
+    $siswaRoleId = 6;   // sesuaikan dengan ID role siswa
     // Validasi dasar
     $rules = [
         'name' => ['required', 'string', 'max:255'],
@@ -106,6 +105,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $pegawaiRoleId = 5; // sesuaikan dengan ID role pegawai
+        $siswaRoleId = 6;   // sesuaikan dengan ID role siswa
+
         $user = User::find($id);
         if (!$user) {
             return response()->json([
@@ -114,13 +116,20 @@ class UserController extends Controller
             ], 404);
         }
 
+        // Validasi dasar
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'min:6'],
             'role_id' => ['required', 'exists:roles,id'],
-            'ptk_id' => ['exists:tb_ptk,id']
         ];
+
+        // Tambahkan validasi berdasarkan role
+        if ($request->role_id == $pegawaiRoleId) {
+            $rules['ptk_id'] = ['required', 'exists:tb_ptk,id'];
+        } elseif ($request->role_id == $siswaRoleId) {
+            $rules['siswa_id'] = ['required', 'exists:tb_siswa,id'];
+        }
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -128,16 +137,30 @@ class UserController extends Controller
                 'status' => false,
                 'message' => 'Gagal mengupdate data',
                 'data' => $validator->errors()
-            ]);
+            ], 422);
         }
 
+        // Update data
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
         $user->role_id = $request->role_id;
-        $user->ptk_id = $request->ptk_id;
+
+        // Set relasi siswa/ptk berdasarkan role
+        if ($request->role_id == $pegawaiRoleId) {
+            $user->ptk_id = $request->ptk_id;
+            $user->siswa_id = null;
+        } elseif ($request->role_id == $siswaRoleId) {
+            $user->siswa_id = $request->siswa_id;
+            $user->ptk_id = null;
+        } else {
+            // Jika bukan pegawai atau siswa, kosongkan keduanya
+            $user->ptk_id = null;
+            $user->siswa_id = null;
+        }
+
         $user->save();
 
         return response()->json([
@@ -146,6 +169,8 @@ class UserController extends Controller
             'data' => $user
         ]);
     }
+
+
 
     /**
      * Remove the specified resource from storage.

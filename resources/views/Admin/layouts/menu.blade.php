@@ -176,7 +176,7 @@
                 <li class="submenu-item {{ request()->routeIs('admin.pegawai.index') ? 'active' : '' }}"><a href="{{ route('admin.pegawai.index') }}" class="submenu-link">Pegawai</a></li>
             </ul>
         </li>
-        @elseif (auth()->user()->role->role === 'pegawai')
+    @elseif (auth()->user()->role->role === 'pegawai')
         <a href="{{ url('admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid"></i>
             <span>Dashboard</span>

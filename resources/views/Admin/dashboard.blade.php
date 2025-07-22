@@ -15,7 +15,7 @@
             <div class="card-body">
                 <h5 class="card-title">Jumlah Pegawai</h5>
                 <p class="fs-3">{{ $jumlahGuru }}</p>
-                <a href="{{ route('admin.pegawai.index') }}" class="btn btn-sm btn-outline-primary">Selengkapnya</a>
+                <a href="{{ route('admin.pegawai.index') }}" class="btn btn-sm btn-outline-danger">Selengkapnya</a>
             </div>
         </div>
     </div>

@@ -23,38 +23,40 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
-                            <th>
+                            <!-- <th>
                             <div class="form-check">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="form-check-input form-check-danger form-check-glow" checked name="customCheck" id="checkboxGlow4">
                                 </div>
                             </div>
-                            </th>
+                            </th> -->
                             <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Pegawai</th>
+                            <th>Siswa</th>
                             <th class="no-sort">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach ($users as $key => $item)
                         <tr>
-                            <td>
+                            <!-- <td>
                             <div class="form-check">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="form-check-input form-check-danger form-check-glow" checked name="customCheck" id="checkboxGlow4">
                                 </div>
                             </div>
-                            </td>
+                            </td> -->
 
                             <!-- iterasi untuk penomoran data di tabel -->
                             <td>{{ $loop->iteration}}</td>
                             <td>{{ $item['name']}}</td>
                             <td>{{ $item['email']}}</td>
                             <td>{{ $item['role']['role'] ?? 'Tidak ada Role'}}</td>
-                            <td>{{ $item['ptk']['nama'] ?? $item['siswa']['nama'] ?? '-'}}</td>
+                            <td>{{ $item['ptk']['nama'] ?? '-'}}</td>
+                            <td>{{ $item['siswa']['nama'] ?? '-'}}</td>
                             <td>
                                 <div class="buttons">
                                     <!-- parameter diambil berdasarkan route yang ada di web.php -->
